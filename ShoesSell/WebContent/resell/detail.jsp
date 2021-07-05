@@ -1,3 +1,5 @@
+<%@page import="test.resell.dto.ResellDto"%>
+<%@page import="java.net.URLEncoder"%>
 <%@page import="test.resell.dao.ResellDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

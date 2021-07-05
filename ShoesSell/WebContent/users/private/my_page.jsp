@@ -26,7 +26,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>개인 정보 입니다.</h1>
+   <h1>개인 정보 입니다.</h1>
    <table>
       <tr>
          <th>아이디</th>
@@ -47,7 +47,7 @@
       </tr>
       <tr>
          <th>비밀번호</th>
-         <td><a href="pwd_updateform.jsp">수정하기</a></td>
+         <td><a href="my_pwd_update_form.jsp">수정하기</a></td>
       </tr>
       <tr>
          <th>이메일</th>
@@ -58,7 +58,7 @@
          <td><%=dto.getRegdate() %></td>
       </tr>
    </table>
-   <a href="updateform.jsp">정보 수정</a>
+   <a href="my_update_form.jsp">정보 수정</a>
    <a href="javascript:deleteConfirm()">회원 탈퇴</a>
 </div>
 <script>

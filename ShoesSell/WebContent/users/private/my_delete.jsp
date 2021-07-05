@@ -18,12 +18,9 @@
 <title>delete.jsp</title>
 </head>
 <body>
-<div class="container">
-	<h1>알림</h1>
-	<p>
-		<strong><%=id %></strong>님 탈퇴처리되었습니다.
-		<a href="<%=request.getContextPath()%>/index.jsp">인덱스로 가기	
-	</p>
-</div>
+	<script>
+		alert("<%= id%>님 회원탈퇴 처리 되었습니다..");
+		location.href="<%=request.getContextPath()%>/index.jsp";
+	</script>	
 </body>
 </html>

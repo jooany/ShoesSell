@@ -20,5 +20,6 @@
 	<%} %>
 	<a href="users/login_form.jsp">로그인</a>
 	<a href="users/signup_form.jsp">회원가입</a>
+	<a href="resell/list.jsp">리셀 게시판</a>
 </body>
 </html>

@@ -18,6 +18,40 @@ public class ResellDao {
 		}
 		return dao;
 	}
+	//조회수 증가 시키는 메소드
+	public boolean addViewCount(int num) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int flag = 0;
+		try {
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문 작성
+			String sql = "UPDATE resell"
+					+ " SET viewCount=viewCount+1"
+					+ " WHERE num=?";
+			pstmt = conn.prepareStatement(sql);
+			//? 에 바인딩할 내용이 있으면 여기서 바인딩
+			pstmt.setInt(1, num);
+			//insert or update or delete 문 수행하고 변화된 row 의 갯수 리턴 받기
+			flag = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		if (flag > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public ResellDto getData(int num) {
 		ResellDto dto=null;
 		Connection conn = null;

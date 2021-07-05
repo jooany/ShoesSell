@@ -94,6 +94,7 @@
 					<p class="card-text"><%=tmp.getTitle() %></p>
 					<p class="card-text">by <strong><%=tmp.getWriter() %></strong></p>
 					<p><small><%=tmp.getRegdate() %></small></p>
+					<p><small><%=tmp.getViewCount() %></small></p>
 				</div>
 				<!-- card-body 끝 -->
 			</div>

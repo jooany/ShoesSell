@@ -5,6 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>패스워드 변경</title>
+<style>
+   .inner{
+      max-width:1100px!important;
+      margin:0 auto!important;
+      box-sizing:border-box!important;
+      position:relative!important;
+   }
+</style>
 </head>
 <body>
 <div class="container">

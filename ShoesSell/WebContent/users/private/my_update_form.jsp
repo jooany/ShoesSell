@@ -24,6 +24,12 @@
   #imageForm{
   	display: none;
   }
+   .inner{
+      max-width:1100px!important;
+      margin:0 auto!important;
+      box-sizing:border-box!important;
+      position:relative!important;
+   }
 </style>
 </head>
 <body>

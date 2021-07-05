@@ -38,11 +38,11 @@
 		        		</li>
 	      			</ul>
 	      			<%if(id==null){ %>
-	      				<a class="btn btn-outline-primary btn-sm me-2" href="${pageContext.request.contextPath}/users/signup_form.jsp">회원가입</a>
-	      				<a class="btn btn-outline-success btn-sm me-2" href="${pageContext.request.contextPath}/users/login_form.jsp">로그인</a>
+	      				<a class="btn btn-outline-primary btn-sm me-2 " href="${pageContext.request.contextPath}/users/signup_form.jsp">회원가입</a>
+	      				<a class="btn btn-outline-success btn-sm me-2 " href="${pageContext.request.contextPath}/users/login_form.jsp">로그인</a>
 	      			<%}else{ %>
 	      				<span class="navbar-text me-2">
-	      					<a href="${pageContext.request.contextPath}/users/private/info.jsp"><%=id %></a> 로그인중...
+	      					<a href="${pageContext.request.contextPath}/users/private/my_page.jsp"><%=id %></a> 로그인중...
 	      				</span>
 	      				<a class="btn btn-outline-danger btn-sm me-2" href="${pageContext.request.contextPath}/users/logout.jsp">로그아웃</a>
 	      			<%} %>

@@ -33,6 +33,9 @@
 	   <%if(isValid){%>
 		   alert("<%=id %>님 비밀번호를 수정하였습니다.");
 		   location.href="<%=request.getContextPath()%>/index.jsp";
+	   <%}else{%>
+		   alert("비밀번호 수정에 실패했습니다.");
+		   location.href="my_pwd_update.jsp";
 	   <%} %>
 	</script>
 </body>

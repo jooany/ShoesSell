@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>ShoesSell</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+    <filter>
+  <!-- ctrl + space 하면 filter 안에 사용 할 수 있는 것들이 나옴 총  -->
+  <!-- EncodingFilter 라는 이름의 필터가 어디에 있는지 알려준다. -->
+   		<filter-name>EncodingFilter</filter-name>
+   		<filter-class>test.filter.EncodingFilter</filter-class>  
+   		<init-param>
+   			<param-name>encoding</param-name> <!-- 파라미터명 -->
+   			<param-value>utf-8</param-value> <!-- 값 설정 -->
+   		</init-param> 
+  </filter>
+  
+  <!-- EncodingFilter가 어떤 패턴의 요청이 들어왔을 때 동작하게 할지 알려준다. -->
+  <filter-mapping>
+  		<filter-name>EncodingFilter</filter-name> <!-- 위의 필터명과 동일하게  , 필터는 여러개일 수 있다.-->
+  	    <url-pattern>/*</url-pattern>	
+  </filter-mapping>
+	
+</web-app>

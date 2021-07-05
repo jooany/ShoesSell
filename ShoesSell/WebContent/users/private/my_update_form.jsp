@@ -14,6 +14,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원정보 수정</title>
+<jsp:include page="../../include/resource.jsp"></jsp:include>
 <style>
    #profileImage{ /* 프로필 이미지를 작은 원형으로 만든다 */
       width: 50px;
@@ -33,6 +34,7 @@
 </style>
 </head>
 <body>
+<jsp:include page="../../include/navbar.jsp"></jsp:include>
 	<div class="container">
 	   <h1> 정보 수정 폼 입니다.</h1>
 	   <table>

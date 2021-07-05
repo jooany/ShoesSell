@@ -15,8 +15,6 @@
 			<input type="text" name="title" id="title"/>
 		</div>
 		<div>
-		</div>
-		<div>
 			<label for="content">내용</label>
 			<textarea name="content" id="content"></textarea>
 		</div>

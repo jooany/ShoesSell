@@ -3,7 +3,6 @@
 <%
    //로그인 된 아이디 읽어오기 
    String id=(String)session.getAttribute("id");
-
 %>
 <!DOCTYPE html>
 <html>
@@ -27,14 +26,12 @@
 </style>
 </head>
 <body>
-
 <jsp:include page="include/navbar.jsp"></jsp:include>
    <div class="inner">
       <div class="main_banner">
          <img id="main_img" src="images/main_img.jpg" alt="메인이미지" />
       </div>
       <!-- main_banner 끝 -->
-      
    </div>
 
 </body>

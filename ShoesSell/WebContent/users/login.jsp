@@ -38,7 +38,7 @@
       
    <%}else{ %>
   	  alert("<%=id %>님 로그인 실패했습니다..");
-  	  location.href="loginform.jsp?url=<%=encodedUrl%>";
+  	  location.href="login_form.jsp?url=<%=encodedUrl%>";
    <%} %>
 	</script>   
 </body>

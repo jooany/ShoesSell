@@ -14,6 +14,7 @@
 <head>
 <meta charset="UTF-8">
 <title>/users/private/info.jsp</title>
+<jsp:include page="../../include/resource.jsp"></jsp:include>
 <style>
    /* 프로필 이미지를 작은 원형으로 만든다 */
    #profileImage{
@@ -22,9 +23,16 @@
       border: 1px solid #cecece;
       border-radius: 50%;
    }
+   .inner{
+      max-width:1100px!important;
+      margin:0 auto!important;
+      box-sizing:border-box!important;
+      position:relative!important;
+   }
 </style>
 </head>
 <body>
+<jsp:include page="../../include/navbar.jsp"></jsp:include>
 <div class="container">
    <h1>개인 정보 입니다.</h1>
    <table>

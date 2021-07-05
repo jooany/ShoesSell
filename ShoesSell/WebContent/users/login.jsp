@@ -31,7 +31,7 @@
       //로그인 했다는 의미에서 session 영역에 "id" 라는 키값으로 로그인된 아이디를 담는다.
       session.setAttribute("id", id); 
       //아무런 동작을 하지 않았을때 초 단위로 세션 유지시간을 설정할수 있다. (초단위)
-      session.setMaxInactiveInterval(60*20);%>
+      session.setMaxInactiveInterval(60*60*6);%>
       
       alert("<%=id %>님 로그인 하였습니다..");
       location.href="<%=url%>";

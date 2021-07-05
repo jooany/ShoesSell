@@ -69,6 +69,7 @@ CREATE TABLE resell(
    title VARCHAR2(100) NOT NULL, --제목
    content CLOB, --글 내용
    viewCount NUMBER, -- 조회수
-   regdate DATE --글 작성일
+   regdate DATE --글 작성일,
+   imagePath VARCHAR2(100) --이미지 경로
 );
 CREATE SEQUENCE resell_seq;

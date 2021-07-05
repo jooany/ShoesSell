@@ -27,6 +27,7 @@
 </style>
 </head>
 <body>
+
 <jsp:include page="include/navbar.jsp"></jsp:include>
    <div class="inner">
       <div class="main_banner">
@@ -35,5 +36,6 @@
       <!-- main_banner 끝 -->
       
    </div>
+
 </body>
 </html>

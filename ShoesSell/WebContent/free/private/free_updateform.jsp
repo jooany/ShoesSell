@@ -11,22 +11,29 @@
 <head>
 <meta charset="UTF-8">
 <title>/free/private/free_updateform.jsp</title>
+<jsp:include page="../../include/resource.jsp"></jsp:include>
+<style>
+	#content{
+		width: 800px;
+		height: 500px;
+	}
+</style>
 </head>
 <body>
 <div class="container">
 	<h1>Free Update Form</h1>
 	<form action="free_update.jsp" method="post">
 		<input type="hidden" name="num" value="<%=num %>" />
-		<div>
-			<label for="writer">작성자</label>
+		<div class="mb-3">
+			<label class="form-label" for="writer">작성자</label>
 			<input type="text" id="writer" value="<%=dto.getWriter() %>" disabled/>
 		</div>
-		<div>
-			<label for="title">제목</label>
+		<div class="mb-3">
+			<label class="form-label" for="title">제목</label>
 			<input type="text" name="title" id="title" value="<%=dto.getTitle()%>"/>
 		</div>
-		<div>
-			<label for="content">내용</label>
+		<div class="mb-3">
+			<label class="form-label" for="content">내용</label>
 			<textarea name="content" id="content"><%=dto.getContent() %></textarea>
 		</div>
 		<button type="submit" onclick="submitContents(this);">수정 확인</button>

@@ -144,6 +144,9 @@
 </style>
 </head>
 <body>
+<jsp:include page="../include/navbar.jsp">
+	<jsp:param value="resell" name="thisPage"/>
+</jsp:include>
 <div class="container">
 	<h1>Resell Gallery</h1><br/>
 	<a href="private/resell_upload_form.jsp">글쓰기</a>

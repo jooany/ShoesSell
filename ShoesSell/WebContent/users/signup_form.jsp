@@ -6,49 +6,89 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <jsp:include page="../include/resource.jsp"></jsp:include>
+<!-- Bootstrap core CSS -->
+
 <style>
-   .inner{
-      max-width:1100px!important;
-      margin:0 auto!important;
-      box-sizing:border-box!important;
-      position:relative!important;
-   }
+	.bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
 </style>
+<!-- Custom styles for this template -->
+<link href="form-validation.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="../include/navbar.jsp"></jsp:include>
+
 <div class="container">
-   <h1>회원 가입 폼 입니다.</h1>
-   <form action="signup.jsp" method="post" id="myForm">
-   	  <div class="d-grid gap-3">
-	      <div>
-	         <label class="control-label" for="id">아이디</label>
-	         <input class="form-control" type="text" name="id" id="id"/>
-	         <small class="form-text text-muted">영문자 소문자로 시작하고 5글자~10글자 이내로 입력하세요.</small>
-	         <div class="invalid-feedback">요건에 맞게 입력해주세요.</div>
-	      </div>
-	      <div>
-	         <label class="control-label" for="pwd">비밀번호</label>
-	         <input class="form-control" type="password" name="pwd" id="pwd"/>
-	         <small class="form-text text-muted" >5글자~10글자 이내로 입력하세요.</small>
-	         <div class="invalid-feedback">형식에 맞지 않는 비밀번호입니다.</div>
-	      </div>
-	      <div>
-	         <label class="control-label" for= "pwd2">비밀번호 확인</label>
-	         <input class="form-control" type="password" name="pwd2" id="pwd2"/>
-	         <div class="invalid-feedback">위의 비밀번호와 다릅니다.</div>
-	         <!-- <small class="form-text text-muted" >비밀번호를 다시 입력해주세요.</small>  -->
-	      </div>
-	      <div>
-	         <label class="control-label" for="email">이메일</label>
-	         <input class="form-control" type="text" name="email" id="email"/>
-	         <div class="invalid-feedback">이메일 형식을 확인 하세요.</div>
-	      </div>
-	      <button type="submit" class="btn btn-primary"> 회원가입</button>
-	      <button type="reset" class="btn btn-primary"> 입력 초기화</button>
+  <main>
+  
+    <div class="py-3 text-center">
+      <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+      <h1>회원가입</h1>
+    </div>
+    
+      <div>
+      
+        <form action="signup.jsp" method="post" id="myForm">
+        
+          <div class="d-grid gap-3 container max-auto">
+          
+            <div>
+              <label for="id" class="form-label">아이디</label>
+              <input type="text" class="form-control" name="id" id="id"/>
+              <small class="form-text text-muted">영문자 소문자로 시작하고 5글자~10글자 이내로 입력하세요.</small>
+              <div class="invalid-feedback">사용할 수 없는 아이디 입니다.</div>
+            </div>
+            
+			  <div class="row g-3"> 
+	            <div class="col-sm-6">
+	              <label for="pwd" class="form-label">비밀번호</label>
+	              <input type="password" class="form-control" id="pwd" name="pwd" />
+	              <small class="form-text text-muted" >5글자~10글자 이내로 입력하세요.</small>
+	              <div class="invalid-feedback">형식에 맞지 않는 비밀번호입니다.</div>
+	            </div>
+	          
+	            <div class="col-sm-6">
+	              <label for="lastName" class="form-label">비밀번호 확인</label>
+	              <input type="password" class="form-control" id="pwd2" name="pwd2">
+	              <small class="form-text text-muted" >동일한 비밀번호를 다시 한번 입력해주세요.</small>
+	              <div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+	            </div>
+	          </div>  
+
+            <div class="col-12">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control" id="email" name="email">
+              <div class="invalid-feedback">이메일 형식을 확인하세요.</div>
+              <small class="form-text text-muted" >@을 포함하여 작성해주세요.</small>
+            </div>
+            
+			<div class="btn-toolbar mx-auto" role="toolbar" >
+			  <div class=" btn-group me-2" role="group" >
+			    <button type="submit" class="w-100 btn btn-outline-primary">회원가입</button>
+			  </div>
+			  <div class="btn-group me-2" role="group" >
+			    <button type="reset" class="w-100 btn btn-outline-danger">입력 초기화</button>
+			  </div>
+			</div>			
+          
+          </div>
+          
+        </form>
       </div>
-   </form>
-   
+  </main>
+</div>
+
 </div>
 <script src="<%=request.getContextPath() %>/js/gura_util.js"></script>
 <script>
@@ -94,6 +134,7 @@
          }
       });
    });
+   
    
    //비밀 번호 형식을 확인하는 함수 
    function checkPwd(){
@@ -152,7 +193,6 @@
          document.querySelector("#email").classList.add("is-invalid");
       }
    });
-   
    
    //폼에 submit 이벤트가 발생했을때 실행할 함수 등록
    document.querySelector("#myForm").addEventListener("submit", function(e){

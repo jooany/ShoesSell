@@ -13,10 +13,12 @@ public class ResellDto {
 	private int prevNum;
 	private int nextNum;
 	
+	private int rowNum;
+	
 	public ResellDto() {}
 
 	public ResellDto(int num, String writer, String title, String content, int viewCount, String regdate,
-			String imagePath, int startRowNum, int endRowNum, int prevNum, int nextNum) {
+			String imagePath, int startRowNum, int endRowNum, int prevNum, int nextNum,int rowNum) {
 		super();
 		this.num = num;
 		this.writer = writer;
@@ -29,6 +31,7 @@ public class ResellDto {
 		this.endRowNum = endRowNum;
 		this.prevNum = prevNum;
 		this.nextNum = nextNum;
+		this.rowNum = rowNum;
 	}
 
 	public int getNum() {
@@ -119,5 +122,12 @@ public class ResellDto {
 		this.nextNum = nextNum;
 	}
 	
+	public int getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
 	
 }

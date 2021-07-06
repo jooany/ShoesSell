@@ -20,10 +20,12 @@ public class ShareDto {
 	private int prevNum;
 	private int nextNum;
 	
+	private int rowNum;
+	
 	public ShareDto() {}
 
 	public ShareDto(int num, String writer, String title, String content, String orgFileName, String saveFileName,
-			long fileSize, String regdate, int startRowNum, int endRowNum, int prevNum, int nextNum) {
+			long fileSize, String regdate, int startRowNum, int endRowNum, int prevNum, int nextNum,int rowNum) {
 		super();
 		this.num = num;
 		this.writer = writer;
@@ -37,6 +39,7 @@ public class ShareDto {
 		this.endRowNum = endRowNum;
 		this.prevNum = prevNum;
 		this.nextNum = nextNum;
+		this.rowNum = rowNum;
 	}
 
 	public int getNum() {
@@ -133,6 +136,14 @@ public class ShareDto {
 
 	public void setNextNum(int nextNum) {
 		this.nextNum = nextNum;
+	}
+	
+	public int getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
 	}
 }
 

@@ -439,6 +439,7 @@ public class ShareDao {
 				dto2.setOrgFileName(rs.getString("orgFileName"));
 				dto2.setFileSize(rs.getLong("fileSize"));
 				dto2.setRegdate(rs.getString("regdate"));
+				dto2.setRowNum(rs.getInt("rnum"));
 				list.add(dto2);
 			}
 		} catch (Exception e) {
@@ -494,6 +495,7 @@ public class ShareDao {
 			return false;
 		}
 	}
+
 }
 
 

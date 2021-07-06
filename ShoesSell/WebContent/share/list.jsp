@@ -95,7 +95,7 @@
 </jsp:include>
 <div class="container">
 	<a href="private/share_upload_form.jsp">share</a>
-	<h1>Share List</h1>
+	<h1>News</h1>
 	<table>
 		<thead>
 			<tr>
@@ -143,7 +143,7 @@
 			<%} %>
 			<%if(endPageNum < totalPageCount){ %>
 				<li>
-					<a href="list?pageNum=<%=endPageNum+1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Next</a>
+					<a href="list.jsp?pageNum=<%=endPageNum+1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Next</a>
 				</li>
 			<%} %>
 		</ul>

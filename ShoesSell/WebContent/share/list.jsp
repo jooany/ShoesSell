@@ -137,7 +137,7 @@
 					<%if(pageNum == i){ %>
 						<a class="active" href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
 					<%}else{ %>
-						<a href="list?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
+						<a href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
 					<%} %>
 				</li>	
 			<%} %>
@@ -151,7 +151,7 @@
 	
 	<div style="clear:both;"></div>
 	
-	<form action="list" method="get"> 
+	<form action="list.jsp" method="get"> 
 		<label for="condition">검색조건</label>
 		<select name="condition" id="condition">
 			<option value="title_filename" <%=condition.equals("title_filename") ? "selected" : ""%>>제목+파일명</option>

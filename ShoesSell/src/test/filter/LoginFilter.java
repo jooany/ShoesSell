@@ -34,7 +34,7 @@ import javax.servlet.http.HttpSession;
  */
 
 // urlPatterns 에  slash 로 시작하지 않으면 큰일 난당~~
-@WebFilter(urlPatterns = {"/users/private/*"})
+@WebFilter(urlPatterns = {"/users/private/*","/free/private/*","/share/private/*","/resell/private/*"})
 public class LoginFilter implements Filter{
 
 	@Override
@@ -77,7 +77,7 @@ public class LoginFilter implements Filter{
 			//3. 로그인을 하지 않았다면  /users/loginform.jsp 페이지로 리다일렉트 이동 시킨다. (HttpServletResponse)
 			String cPath=req.getContextPath();
 			HttpServletResponse resp=(HttpServletResponse)response;
-			resp.sendRedirect(cPath+"/users/loginform.jsp?url="+encodedUrl);
+			resp.sendRedirect(cPath+"/users/login_form.jsp?url="+encodedUrl);
 		}	
 	}
 

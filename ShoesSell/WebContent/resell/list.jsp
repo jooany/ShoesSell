@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="java.util.List"%>
 <%@page import="test.resell.dto.ResellDto"%>
 <%@page import="test.resell.dao.ResellDao"%>
@@ -24,21 +25,64 @@
 	//보여줄 페이지의 끝 ROWNUM
 	int endRowNum=pageNum*PAGE_ROW_COUNT;
 	
-	//startRowNum 과 endRowNum  을 ResellDto 객체에 담고
+	/*
+	[ 검색 키워드에 관련된 처리 ]
+	-검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.		
+	*/
+	String keyword=request.getParameter("keyword");
+	String condition=request.getParameter("condition");
+	//만일 키워드가 넘어오지 않는다면 
+	if(keyword==null){
+		//키워드와 검색 조건에 빈 문자열을 넣어준다. 
+		//클라이언트 웹브라우저에 출력할때 "null" 을 출력되지 않게 하기 위해서  
+		keyword="";
+		condition=""; 
+	}
+	
+	//특수기호를 인코딩한 키워드를 미리 준비한다. 
+	String encodedK=URLEncoder.encode(keyword);
+		
+	//ResellDto 객체에 startRowNum 과 endRowNum 을 담는다.
 	ResellDto dto=new ResellDto();
 	dto.setStartRowNum(startRowNum);
 	dto.setEndRowNum(endRowNum);
 	
-	//ResellDao 객체를 이용해서 회원 목록을 얻어온다.
-	List<ResellDto> list=ResellDao.getInstance().getList(dto);
+	//ArrayList 객체의 참조값을 담을 지역변수를 미리 만든다.
+	List<ResellDto> list=null;
+	//전체 row 의 갯수를 담을 지역변수를 미리 만든다.
+	int totalRow=0;
+	//만일 검색 키워드가 넘어온다면 
+	if(!keyword.equals("")){
+		//검색 조건이 무엇이냐에 따라 분기 하기
+		if(condition.equals("title_content")){//제목 + 내용 검색인 경우
+			//검색 키워드를 ResellDto 에 담아서 전달한다.
+			dto.setTitle(keyword);
+			dto.setContent(keyword);
+			//제목+내용 검색일때 호출하는 메소드를 이용해서 목록 얻어오기 
+			list=ResellDao.getInstance().getListTC(dto);
+			//제목+내용 검색일때 호출하는 메소드를 이용해서 row  의 갯수 얻어오기
+			totalRow=ResellDao.getInstance().getCountTC(dto);
+		}else if(condition.equals("title")){ //제목 검색인 경우
+			dto.setTitle(keyword);
+			list=ResellDao.getInstance().getListT(dto);
+			totalRow=ResellDao.getInstance().getCountT(dto);
+		}else if(condition.equals("writer")){ //작성자 검색인 경우
+			dto.setWriter(keyword);
+			list=ResellDao.getInstance().getListW(dto);
+			totalRow=ResellDao.getInstance().getCountW(dto);
+		} // 다른 검색 조건을 추가 하고 싶다면 아래에 else if() 를 계속 추가 하면 된다.
+	}else{//검색 키워드가 넘어오지 않는다면
+		//키워드가 없을때 호출하는 메소드를 이용해서 파일 목록을 얻어온다. 
+		list=ResellDao.getInstance().getList(dto);
+		//키워드가 없을때 호출하는 메소드를 이용해서 전제 row 의 갯수를 얻어온다.
+		totalRow=ResellDao.getInstance().getCount();
+	}
 	
 	//하단 시작 페이지 번호 
 	int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;
 	//하단 끝 페이지 번호
 	int endPageNum=startPageNum+PAGE_DISPLAY_COUNT-1;
 	
-	//전체 row 의 갯수
-	int totalRow=ResellDao.getInstance().getCount();
 	//전체 페이지의 갯수 구하기
 	int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
 	//끝 페이지 번호가 이미 전체 페이지 갯수보다 크게 계산되었다면 잘못된 값이다.
@@ -74,6 +118,29 @@
 		text-overflow: ellipsis;
 		overflow: hidden;
 	}
+	.page-ui a{
+		text-decoration: none;
+		color: #000;
+	}
+	
+	.page-ui a:hover{
+		text-decoration: underline;
+	}
+	
+	.page-ui a.active{
+		color: red;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	.page-ui ul{
+		list-style-type: none;
+		padding: 0;
+	}
+	
+	.page-ui ul > li{
+		float: left;
+		padding: 5px;
+	}
 </style>
 </head>
 <body>
@@ -94,6 +161,7 @@
 					<p class="card-text"><%=tmp.getTitle() %></p>
 					<p class="card-text">by <strong><%=tmp.getWriter() %></strong></p>
 					<p><small><%=tmp.getRegdate() %></small></p>
+					<p><small><%=tmp.getViewCount() %></small></p>
 				</div>
 				<!-- card-body 끝 -->
 			</div>
@@ -134,5 +202,23 @@
 		</ul>
 	</nav>	
 </div>
+<div style="clear:both;"></div>
+	
+	<form action="list.jsp" method="get"> 
+		<label for="condition">검색조건</label>
+		<select name="condition" id="condition">
+			<option value="title_content" <%=condition.equals("title_content") ? "selected" : ""%>>제목+내용</option>
+			<option value="title" <%=condition.equals("title") ? "selected" : ""%>>제목</option>
+			<option value="writer" <%=condition.equals("writer") ? "selected" : ""%>>작성자</option>
+		</select>
+		<input type="text" id="keyword" name="keyword" placeholder="검색어..." value="<%=keyword%>"/>
+		<button type="submit">검색</button>
+	</form>	
+	
+	<%if(!condition.equals("")){ %>
+		<p>
+			<strong><%=totalRow %></strong> 개의 글이 검색 되었습니다.
+		</p>
+	<%} %>
 </body>
 </html>

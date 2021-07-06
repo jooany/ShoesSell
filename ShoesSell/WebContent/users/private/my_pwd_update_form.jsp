@@ -5,8 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>패스워드 변경</title>
+<jsp:include page="../../include/resource.jsp"></jsp:include>
+<style>
+   .inner{
+      max-width:1100px!important;
+      margin:0 auto!important;
+      box-sizing:border-box!important;
+      position:relative!important;
+   }
+</style>
 </head>
 <body>
+<jsp:include page="../../include/navbar.jsp"></jsp:include>
 <div class="container">
    <h1>비밀 번호 수정 폼</h1>
    <form action="my_pwd_update.jsp" method="post" id="myForm">

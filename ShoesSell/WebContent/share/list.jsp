@@ -95,7 +95,7 @@
 </jsp:include>
 <div class="container">
 	<a href="private/share_upload_form.jsp">share</a>
-	<h1>Share List</h1>
+	<h1>News</h1>
 	<table>
 		<thead>
 			<tr>

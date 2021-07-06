@@ -20,7 +20,7 @@ public class ShareDao {
 	}
 	// 제목 파일명 검색인 경우의 row 갯수
 	public int getCountTF(ShareDto dto) {
-		//글의 갯수 담을지역변수 
+		// 파일의 갯수 담을지역변수 
 		int count=0;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -58,9 +58,9 @@ public class ShareDao {
 		}
 		return count;
 	}
-	//제목 검색인 경우의 row 갯수 
+	// 제목 검색인 경우의 row 갯수 
 	public int getCountT(ShareDto dto) {
-		//글의 갯수를 담을 지역변수 
+		// 파일의 갯수를 담을 지역변수 
 		int count=0;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -95,9 +95,9 @@ public class ShareDao {
 		}
 		return count;
 	}
-	//작성자 검색인 경우의 row 갯수
+	// 작성자 검색인 경우의 row 갯수
 	public int getCountW(ShareDto dto) {
-		//글의 갯수를 담을 지역변수 
+		// 파일의 갯수를 담을 지역변수 
 		int count=0;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -133,9 +133,9 @@ public class ShareDao {
 		return count;
 	}
 	
-	//전체 글의 갯수를 리턴하는 메소드
+	// 전체 파일의 갯수를 리턴하는 메소드
 	public int getCount() {
-		//글의 갯수를 담을 지역변수 
+		// 파일의 갯수를 담을 지역변수 
 		int count=0;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -170,7 +170,7 @@ public class ShareDao {
 		return count;
 	}	
 	
-	//파일 정보를 삭제하는 메소드
+	// 파일 정보를 삭제하는 메소드
 	public boolean delete(int num) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -202,9 +202,9 @@ public class ShareDao {
 		}
 	}
 	
-	//파일 하나의 정보를 리턴하는 메소드
+	// 파일 하나의 정보를 리턴하는 메소드
 	public ShareDto getData(int num) {
-		//파일정보를 담을 shareDto 지역변수 선언
+		// 파일정보를 담을 shareDto 지역변수 선언
 		ShareDto dto=null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -213,7 +213,7 @@ public class ShareDao {
 			conn = new DbcpBean().getConn();
 			//select 문 작성
 			String sql = "SELECT num,writer,title,content,orgFileName,saveFileName,fileSize,regdate" 
-					 + " FROM share_cafe"
+					 + " FROM board_share"
 					 + " WHERE num=?";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
@@ -248,7 +248,7 @@ public class ShareDao {
 		}
 		return dto;
 	}
-	//제목 파일명 검색인 경우에 파일 목록리턴
+	// 제목 파일명 검색인 경우에 파일 목록리턴
 	public List<ShareDto> getListTF(ShareDto dto){
 		List<ShareDto> list=new ArrayList<ShareDto>();
 		Connection conn = null;
@@ -264,7 +264,7 @@ public class ShareDao {
 					"		        (SELECT num,writer,title,content,orgFileName,fileSize,regdate" + 
 					"		        FROM board_share"+
 					"               WHERE title LIKE '%'||?||'%'"+
-					"               OR orgshareName LIKE '%'||?||'%'"+
+					"               OR orgFileName LIKE '%'||?||'%'"+
 					"		        ORDER BY num DESC) r1)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(sql);
@@ -315,7 +315,7 @@ public class ShareDao {
 					"		FROM" + 
 					"		    (SELECT r1.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,content,orgshareName,shareSize,regdate" + 
+					"		        (SELECT num,writer,title,content,orgFileName,fileSize,regdate" + 
 					"		        FROM board_share"+
 					"               WHERE title LIKE '%'||?||'%'"+
 					"		        ORDER BY num DESC) r1)" + 

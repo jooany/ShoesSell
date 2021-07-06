@@ -18,12 +18,33 @@
    //2. DB 에 실제로 존재하는 정보인지 확인한다.
    boolean isValid=UsersDao.getInstance().isValid(dto);
    //3. 유효한 정보이면 로그인 처리를 하고 응답, 그렇지 않다면 아이디 혹은 비밀 번호가 틀렸다고 응답
+   
+      // isSave 라는 파라미터명으로 넘어오는 값이 있는지 확인
+   String isSave=request.getParameter("isSave");
+   if(isSave != null){//만일 넘어오는 값이 있다면
+      //쿠키에 id 와 pwd 를 특정 키값으로 담아서 쿠키도 응답 되도록 한다.
+      Cookie idCook=new Cookie("savedId", id);
+      idCook.setMaxAge(60*60*6); //쿠키 유지시간 (초단위)
+      response.addCookie(idCook); //기본객체 response의 addCookie 메소드를 사용
+      
+      Cookie pwdCook=new Cookie("savedPwd", pwd);
+      pwdCook.setMaxAge(60*60*6);
+      response.addCookie(pwdCook);
+   }else {
+	      Cookie idCook=new Cookie("savedId", id);
+	      idCook.setMaxAge(0); //쿠키 유지시간 (초단위)
+	      response.addCookie(idCook);
+	      
+	      Cookie pwdCook=new Cookie("savedPwd", pwd);
+	      pwdCook.setMaxAge(0);
+	      response.addCookie(pwdCook);   
+   }
 %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/users/login.jsp</title>
+<title>로그인 기능</title>
 </head>
 <body>
 	<script>   

@@ -17,36 +17,61 @@
 <jsp:include page="../../include/resource.jsp"></jsp:include>
 <style>
    #profileImage{ /* 프로필 이미지를 작은 원형으로 만든다 */
-      width: 50px;
-      height: 50px;
+      width: 150px;
+      height: 150px;
       border: 1px solid #cecece;
       border-radius: 50%;
    }
   #imageForm{
   	display: none;
   }
-   .inner{
-      max-width:1100px!important;
-      margin:0 auto!important;
-      box-sizing:border-box!important;
-      position:relative!important;
+   .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
 </style>
+<link href="offcanvas.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="../../include/navbar.jsp"></jsp:include>
-	<div class="container">
-	   <h1> 정보 수정 폼 입니다.</h1>
-	   <table>
-	   	  <tr>
-	         <th><label for="id">아이디</label></th>
-	         <td><input type="text" id="id" value="<%=id %>" disabled/></td>
-	      </tr>
+<div class="container">
+	
+	<main class="container">
+	
+	  <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+	    <img class="me-3" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38">
+	    <div class="lh-1">
+	      <h1 class="h6 mb-0 text-white lh-1">My Update </h1>
+	    </div>
+	  </div>
+	
+	  <div class="my-3 p-3 bg-body rounded shadow-sm">
+	    <h6 class="border-bottom pb-2 mb-0">개인정보</h6>
+	    
+	    <div class="d-flex text-muted pt-3">
+	      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+	      <p class="pb-3 mb-0 small lh-sm border-bottom">
+	        <strong class="d-block text-gray-dark"><label for="id">아이디</label></strong>
+	        <strong><input type="text" id="id" value="<%=id %>" disabled/></strong>
+	      </p>
 	      
-	      <tr>
-	         <th>프로필 이미지&nbsp</th>
-	         <td>
-	         <a id="profileLink" href="javascript:">
+	    </div>
+	   
+	    <div class="d-flex text-muted pt-3">
+	      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"/><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
+	
+	      <p class="pb-3 mb-0 small lh-sm border-bottom">
+	        <strong class="d-block text-gray-dark">프로필 사진</strong><br>
+	        <a id="profileLink" href="javascript:">
 	      	 <%if(dto.getProfile()==null){ %>
 		         <svg id="profileImage" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
 		              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -57,23 +82,39 @@
 		            src="<%=request.getContextPath() %><%=dto.getProfile() %>" />
 	      	 <%} %>
 	   		 </a>
-	   		 </td>
-	      </tr>
-	    <form action="my_update.jsp" method="post">
-	   	  	<input type="hidden" name="profile" value="<%=dto.getProfile()==null ? "empty" : dto.getProfile() %>"/> 
-	   	  <tr>
-	         <th><label for="email">이메일</label></th>
-	         <td><input type="text" name="email" id="email" value="<%=dto.getEmail()%>"/></td>	
-	      </tr>
-	      <tr>
-	      	<th><button type="submit">수정 반영</button></th>
-	      </tr> 
-	   </form>
-	</table>
+	   		 <strong>이미지 변경을 위해서는 사진을 클릭해주세요.</strong>
+	      </p>
+	    </div>
+	    
+	  <form action="my_update.jsp" method="post">  
+	    <input type="hidden" name="profile" value="<%=dto.getProfile()==null ? "empty" : dto.getProfile() %>"/> 
+	    <div class="d-flex text-muted pt-3">
+	      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"/><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
+	      <p class="pb-3 mb-0 small lh-sm border-bottom">
+	        <strong class="d-block text-gray-dark">Email</strong>
+	        <strong><input type="text" name="email" id="email" value="<%=dto.getEmail()%>"/></strong>
+	      </p>
+	    </div>
+	    
+	 
+	    <div class="d-flex text-muted pt-3">
+	      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+	      <p class="pb-3 mb-0 small lh-sm">
+	        <strong class="d-block text-gray-dark">가입일</strong>
+	        <strong><input type="text" id="id" value="<%=dto.getRegdate() %>" disabled/></strong>
+	      </p>
+	    </div>
+	    
+		 <button type="submit" class="btn btn-outline-dark">수정 반영</button>
+	     </form>
+	  </div>
+	 </main>
+	
 	<form action="my_ajax_profile_upload.jsp" method="post" id="imageForm" enctype="multipart/form-data">
 	      <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png, .JPG, .JPEG, .gif"/>
 	</form>
-	</div>
+</div>
+
 <script src="<%=request.getContextPath() %>/js/gura_util.js"></script>
 
 <script>

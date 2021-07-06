@@ -103,6 +103,9 @@
       
       <div class="main_list">
       	<div class="share_table">
+				
+      	</div>
+      	<div class="free_table">
       			<table>
 					<thead>
 						<tr>
@@ -151,10 +154,6 @@
 						<%} %>
 					</ul>
 				</div>
-				
-				
-      	</div>
-      	<div class="free_table">
       	
       	</div>
       	<div class="resell_table">

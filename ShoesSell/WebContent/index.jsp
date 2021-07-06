@@ -50,9 +50,9 @@
    int startRowNum3=1+(pageNum3-1)*PAGE_ROW_COUNT3;
    
    //보여줄 페이지의 끝 ROWNUM
-   int endRowNum1=pageNum2*PAGE_ROW_COUNT1;
+   int endRowNum1=pageNum1*PAGE_ROW_COUNT1;
    int endRowNum2=pageNum2*PAGE_ROW_COUNT2;
-   int endRowNum3=pageNum2*PAGE_ROW_COUNT3;
+   int endRowNum3=pageNum3*PAGE_ROW_COUNT3;
    
    //shareDto 객체에 startRowNum 과 endRowNum 을 담는다.
    ShareDto dto1=new ShareDto();
@@ -108,9 +108,7 @@
    if(endPageNum3 > totalPageCount3){
 	  endPageNum3=totalPageCount3; //보정해 준다.
    }   
-   int i1=0;
-   int i2=0;
-   int i3=0;
+
 
 %>
 <!DOCTYPE html>
@@ -172,7 +170,7 @@
                   <tr>
                      <td><%=tmp.getNum() %></td>
                      <td>
-                        <a href="share/share_download.jsp?num=<%=tmp.getNum()%>"><%=tmp.getTitle() %></a>
+                        <a href="share/detail.jsp?num=<%=tmp.getNum()%>"><%=tmp.getTitle() %></a>
                      </td>
                   </tr>
                <%} %>
@@ -182,25 +180,26 @@
                <ul> 
 				  <%if(startPageNum1 != 1){ %>
 					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=startPageNum1-1 %>&freePageNum=<%=startPageNum2%>&resellPageNum=<%=startPageNum3%>"></a>
+					 	<a href="index.jsp?sharePageNum=<%=startPageNum1-1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=pageNum3%>">Prev</a>
 					 </li>	
 				  <%} %>                         
-                  <%for(i1=startPageNum1; i1<=endPageNum1 ; i1++){ %>
+                  <%for(int i=startPageNum1; i<=endPageNum1 ; i++){ %>
                      <li>
-                        <%if(pageNum1 == i1){ %>
-                           <a class="active" href="index.jsp?sharePageNum=<%=i1 %>&freePageNum=<%=i2%>&resellPageNum=<%=i3%>"><%=i1 %></a>
+                        <%if(pageNum1 == i){ %>
+                           <a class="active" href="index.jsp?sharePageNum=<%=i%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=pageNum3%>"><%=i %></a>
                         <%}else{ %>
-                           <a href="index.jsp?sharePageNum=<%=i1 %>&freePageNum=<%=i2%>&resellPageNum=<%=i3%>"><%=i1 %></a>
+                           <a href="index.jsp?sharePageNum=<%=i%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=pageNum3%>"><%=i %></a>
                         <%} %>
                      </li>   
                   <%} %>
 				  <%if(endPageNum1 < totalPageCount1){ %>
 					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=endPageNum1+1 %>&freePageNum=<%=endPageNum2%>&resellPageNum=<%=endPageNum3%>">Next</a>
+					 	<a href="index.jsp?sharePageNum=<%=endPageNum1+1%>&freePageNum=<%=pageNum2 %>&resellPageNum=<%=pageNum3%>">Next</a>
 					 </li>	
 				  <%} %>                  
                </ul>
-            </div>            
+               
+            </div>          
          </div>
          <div class="free_table">
                <table>
@@ -225,21 +224,21 @@
                <ul> 
 				  <%if(startPageNum2 != 1){ %>
 					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=startPageNum1%>&freePageNum=<%=startPageNum2-1%>&resellPageNum=<%=startPageNum3%>"></a>
+					 	<a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=startPageNum2-1%>&resellPageNum=<%=pageNum3%>">Prev</a>
 					 </li>	
 				  <%} %>                         
-                  <%for(i2=startPageNum2; i2<=endPageNum1 ; i2++){ %>
+                  <%for(int i2=startPageNum2; i2<=endPageNum2 ; i2++){ %>
                      <li>
                         <%if(pageNum2 == i2){ %>
-                           <a class="active" href="index.jsp?sharePageNum=<%=i1 %>&freePageNum=<%=i2%>&resellPageNum=<%=i3%>"><%=i2 %></a>
+                           <a class="active" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=i2%>&resellPageNum=<%=pageNum3%>"><%=i2 %></a>
                         <%}else{ %>
-                           <a href="index.jsp?sharePageNum=<%=i1 %>&freePageNum=<%=i2%>&resellPageNum=<%=i3%>"><%=i2 %></a>
+                           <a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=i2%>&resellPageNum=<%=pageNum3%>"><%=i2 %></a>
                         <%} %>
                      </li>   
                   <%} %>
 				  <%if(endPageNum2 < totalPageCount2){ %>
 					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=endPageNum1 %>&freePageNum=<%=endPageNum2+1 %>&resellPageNum=<%=endPageNum3%>">Next</a>
+					 	<a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=endPageNum2+1 %>&resellPageNum=<%=pageNum3%>">Next</a>
 					 </li>	
 				  <%} %>                  
                </ul>
@@ -268,26 +267,27 @@
                <ul> 
 				  <%if(startPageNum3 != 1){ %>
 					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=startPageNum1%>&freePageNum=<%=startPageNum2%>&resellPageNum=<%=startPageNum3-1%>"></a>
+					 	<a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=startPageNum3-1%>">Prev</a>
 					 </li>	
 				  <%} %>                         
-                  <%for(i3=startPageNum3; i3<=endPageNum3 ; i3++){ %>
+                  <%for(int i3=startPageNum3; i3<=endPageNum3 ; i3++){ %>
                      <li>
                         <%if(pageNum3 == i3){ %>
-                           <a class="active" href="index.jsp?sharePageNum=<%=i1 %>&freePageNum=<%=i2%>&resellPageNum=<%=i3%>"><%=i3 %></a>
+                           <a class="active" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=i3%>"><%=i3 %></a>
                         <%}else{ %>
-                           <a href="index.jsp?sharePageNum=<%=i1 %>&freePageNum=<%=i2%>&resellPageNum=<%=i3%>"><%=i3 %></a>
+                           <a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=i3%>"><%=i3 %></a>
                         <%} %>
                      </li>   
                   <%} %>
 				  <%if(endPageNum3 < totalPageCount3){ %>
 					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=endPageNum1%>&freePageNum=<%=endPageNum2%>&resellPageNum=<%=endPageNum3+1%>">Next</a>
+					 	<a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=endPageNum3+1%>">Next</a>
 					 </li>	
 				  <%} %>                  
                </ul>
             </div>         
          </div>
+         
       </div>
       <!--main_list 끝 -->
    </div>

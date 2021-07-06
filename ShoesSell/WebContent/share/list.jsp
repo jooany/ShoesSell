@@ -95,7 +95,7 @@
 </jsp:include>
 <div class="container">
 	<a href="private/share_upload_form.jsp">share</a>
-	<h1>Share List</h1>
+	<h1>News</h1>
 	<table>
 		<thead>
 			<tr>
@@ -137,13 +137,13 @@
 					<%if(pageNum == i){ %>
 						<a class="active" href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
 					<%}else{ %>
-						<a href="list?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
+						<a href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
 					<%} %>
 				</li>	
 			<%} %>
 			<%if(endPageNum < totalPageCount){ %>
 				<li>
-					<a href="list?pageNum=<%=endPageNum+1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Next</a>
+					<a href="list.jsp?pageNum=<%=endPageNum+1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Next</a>
 				</li>
 			<%} %>
 		</ul>
@@ -151,7 +151,7 @@
 	
 	<div style="clear:both;"></div>
 	
-	<form action="list" method="get"> 
+	<form action="list.jsp" method="get"> 
 		<label for="condition">검색조건</label>
 		<select name="condition" id="condition">
 			<option value="title_filename" <%=condition.equals("title_filename") ? "selected" : ""%>>제목+파일명</option>

@@ -504,4 +504,57 @@ public class ResellDao {
 		}
 		return count;
 	}
+	
+	//메인에서 쓰일 업로드된 모든 사진의 정보를 리턴하는 메소드 
+	public List<ResellDto> getListMain(ResellDto dto){
+		List<ResellDto> list=new ArrayList<ResellDto>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = new DbcpBean().getConn();
+			//select 문 작성
+			String sql = "SELECT *" + 
+					"		FROM" + 
+					"		    (SELECT result1.*, ROWNUM AS rnum" + 
+					"		    FROM" + 
+					"		        (SELECT num, writer, title, content, viewCount, regdate, imagePath" + 
+					"		        FROM resell"+
+					"		        ORDER BY viewCount DESC) result1)" + 
+					"		WHERE rnum BETWEEN ? AND ?";
+			
+			pstmt=conn.prepareStatement(sql);
+			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
+			pstmt.setInt(1, dto.getStartRowNum());
+			pstmt.setInt(2, dto.getEndRowNum());
+			//select 문 수행하고 ResultSet 받아오기
+			rs = pstmt.executeQuery();
+			//while문 혹은 if문에서 ResultSet 으로 부터 data 추출
+			while (rs.next()) {
+				ResellDto dto2=new ResellDto();
+				dto2.setNum(rs.getInt("num"));
+				dto2.setWriter(rs.getString("writer"));
+				dto2.setTitle(rs.getString("title"));
+				dto2.setContent(rs.getString("content"));
+				dto2.setViewCount(rs.getInt("viewCount"));
+				dto2.setRegdate(rs.getString("regdate"));
+				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setRowNum(rs.getInt("rnum"));
+				list.add(dto2);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		return list;
+	}
 }

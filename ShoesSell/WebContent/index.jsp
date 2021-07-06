@@ -78,8 +78,8 @@
 
    // 메소드를 이용해서 파일 목록을 얻어온다. 
    shareList=ShareDao.getInstance().getList(dto1);
-   freeList=FreeDao.getInstance().getList(dto2);
-   resellList=ResellDao.getInstance().getList(dto3);
+   freeList=FreeDao.getInstance().getListMain(dto2);
+   resellList=ResellDao.getInstance().getListMain(dto3);
    // 메소드를 이용해서 전제 row 의 갯수를 얻어온다.
    totalRow1=ShareDao.getInstance().getCount();
    totalRow2=FreeDao.getInstance().getCount();
@@ -118,6 +118,10 @@
 <title>index.jsp</title>
 <jsp:include page="include/resource.jsp"></jsp:include>
 <style>
+	.test_box{
+		width:100px;
+		height:300px;
+	}
    .inner{
       max-width:1100px!important;
       margin:0 auto!important;
@@ -126,6 +130,8 @@
    }
    .main_banner{
         position:relative;
+        width:1100px;
+        height:450px;
    }
    #main_img{
       position:absolute;
@@ -135,17 +141,53 @@
    .main_list{
         width:1100px;
         display:flex;
-        position:absolute;
-        margin-top:450px;
+        
+        margin-top:30px;
         justify-content:space-between;
+   }
+   .main_list a{
+   		text-decoration:none;
+   		color:black;
    }
    .main_list>div{
         width:350px;
-        height:400px;
-        background-color:gray;
+        height:330px;
+        
+   }
+   .share_table>a{
+   		display:box;
+   		color:white;
+   }
+   .free_table>a{
+   		display:box;
+   		color:white;
+   }
+   .resell_table>a{
+   		display:box;
+   		color:white;
+   }
+   .box_name{
+   		width:350px;
+   		height:50px;
+   		background-color:#1a1a1a;
+   		position:relative;
+   		text-align:center;
+   		line-height:50px;
    }
 
+   .box_shadow{
+   	    box-shadow: 0 0 3px rgb(0,0,0,.35);
+   }
    
+   .table_td{
+		width:250px;
+		height:20px;
+   }
+   .page-ui{
+   		display:flex;
+   		justify-content:center;
+   }
+
 </style>
 </head>
 <body>
@@ -157,131 +199,123 @@
       <!-- main_banner 끝 -->
       
       <div class="main_list">
-         <div class="share_table">
-               <table>
-               <thead>
-                  <tr>
-                     <th>글번호</th>
-                     <th>제목</th>
-                  </tr>
-               </thead>
+         <div class="share_table box_shadow">
+         	<a href="share/list.jsp"><div class="box_name">news</div></a>
+            <table class="table table-striped">
                <tbody>
                <%for(ShareDto tmp:shareList){%>
                   <tr>
-                     <td><%=tmp.getNum() %></td>
+                     <td><%=tmp.getRowNum() %></td>
+                     <a href="share/detail.jsp?num=<%=tmp.getNum()%>">
                      <td>
-                        <a href="share/detail.jsp?num=<%=tmp.getNum()%>"><%=tmp.getTitle() %></a>
+                        <a href="share/detail.jsp?num=<%=tmp.getNum()%>">
+                        	<div class="table_td"><%=tmp.getTitle() %></div>
+                        </a>
                      </td>
                   </tr>
                <%} %>
                </tbody>
             </table>
             <div class="page-ui clearfix">
-               <ul> 
+               <ul class="pagination"> 
 				  <%if(startPageNum1 != 1){ %>
-					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=startPageNum1-1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=pageNum3%>">Prev</a>
+					 <li class="page-item">
+					 	<a class="page-link" href="index.jsp?sharePageNum=<%=startPageNum1-1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=pageNum3%>">Prev</a>
 					 </li>	
 				  <%} %>                         
                   <%for(int i=startPageNum1; i<=endPageNum1 ; i++){ %>
-                     <li>
+                     <li class="page-item">
                         <%if(pageNum1 == i){ %>
-                           <a class="active" href="index.jsp?sharePageNum=<%=i%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=pageNum3%>"><%=i %></a>
+                           <a class="page-link" class="active" href="index.jsp?sharePageNum=<%=i%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=pageNum3%>"><%=i %></a>
                         <%}else{ %>
-                           <a href="index.jsp?sharePageNum=<%=i%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=pageNum3%>"><%=i %></a>
+                           <a class="page-link" href="index.jsp?sharePageNum=<%=i%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=pageNum3%>"><%=i %></a>
                         <%} %>
                      </li>   
                   <%} %>
 				  <%if(endPageNum1 < totalPageCount1){ %>
-					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=endPageNum1+1%>&freePageNum=<%=pageNum2 %>&resellPageNum=<%=pageNum3%>">Next</a>
+					 <li class="page-item">
+					 	<a class="page-link" href="index.jsp?sharePageNum=<%=endPageNum1+1%>&freePageNum=<%=pageNum2 %>&resellPageNum=<%=pageNum3%>">Next</a>
 					 </li>	
 				  <%} %>                  
                </ul>
                
             </div>          
          </div>
-         <div class="free_table">
-               <table>
-               <thead>
-                  <tr>
-                     <th>글번호</th>
-                     <th>제목</th>
-                  </tr>
-               </thead>
+         <div class="free_table box_shadow">
+         	<a href="free/list.jsp"><div class="box_name">커뮤니티</div></a>
+            <table class="table table-striped">
                <tbody>
                <%for(FreeDto tmp:freeList){%>
                   <tr>
-                     <td><%=tmp.getNum() %></td>
+                     <td><%=tmp.getRowNum() %></td>
                      <td>
-                        <a href="free/detail.jsp?num=<%=tmp.getNum()%>"><%=tmp.getTitle() %></a>
+                        <a href="free/detail.jsp?num=<%=tmp.getNum()%>">
+                        	<div class="table_td"><%=tmp.getTitle() %></div>
+                        </a>
                      </td>
                   </tr>
                <%} %>
                </tbody>
             </table>
             <div class="page-ui clearfix">
-               <ul> 
+               <ul class="pagination"> 
 				  <%if(startPageNum2 != 1){ %>
-					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=startPageNum2-1%>&resellPageNum=<%=pageNum3%>">Prev</a>
+					 <li class="page-item">
+					 	<a class="page-link" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=startPageNum2-1%>&resellPageNum=<%=pageNum3%>">Prev</a>
 					 </li>	
 				  <%} %>                         
                   <%for(int i2=startPageNum2; i2<=endPageNum2 ; i2++){ %>
-                     <li>
+                     <li class="page-item">
                         <%if(pageNum2 == i2){ %>
-                           <a class="active" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=i2%>&resellPageNum=<%=pageNum3%>"><%=i2 %></a>
+                           <a class="active page-link" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=i2%>&resellPageNum=<%=pageNum3%>"><%=i2 %></a>
                         <%}else{ %>
-                           <a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=i2%>&resellPageNum=<%=pageNum3%>"><%=i2 %></a>
+                           <a class="page-link" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=i2%>&resellPageNum=<%=pageNum3%>"><%=i2 %></a>
                         <%} %>
                      </li>   
                   <%} %>
 				  <%if(endPageNum2 < totalPageCount2){ %>
-					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=endPageNum2+1 %>&resellPageNum=<%=pageNum3%>">Next</a>
+					 <li class="page-item">
+					 	<a class="page-link" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=endPageNum2+1 %>&resellPageNum=<%=pageNum3%>">Next</a>
 					 </li>	
 				  <%} %>                  
                </ul>
             </div>            
          </div>
-         <div class="resell_table">
-               <table>
-               <thead>
-                  <tr>
-                     <th>글번호</th>
-                     <th>제목</th>
-                  </tr>
-               </thead>
+         <div class="resell_table box_shadow">
+         	<a href="resell/list.jsp"><div class="box_name">마켓</div></a>
+            <table class="table table-striped">
                <tbody>
                <%for(ResellDto tmp:resellList){%>
                   <tr>
-                     <td><%=tmp.getNum() %></td>
+                     <td><%=tmp.getRowNum() %></td>
                      <td>
-                        <a href="resell/detail.jsp?num=<%=tmp.getNum()%>"><%=tmp.getTitle() %></a>
+                        <a href="resell/detail.jsp?num=<%=tmp.getNum()%>">
+                        	<div class="table_td"><%=tmp.getTitle() %></div>
+                        </a>
                      </td>
                   </tr>
                <%} %>
                </tbody>
             </table>
             <div class="page-ui clearfix">
-               <ul> 
+               <ul class="pagination"> 
 				  <%if(startPageNum3 != 1){ %>
-					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=startPageNum3-1%>">Prev</a>
+					 <li class="page-item">
+					 	<a class="page-link" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=startPageNum3-1%>">Prev</a>
 					 </li>	
 				  <%} %>                         
                   <%for(int i3=startPageNum3; i3<=endPageNum3 ; i3++){ %>
-                     <li>
+                     <li class="page-item">
                         <%if(pageNum3 == i3){ %>
-                           <a class="active" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=i3%>"><%=i3 %></a>
+                           <a class="active page-link" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=i3%>"><%=i3 %></a>
                         <%}else{ %>
-                           <a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=i3%>"><%=i3 %></a>
+                           <a class="page-link" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=i3%>"><%=i3 %></a>
                         <%} %>
                      </li>   
                   <%} %>
 				  <%if(endPageNum3 < totalPageCount3){ %>
-					 <li>
-					 	<a href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=endPageNum3+1%>">Next</a>
+					 <li class="page-item">
+					 	<a class="page-link" href="index.jsp?sharePageNum=<%=pageNum1%>&freePageNum=<%=pageNum2%>&resellPageNum=<%=endPageNum3+1%>">Next</a>
 					 </li>	
 				  <%} %>                  
                </ul>
@@ -290,6 +324,7 @@
          
       </div>
       <!--main_list 끝 -->
+      <div class="test_box"></div>
    </div>
 </body>
 </html>

@@ -12,6 +12,8 @@ public class FreeDto {
 	private int prevNum;
 	private int nextNum;
 	
+	private int rowNum;
+	
 	public FreeDto() {}
 
 	public int getNum() {
@@ -93,9 +95,17 @@ public class FreeDto {
 	public void setNextNum(int nextNum) {
 		this.nextNum = nextNum;
 	}
+	
+	public int getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
 
 	public FreeDto(int num, String writer, String title, String content, int viewCount, String regdate, int startRowNum,
-			int endRowNum, int prevNum, int nextNum) {
+			int endRowNum, int prevNum, int nextNum,int rowNum) {
 		super();
 		this.num = num;
 		this.writer = writer;
@@ -107,5 +117,6 @@ public class FreeDto {
 		this.endRowNum = endRowNum;
 		this.prevNum = prevNum;
 		this.nextNum = nextNum;
+		this.rowNum =rowNum;
 	}
 }

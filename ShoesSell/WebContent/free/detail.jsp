@@ -95,8 +95,14 @@
 <head>
 <meta charset="UTF-8">
 <title>/free/private/detail.jsp</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<jsp:include page="../include/resource.jsp"></jsp:include>
 <style>
+   	.container{
+      	max-width:1100px!important;
+      	margin:0 auto!important;
+      	box-sizing:border-box!important;
+      	position:relative!important;
+   	}
 	.content{
 		border: 1px dotted gray;
 	}
@@ -200,9 +206,10 @@
 			<strong><%=keyword %></strong> 검색어로 검색된 내용 자세히 보기 
 		</p>
 	<%} %>
+	
 	<table>
 		<tr>
-			<th>글번호</th>
+			<th>번호</th>
 			<td><%=dto.getNum() %></td>
 		</tr>
 		<tr>
@@ -235,6 +242,7 @@
 		<%} %>
 		
 	</ul>
+	
 	<!-- 댓글 목록 -->
 	<div class="comments">
 		<ul>
@@ -302,6 +310,7 @@
 			<%} %>
 		</ul>
 	</div>
+	<!-- 댓글 로딩 이미지 -->
 	<div class="loader">
 		<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
 			  <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
@@ -315,7 +324,7 @@
 		<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
 		<input type="hidden" name="target_id" value="<%=dto.getWriter()%>"/>
 		
-		<textarea name="content"><%if(!isLogin){%>댓글 작성을 위해 로그인이 필요 합니다.<%}%></textarea>
+		<textarea name="content"><%if(!isLogin){%>댓글 작성을 위해 로그인이 필요합니다.<%}%></textarea>
 		<button type="submit">등록</button>
 	</form>
 </div>

@@ -98,7 +98,14 @@
 <head>
 <meta charset="UTF-8">
 <title>/free/list.jsp</title>
+<jsp:include page="../include/resource.jsp"></jsp:include>
 <style>
+   	.container{
+      	max-width: 1100px!important;
+      	margin: 0 auto!important;
+      	box-sizing: border-box!important;
+      	position: relative!important;
+   	}
 	.page-ui a{
 		text-decoration: none;
 		color: #000;
@@ -126,16 +133,16 @@
 </head>
 <body>
 <div class="container">
-	<a href="private/free_insertform.jsp">새글 작성</a>
-	<h1>글 목록 입니다.</h1>
-	<table>
+	<a href="private/free_insertform.jsp">Add New Free Text</a>
+	<h1 align="center">Free List</h1>
+	<table class="table caption-top">
 		<thead>
 			<tr>
-				<th>글번호</th>
-				<th>작성자</th>
-				<th>제목</th>
-				<th>조회수</th>
-				<th>등록일</th>
+				<th scope="col">번호</th>
+				<th scope="col">제목</th>
+				<th scope="col">작성자</th>
+				<th scope="col">조회수</th>
+				<th scope="col">등록일</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -153,25 +160,36 @@
 		</tbody>
 	</table>
 	<div class="page-ui clearfix">
-		<ul>
+		<ul class="pagination justify-content-center">
 			<%if(startPageNum != 1){ %>
-				<li>
-					<a href="list.jsp?pageNum=<%=startPageNum-1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Prev</a>
+				<li class="page-item">
+					<a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Prev</a>
 				</li>	
+			<%}else{ %>
+				<li class="page-item disabled">
+					<a class="page-link" href="javascript:">Prev</a>
+				</li>
 			<%} %>
 			
 			<%for(int i=startPageNum; i<=endPageNum ; i++){ %>
-				<li>
-					<%if(pageNum == i){ %>
-						<a class="active" href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
-					<%}else{ %>
-						<a href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
-					<%} %>
-				</li>	
+				<%if(pageNum == i){ %>
+					<li class="page-item active">
+						<a class="page-link" class="active" href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
+					</li>
+				<%}else{ %>
+					<li>
+						<a class="page-link" href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
+					</li>
+				<%} %>
+			
 			<%} %>
 			<%if(endPageNum < totalPageCount){ %>
-				<li>
-					<a href="list.jsp?pageNum=<%=endPageNum+1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Next</a>
+				<li class="page-item">
+					<a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Next</a>
+				</li>
+			<%}else{ %>
+				<li class="page-item disabled">
+					<a class="page-link" href="javascript:">Next</a>
 				</li>
 			<%} %>
 		</ul>

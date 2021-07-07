@@ -89,7 +89,7 @@
   </main>
 </div>
 
-</div>
+
 <script src="<%=request.getContextPath() %>/js/gura_util.js"></script>
 <script>
    //아이디, 비밀번호, 이메일의 유효성 여부를 관리한 변수 만들고 초기값 대입
@@ -208,6 +208,7 @@
          e.preventDefault();
       }   
    });
+   
 </script>
 </body>
 </html>

@@ -114,12 +114,16 @@
 			<tr>
 				<td><%=tmp.getNum() %></td>
 				<td><%=tmp.getWriter() %></td>
-				<td><%=tmp.getTitle() %></td>
+				<td><a href="detail.jsp?num=<%=tmp.getNum()%>"><%=tmp.getTitle() %></a></td>
 				<td><a href="share_download.jsp?num=<%=tmp.getNum()%>"><%=tmp.getOrgFileName() %></a></td>
 				<td><%=tmp.getFileSize() %>byte</td>
 				<td><%=tmp.getRegdate() %></td>
 				<td><a href="../private/share_update_form.jsp">수정</a></td>
-				<td><a href="../private/share_delete.jsp">삭제</a></td>
+				<td>
+					<%if(tmp.getWriter().equals(id)){ %>
+						<a href="javascript:deleteConfirm(<%=tmp.getNum()%>)">삭제</a>
+					<%} %>	
+				</td>
 			</tr>
 		<%} %>
 		</tbody>

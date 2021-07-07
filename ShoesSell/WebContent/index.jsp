@@ -183,6 +183,7 @@
    		display:flex;
    		justify-content:center;
    }
+   
 
 </style>
 </head>
@@ -205,7 +206,11 @@
                      <a href="share/detail.jsp?num=<%=tmp.getNum()%>">
                      <td>
                         <a href="share/detail.jsp?num=<%=tmp.getNum()%>">
-                        	<div class="table_td"><%=tmp.getTitle() %></div>
+                        	<div class="table_td">
+                        		
+                        			<div class="content"><%=tmp.getTitle() %></div>
+                        		
+                        	</div>
                         </a>
                      </td>
                   </tr>
@@ -246,7 +251,9 @@
                      <td><%=tmp.getRowNum() %></td>
                      <td>
                         <a href="free/detail.jsp?num=<%=tmp.getNum()%>">
-                        	<div class="table_td"><%=tmp.getTitle() %></div>
+                        	<div class="table_td">
+                        		<div class="content"><%=tmp.getTitle() %></div>
+                        	</div>
                         </a>
                      </td>
                   </tr>
@@ -286,7 +293,9 @@
                      <td><%=tmp.getRowNum() %></td>
                      <td>
                         <a href="resell/detail.jsp?num=<%=tmp.getNum()%>">
-                        	<div class="table_td"><%=tmp.getTitle() %></div>
+                        	<div class="table_td">
+                        		<div class="content"><%=tmp.getTitle() %></div>
+                        	</div>
                         </a>
                      </td>
                   </tr>
@@ -321,5 +330,20 @@
       </div>
       <!--main_list 끝 -->
    </div>
+   
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+   <script text="javascript/text">
+    $(document).ready(function(){
+        $('.table_td').each(function(){
+            var content = $(this).children('.content');
+            var content_txt = content.text();
+            var content_txt_short = content_txt.substring(0,15)+"...";
+            
+            if(content_txt.length >= 15){
+                content.html(content_txt_short)               
+            }
+        });
+    });
+  </script>
 </body>
 </html>

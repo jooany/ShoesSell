@@ -118,10 +118,6 @@
 <title>index.jsp</title>
 <jsp:include page="include/resource.jsp"></jsp:include>
 <style>
-	.test_box{
-		width:100px;
-		height:300px;
-	}
    .inner{
       max-width:1100px!important;
       margin:0 auto!important;
@@ -324,7 +320,6 @@
          
       </div>
       <!--main_list 끝 -->
-      <div class="test_box"></div>
    </div>
 </body>
 </html>

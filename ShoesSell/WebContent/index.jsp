@@ -137,7 +137,6 @@
    .main_list{
         width:1100px;
         display:flex;
-        
         margin-top:30px;
         justify-content:space-between;
    }
@@ -147,8 +146,8 @@
    }
    .main_list>div{
         width:350px;
-        height:330px;
-        
+        height:450px;
+        box-sizing:border-box!important;
    }
    .share_table>a{
    		display:box;
@@ -176,15 +175,26 @@
    }
    
    .table_td{
-		width:250px;
+		width:220px;
 		height:20px;
    }
    .page-ui{
    		display:flex;
    		justify-content:center;
    }
-   
-
+   .resell_img{
+   		width:75px;
+   		height:50px;
+   }
+   td{
+   		height:66.5px;
+   		line-height:66.5px;
+   		padding:0px!important;
+   } 
+   td:nth-child(1){
+   		width:30px;
+   		text-align:center;
+   }
 </style>
 </head>
 <body>
@@ -298,6 +308,9 @@
                         	</div>
                         </a>
                      </td>
+                     <td>
+                     	<img class="resell_img" src="${pageContext.request.contextPath }<%=tmp.getImagePath() %>" />
+                     </td>
                   </tr>
                <%} %>
                </tbody>
@@ -337,9 +350,9 @@
         $('.table_td').each(function(){
             var content = $(this).children('.content');
             var content_txt = content.text();
-            var content_txt_short = content_txt.substring(0,15)+"...";
+            var content_txt_short = content_txt.substring(0,13)+"...";
             
-            if(content_txt.length >= 15){
+            if(content_txt.length >= 13){
                 content.html(content_txt_short)               
             }
         });

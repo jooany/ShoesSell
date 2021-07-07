@@ -13,8 +13,14 @@
 <title>/free/private/free_updateform.jsp</title>
 <jsp:include page="../../include/resource.jsp"></jsp:include>
 <style>
+	body {
+  		height: 100%;
+	}
+	.col-md-3 {
+		width: 95%;
+	}
 	#content{
-		width: 800px;
+		width: 95%;
 		height: 500px;
 	}
 </style>
@@ -24,20 +30,24 @@
 	<h1>Free Update Form</h1>
 	<form action="free_update.jsp" method="post">
 		<input type="hidden" name="num" value="<%=num %>" />
-		<div class="mb-3">
-			<label class="form-label" for="writer">작성자</label>
-			<input type="text" id="writer" value="<%=dto.getWriter() %>" disabled/>
-		</div>
-		<div class="mb-3">
-			<label class="form-label" for="title">제목</label>
-			<input type="text" name="title" id="title" value="<%=dto.getTitle()%>"/>
+		<div class="row g-3">
+			<div class="col-md-3">
+				<label class="form-label" for="writer">작성자</label>
+				<input type="text" id="writer" value="<%=dto.getWriter() %>" disabled/>
+			</div>
+			<div class="col-md-3">
+				<label class="form-label" for="title">제목</label>
+				<input type="text" name="title" id="title" value="<%=dto.getTitle()%>"/>
+			</div>
 		</div>
 		<div class="mb-3">
 			<label class="form-label" for="content">내용</label>
 			<textarea name="content" id="content"><%=dto.getContent() %></textarea>
 		</div>
-		<button type="submit" onclick="submitContents(this);">수정 확인</button>
-		<button type="reset">취소</button>
+		<div class="d-md-flex justify-content-md-end">
+			<button class="btn btn-outline-primary me-md-2 btn-sm" type="submit" onclick="submitContents(this);">수정 확인</button>
+			<button class="btn btn-outline-danger btn-sm" type="reset">취소</button>
+		</div>
 	</form>
 </div>
 

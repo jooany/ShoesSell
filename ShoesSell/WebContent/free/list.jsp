@@ -100,7 +100,7 @@
 <title>/free/list.jsp</title>
 <jsp:include page="../include/resource.jsp"></jsp:include>
 <style>
-   	.container{
+   	.inner{
       	max-width: 1100px!important;
       	margin: 0 auto!important;
       	box-sizing: border-box!important;
@@ -132,11 +132,13 @@
 </style>
 </head>
 <body>
-<div class="container">
+<jsp:include page="../include/navbar.jsp"></jsp:include>
+<div class="inner">
+	<div class="container">
 	<a href="private/free_insertform.jsp">Add New Free Text</a>
 	<h1 align="center">Free List</h1>
-	<table class="table caption-top">
-		<thead>
+	<table class="table table-striped">
+		<thead class="table-dark">
 			<tr>
 				<th scope="col">번호</th>
 				<th scope="col">제목</th>
@@ -164,10 +166,6 @@
 			<%if(startPageNum != 1){ %>
 				<li class="page-item">
 					<a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Prev</a>
-				</li>	
-			<%}else{ %>
-				<li class="page-item disabled">
-					<a class="page-link" href="javascript:">Prev</a>
 				</li>
 			<%} %>
 			
@@ -187,14 +185,10 @@
 				<li class="page-item">
 					<a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Next</a>
 				</li>
-			<%}else{ %>
-				<li class="page-item disabled">
-					<a class="page-link" href="javascript:">Next</a>
-				</li>
 			<%} %>
 		</ul>
 	</div>
-	
+	</div>
 	<div style="clear:both;"></div>
 	
 	<form action="list.jsp" method="get"> 

@@ -97,7 +97,7 @@
 <title>/free/private/detail.jsp</title>
 <jsp:include page="../include/resource.jsp"></jsp:include>
 <style>
-   	.container{
+   	.inner{
       	max-width:1100px!important;
       	margin:0 auto!important;
       	box-sizing:border-box!important;
@@ -106,7 +106,30 @@
 	.content{
 		border: 1px dotted gray;
 	}
-	
+		table.notice_view {
+	    border-collapse: collapse;
+	    width: 100%;
+	    margin: .5em 0px 10px 0;
+	    border-top: 2px solid #436fba;
+	    word-break: break-all;
+	}
+	table.notice_view th, table.notice_view td {
+	    border-top: 1px solid #c8c8c8;
+	    border-bottom: 1px solid #c8c8c8;
+	    padding: 10px 10px 8px 20px;
+	}
+	table.notice_view td span.bd_op01 {
+	    float: left;
+	    margin: 0 42px 0 0;
+	}
+	table.notice_view content {
+	    padding: 20px;
+	    line-height: 24px;
+	    max-width: 740px;
+	}
+	.btn_right{
+		padding: 10px;
+	}
 	/* 댓글 프로필 이미지를 작은 원형으로 만든다. */
 	.profile-image{
 		width: 50px;
@@ -193,7 +216,7 @@
 </style>
 </head>
 <body>
-<div class="container">
+<div class="inner">
 	<%if(dto.getPrevNum()!=0){ %>
 		<a href="detail.jsp?num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">이전글</a>
 	<%} %>
@@ -206,42 +229,51 @@
 			<strong><%=keyword %></strong> 검색어로 검색된 내용 자세히 보기 
 		</p>
 	<%} %>
-	
-	<table>
-		<tr>
-			<th>번호</th>
-			<td><%=dto.getNum() %></td>
-		</tr>
-		<tr>
-			<th>작성자</th>
-			<td><%=dto.getWriter() %></td>
-		</tr>
-		<tr>
-			<th>제목</th>
-			<td><%=dto.getTitle() %></td>
-		</tr>
-		<tr>
-			<th>조회수</th>
-			<td><%=dto.getViewCount() %></td>
-		</tr>
-		<tr>
-			<th>등록일</th>
-			<td><%=dto.getRegdate() %></td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div class="content"><%=dto.getContent() %></div>
-			</td>
-		</tr>
+
+	<table class="notice_view">
+		<colgroup>
+			<col class="width_120x" />
+			<col class="width_620x" />
+		</colgroup>
+		<tbody>
+			<tr>
+				<th scope="row">제목</th>
+				<td>
+					<strong><%=dto.getTitle() %></strong>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<span class="bd_op1">
+						<strong>번호</strong> : <%=dto.getNum() %>
+					</span>
+					<br/>
+					<span class="bd_op1">
+						<strong>작성자</strong> : <%=dto.getWriter() %>
+					</span>
+					<br/>
+					<span class="bd_op1">
+						<strong>등록일</strong> : <%=dto.getRegdate() %>
+					</span>
+					<br/>
+					<span class="bd_op1">
+						<strong>조회수</strong> : <%=dto.getViewCount() %>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div class="content"><%=dto.getContent() %></div>
+				</td>
+			</tr>
+		</tbody>
 	</table>
-	<ul>
-		<li><a href="list.jsp">목록보기</a></li>
-		<%if(dto.getWriter().equals(id)){ %>
-			<li><a href="private/free_updateform.jsp?num=<%=dto.getNum()%>">수정</a></li>
-			<li><a href="private/free_delete.jsp?num=<%=dto.getNum()%>">삭제</a></li>
-		<%} %>
-		
-	</ul>
+	<!-- 버튼 목록 -->
+	<div class="btn_right" align="right">
+		<a class="btn btn-outline-dark btn-sm" href="list.jsp">목록보기</a>
+		<a class="btn btn-outline-primary btn-sm" href="private/free_updateform.jsp?num=<%=dto.getNum()%>">수정</a>
+		<a class="btn btn-outline-danger btn-sm" href="private/free_delete.jsp?num=<%=dto.getNum()%>">삭제</a>
+	</div>
 	
 	<!-- 댓글 목록 -->
 	<div class="comments">
@@ -289,12 +321,9 @@
 					</dl>	
 					<form id="reForm<%=tmp.getNum() %>" class="animate__animated comment-form re-insert-form" 
 						action="private/free_comment_insert.jsp" method="post">
-						<input type="hidden" name="ref_group"
-							value="<%=dto.getNum()%>"/>
-						<input type="hidden" name="target_id"
-							value="<%=tmp.getWriter()%>"/>
-						<input type="hidden" name="comment_group"
-							value="<%=tmp.getComment_group()%>"/>
+						<input type="hidden" name="ref_group" value="<%=dto.getNum()%>"/>
+						<input type="hidden" name="target_id" value="<%=tmp.getWriter()%>"/>
+						<input type="hidden" name="comment_group" value="<%=tmp.getComment_group()%>"/>
 						<textarea name="content"></textarea>
 						<button type="submit">등록</button>
 					</form>	

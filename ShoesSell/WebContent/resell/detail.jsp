@@ -60,7 +60,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/gallery/detail.jsp</title>
+<title>/resell/detail.jsp</title>
 <jsp:include page="../include/resource.jsp"></jsp:include>
 </head>
 <body>
@@ -86,6 +86,13 @@
          	<p class="card-text">by <strong><%=dto.getWriter() %></strong></p>
          	<p><small><%=dto.getRegdate() %></small></p>
          	<p class="card-text"><%=dto.getContent() %></p>
+         	<%if(dto.getWriter().equals(id)){ %>
+				<p>
+					<a href="private/resell_update_form.jsp?num=<%=dto.getNum()%>">수정</a>
+					<a href="private/resell_delete.jsp?num=<%=dto.getNum()%>">삭제</a>
+				</p>		
+			<%} %>
+			<p><a href="list.jsp">목록보기</a></p>
       	</div>
    	</div>
    	<%if(dto.getPrevNum()!=0){ %>
@@ -93,12 +100,6 @@
 	<%} %>
 	<%if(dto.getNextNum()!=0){ %>
 		<a href="detail.jsp?num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">다음글</a>
-	<%} %>
-	<% if(!keyword.equals("")){ %>
-		<p>	
-			<strong><%=condition %></strong> 조건, 
-			<strong><%=keyword %></strong> 검색어로 검색된 내용 자세히 보기 
-		</p>
 	<%} %>
 </div>
 </body>

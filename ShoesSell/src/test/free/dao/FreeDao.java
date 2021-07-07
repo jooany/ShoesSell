@@ -143,8 +143,6 @@ public class FreeDao {
 				dto2.setContent(rs.getString("content"));
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
-				dto2.setPrevNum(rs.getInt("prevNum"));
-				dto2.setNextNum(rs.getInt("nextNum"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,7 +173,7 @@ public class FreeDao {
 					" FROM" + 
 					"	(SELECT num,title,writer,content,viewCount,regdate," + 
 					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
-					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
+					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) AS nextNum" + 
 					"	FROM free" + 
 					"	ORDER BY num DESC)" + 
 					" WHERE num=?";

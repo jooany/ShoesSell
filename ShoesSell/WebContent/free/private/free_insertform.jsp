@@ -7,8 +7,14 @@
 <title>/free/private/free_insertform.jsp</title>
 <jsp:include page="../../include/resource.jsp"></jsp:include>
 <style>
+	body {
+  		height: 100%;
+	}
+	.col-md-3 {
+		width: 95%;
+	}
 	#content{
-		width: 800px;
+		width: 95%;
 		height: 500px;
 	}
 </style>
@@ -17,15 +23,19 @@
 <div class="container">
 	<h1>Free Insert Form</h1>
 	<form action="free_insert.jsp" method="post" id="insertForm">
-		<div class="mb-3">
+	<div class="row g-3">
+		<div class="col-md-3">
 			<label class="form-label" for="title">제목</label>
 			<input class="form-control" type="text" name="title" id="title"/>
 		</div>
-		<div class="mb-3">
+		<div class="mb-6">
 			<label class="form-label" for="content">내용</label>
 			<textarea class="form-control" name="content" id="content"></textarea>
 		</div>
-		<button type="submit">저장</button>
+		<div class="d-md-flex justify-content-md-end">
+			<button class="btn btn-outline-primary btn-sm" type="submit">저장</button>
+		</div>
+	</div>
 	</form>
 </div>
 
@@ -85,8 +95,8 @@
 			//만일 폼 제출을 막고 싶으면  
 			//e.preventDefault();
 			//을 수행하게 해서 폼 제출을 막아준다.
-			if(title.length < 5){
-				alert("제목을 5글자 이상 입력하세요!");
+			if(title.length < 3){
+				alert("제목을 3글자 이상 입력하세요!");
 				e.preventDefault();
 			}
 			

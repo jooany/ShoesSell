@@ -130,6 +130,21 @@
 	.btn_right{
 		padding: 10px;
 	}
+	article {
+	    display: block;
+	}
+	.article-reply .reply_header {
+	    display: block;
+	    font-size: 0;
+	    border-bottom: 1px solid rgba(0,0,0,.75);
+	    text-align: left;
+	}
+	.article-reply .reply_header .titles {
+	    display: inline-block;
+	    font-size: 1.25rem;
+	    line-height: 1.125;
+	    vertical-align: middle;
+	}
 	/* 댓글 프로필 이미지를 작은 원형으로 만든다. */
 	.profile-image{
 		width: 50px;
@@ -229,7 +244,7 @@
 			<strong><%=keyword %></strong> 검색어로 검색된 내용 자세히 보기 
 		</p>
 	<%} %>
-
+	<!-- 헤더 -->
 	<table class="notice_view">
 		<colgroup>
 			<col class="width_120x" />
@@ -243,7 +258,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td colspan="4">
 					<span class="bd_op1">
 						<strong>번호</strong> : <%=dto.getNum() %>
 					</span>
@@ -268,12 +283,27 @@
 			</tr>
 		</tbody>
 	</table>
+	
 	<!-- 버튼 목록 -->
 	<div class="btn_right" align="right">
 		<a class="btn btn-outline-dark btn-sm" href="list.jsp">목록보기</a>
 		<a class="btn btn-outline-primary btn-sm" href="private/free_updateform.jsp?num=<%=dto.getNum()%>">수정</a>
 		<a class="btn btn-outline-danger btn-sm" href="private/free_delete.jsp?num=<%=dto.getNum()%>">삭제</a>
 	</div>
+	
+	<!-- 댓글 박스 -->
+	<article id="reply" class="article_reply">
+		<header class="reply_header">
+			<h5 class="reply_title">
+				<strong>댓글</strong>
+			</h5>
+		</header>
+	</article>
+	<section id="reply_container_dummy" class="reply_container">
+		<div class="reply_comments">
+			
+		</div>
+	</section>
 	
 	<!-- 댓글 목록 -->
 	<div class="comments">
@@ -339,6 +369,7 @@
 			<%} %>
 		</ul>
 	</div>
+	
 	<!-- 댓글 로딩 이미지 -->
 	<div class="loader">
 		<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
@@ -371,7 +402,7 @@
 				e.preventDefault();
 				//로그인 폼으로 이동 시킨다.
 				location.href=
-					"${pageContext.request.contextPath}/users/loginform.jsp?url=${pageContext.request.contextPath}/free/detail.jsp?num=<%=num%>";
+					"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/free/detail.jsp?num=<%=num%>";
 			}
 		});
 	
@@ -496,7 +527,7 @@
 					const isMove=confirm("로그인이 필요 합니다. 로그인 페이지로 이동 하시겠습니까?");
 					if(isMove){
 						location.href=
-							"${pageContext.request.contextPath}/users/loginform.jsp?url=${pageContext.request.contextPath}/free/detail.jsp?num=<%=num%>";
+							"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/free/detail.jsp?num=<%=num%>";
 					}
 					return;
 				}

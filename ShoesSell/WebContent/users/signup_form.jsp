@@ -90,6 +90,7 @@
 </div>
 
 <script src="<%=request.getContextPath() %>/js/gura_util.js"></script>
+
 <script>
    //아이디, 비밀번호, 이메일의 유효성 여부를 관리한 변수 만들고 초기값 대입
    let isIdValid=false;
@@ -163,7 +164,6 @@
 	      }else{
 	         isPwdValid=true;
 	         document.querySelector("#pwd2").classList.add("is-valid");
-
 	      }
    }
    
@@ -194,7 +194,7 @@
    });
    
    //폼에 submit 이벤트가 발생했을때 실행할 함수 등록
-   document.querySelector("#signupForm").addEventListener("submit", function(e){
+   document.querySelector("#signupBtn").addEventListener("click", function(e){
       /*
          입력한 아이디, 비밀번호, 이메일의 유효성 여부를 확인해서 하나라도 유효 하지 않으면
          e.preventDefault(); 
@@ -206,22 +206,8 @@
       if(!isFormValid){//폼이 유효하지 않으면
          //폼 전송 막기 
          e.preventDefault();
-      }
-   });
-   
-   document.querySelector("#resetBtn").addEventListener("click",function(){
-	   document.querySelector("#id").classList.remove("is-valid");
-	   document.querySelector("#id").classList.remove("is-invalid");
-	   document.querySelector("#pwd").classList.remove("is-valid");
-	   document.querySelector("#pwd").classList.remove("is-invalid");
-	   document.querySelector("#pwd2").classList.remove("is-valid");
-	   document.querySelector("#pwd2").classList.remove("is-invalid");
-	   document.querySelector("#email").classList.remove("is-valid");
-	   document.querySelector("#email").classList.remove("is-invalid");
-   });
-
-   document.querySelector("#signupForm").addEventListener("submit", function(){
-	   let signupForm=document.querySelector("#signupForm");
+      }else{
+    	  let signupForm=document.querySelector("#signupForm");
 	      // gura_util.js 에 있는 함수를 이용해서 ajax 전송한다. 
 	      ajaxFormPromise(signupForm)
 	      .then(function(response){
@@ -234,6 +220,18 @@
 	            location.href="<%=request.getContextPath()%>/users/login_form.jsp";
 	         }
 	      });
+      }
+   });
+   
+   document.querySelector("#resetBtn").addEventListener("click",function(){
+	   document.querySelector("#id").classList.remove("is-valid");
+	   document.querySelector("#id").classList.remove("is-invalid");
+	   document.querySelector("#pwd").classList.remove("is-valid");
+	   document.querySelector("#pwd").classList.remove("is-invalid");
+	   document.querySelector("#pwd2").classList.remove("is-valid");
+	   document.querySelector("#pwd2").classList.remove("is-invalid");
+	   document.querySelector("#email").classList.remove("is-valid");
+	   document.querySelector("#email").classList.remove("is-invalid");
    });
 </script>
 </body>

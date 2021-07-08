@@ -1,8 +1,8 @@
 <%@page import="java.net.URLEncoder"%>
 <%@page import="test.users.dto.UsersDto"%>
 <%@page import="test.users.dao.UsersDao"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="application/json; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%
    //로그인 후에 이동해야 되는 목적지 
    String url=request.getParameter("url");
@@ -19,7 +19,7 @@
    boolean isValid=UsersDao.getInstance().isValid(dto);
    //3. 유효한 정보이면 로그인 처리를 하고 응답, 그렇지 않다면 아이디 혹은 비밀 번호가 틀렸다고 응답
    
-      // isSave 라는 파라미터명으로 넘어오는 값이 있는지 확인
+   // isSave 라는 파라미터명으로 넘어오는 값이 있는지 확인
    String isSave=request.getParameter("isSave");
    if(isSave != null){//만일 넘어오는 값이 있다면
       //쿠키에 id 와 pwd 를 특정 키값으로 담아서 쿠키도 응답 되도록 한다.
@@ -39,28 +39,13 @@
 	      pwdCook.setMaxAge(0);
 	      response.addCookie(pwdCook);   
    }
+   session.setAttribute("id", id); 
+   //아무런 동작을 하지 않았을때 초 단위로 세션 유지시간을 설정할수 있다. (초단위)
+   session.setMaxInactiveInterval(60*60*6);
+   
+   System.out.println(isValid);
+   System.out.println(url);
+   System.out.println(encodedUrl);
+   
 %>    
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>로그인 기능</title>
-</head>
-<body>
-	<script>   
-   <%if(isValid){ 
-      //로그인 했다는 의미에서 session 영역에 "id" 라는 키값으로 로그인된 아이디를 담는다.
-      session.setAttribute("id", id); 
-      //아무런 동작을 하지 않았을때 초 단위로 세션 유지시간을 설정할수 있다. (초단위)
-      session.setMaxInactiveInterval(60*60*6);%>
-      
-      alert("<%=id %>님 로그인 하였습니다..");
-      location.href="<%=url%>";
-      
-   <%}else{ %>
-  	  alert("<%=id %>님 로그인 실패했습니다..");
-  	  location.href="login_form.jsp?url=<%=encodedUrl%>";
-   <%} %>
-	</script>   
-</body>
-</html>
+ {"isValid":<%=isValid%>,"url":"<%=url %>","encodedUrl":"<%=encodedUrl %>"}

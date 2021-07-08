@@ -22,6 +22,7 @@
     
 	// GET 방식 파라미터 url 이라는 이름으로 전달되는 값이 있는지 읽어와 본다.
 	String url=request.getParameter("url");
+	
 	//만일 넘어오는 값이 없다면
 	if(url==null){
 		//로그인 후에 index.jsp 페이지로 갈 수 있도록 절대 경로를 구성한다.
@@ -29,6 +30,7 @@
 		url=cPath+"/index.jsp";
 	}
 	%>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,8 +56,8 @@
 </head>
 <body class="text-center">
 	<main class="form-signin">
-        <form action="login.jsp" method="post">
-          <input type="hidden" name="url" value="<%=url %>"/>
+        <form action="login.jsp" method="post" id="loginForm">
+        <input type="hidden" name="url" value="<%=url %>"/>
           <img class="mb-4" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
           <h1 class="h3 mb-3 fw-normal">ShoesSell</h1>
           <%if(savedId == null){ %>
@@ -87,8 +89,41 @@
                   </label>
              </div>
           <%} %>  
-          <button class="w-100 btn btn-lg btn btn-outline-dark" type="submit">로그인</button>
+         <div id="link" class="btn-toolbar center" role="toolbar">
+			  <div class=" btn-group me-2" role="group" >
+			    <button id="loginBtn" class="w-150 btn btn-lg btn btn-outline-dark" type="submit">로그인</button>
+			  </div>
+			  <div class="btn-group me-2" role="group" >
+			   <a href="${pageContext.request.contextPath}/users/signup_form.jsp" class="w-150 btn btn-lg btn btn-outline-dark">회원 가입</a>
+			  </div>
+		</div>	
         </form>
    </main>
 </body>
+<script src="<%=request.getContextPath() %>/js/gura_util.js"></script>
+
+	<script>
+	
+		document.querySelector("#loginBtn").addEventListener("click", function(){
+		    //ajax 제출할 폼의 참조값 얻어오기
+		    let loginForm=document.querySelector("#loginForm");
+		    // gura_util.js 에 있는 함수를 이용해서 ajax 전송한다. 
+		    ajaxFormPromise(loginForm)
+		    .then(function(response){
+		       return response.json();
+		    })
+		    .then(function(data){
+		  	  console.log(data);
+		  	  
+		  	   if(data.isValid == true){
+		    	   alert("로그인 하였습니다.");
+		    	   location.href=data.url;
+		       }else{
+		    	   alert("로그인 실패했습니다.");
+		    	   location.href="login_form.jsp?url="+data.encodedUrl;
+		       }
+		    });
+		 });
+	</script>
+
 </html>

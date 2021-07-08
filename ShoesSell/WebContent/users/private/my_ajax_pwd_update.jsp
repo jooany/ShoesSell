@@ -21,6 +21,5 @@
       //비밀번호를 수정했으면 로그 아웃처리를 하고 새로 로그인 하도록 한다.
       session.removeAttribute("id");
    }
-   // 응답한다.
 %>    
  {"isValid":<%=isValid%>}

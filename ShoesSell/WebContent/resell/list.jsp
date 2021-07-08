@@ -148,7 +148,7 @@
 	<jsp:param value="resell" name="thisPage"/>
 </jsp:include>
 <div class="container">
-	<h1>Resell Gallery</h1><br/>
+	<h1><a href="list.jsp">Resell Gallery</a></h1><br/>
 	<a href="private/resell_upload_form.jsp">글쓰기</a>
 	<div class="row">
 		<%for(ResellDto tmp:list){ %>
@@ -162,9 +162,10 @@
 				<!-- 이미지 링크 끝 -->
 				<div class="card-body">
 					<p class="card-text"><%=tmp.getTitle() %></p>
+					<p class="card-text"><small><%=tmp.getKind() %></small></p>
 					<p class="card-text">by <strong><%=tmp.getWriter() %></strong></p>
-					<p><small><%=tmp.getRegdate() %></small></p>
-					<p><small><%=tmp.getViewCount() %></small></p>
+					<p class="card-text"><small><%=tmp.getRegdate() %></small></p>
+					<p class="card-text"><small><%=tmp.getViewCount() %></small></p>
 				</div>
 				<!-- card-body 끝 -->
 			</div>

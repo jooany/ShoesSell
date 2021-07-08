@@ -15,11 +15,10 @@
 			<input type="text" name="title" id="title"/>
 		</div>
 		<div>
-			<legend>글 종류</legend>
-			<input type="radio" name="kind" id="buy" value="buy" checked/>
+			<input type="radio" name="kind" id="buy" value="sell" checked/>
 			<label for="sell">판매글</label>
-			<input type="radio" name="kind" id="sell" value="sell"/>
-			<label for="sell">구매글</label>
+			<input type="radio" name="kind" id="sell" value="buy"/>
+			<label for="buy">구매글</label>
 		</div>
 		<div>
 			<label for="content">내용</label>

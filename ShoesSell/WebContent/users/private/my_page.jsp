@@ -200,19 +200,19 @@
 		  document.querySelector("#newPwd2").classList.remove("is-valid");
 		  document.querySelector("#newPwd2").classList.remove("is-invalid");
 		   
-	      const pwd=document.querySelector("#newPwd").value;
-	      const pwd2=document.querySelector("#newPwd2").value;
+	      const newpwd=document.querySelector("#newPwd").value;
+	      const newpwd2=document.querySelector("#newPwd2").value;
 	      
 	      // 최소5글자 최대 10글자인지를 검증할 정규표현식
 	      const reg_pwd=/^.{5,10}$/;
-	      if(!reg_pwd.test(pwd)){
+	      if(!reg_pwd.test(newpwd)){
 	         document.querySelector("#newPwd").classList.add("is-invalid");
 	         return; //함수를 여기서 종료
 	      }else{
 	          document.querySelector("#newPwd").classList.add("is-valid");
 	      }
 	      
-	      if(pwd != pwd2){//비밀번호와 비밀번호 확인란이 다르면      
+	      if(newpwd != newpwd2){//비밀번호와 비밀번호 확인란이 다르면      
 		         document.querySelector("#newPwd2").classList.add("is-invalid");
 		      }else{
 		         document.querySelector("#newPwd2").classList.add("is-valid");
@@ -239,10 +239,12 @@
             alert("수정에 성공하셨습니다. 로그인 화면으로 이동합니다.");
             location.href="<%=request.getContextPath()%>/users/login_form.jsp";
          }else{
-            alert("수정 실패!");
+            alert("수정 실패했습니다.!");
          }
       });
    });
+   
+   
 </script>
 </body>
 </html>

@@ -147,6 +147,8 @@
          // inputname ="profile"요소의 value값으로 이미지 경로 넣어주기
       });
    });
+   
+   
 </script>
 </body>
 </html>

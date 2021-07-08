@@ -75,7 +75,7 @@
             
 			<div class="btn-toolbar mx-auto" role="toolbar" >
 			  <div class=" btn-group me-2" role="group" >
-			    <button id="signupBtn" type="submit" class="w-100 btn btn-outline-primary">회원가입</button>
+			    <button id="signupBtn" type="button" class="w-100 btn btn-outline-primary">회원가입</button>
 			  </div>
 			  <div class="btn-group me-2" role="group" >
 			    <button id="resetBtn" type="reset" class="w-100 btn btn-outline-danger">입력 초기화</button>
@@ -224,8 +224,6 @@
 		      });
 	      }
 	   });
-   
-
    
    document.querySelector("#resetBtn").addEventListener("click",function(){
 	   document.querySelector("#id").classList.remove("is-valid");

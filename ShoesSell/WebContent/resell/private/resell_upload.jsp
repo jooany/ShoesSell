@@ -32,6 +32,8 @@
 	String title=mr.getParameter("title");
 	//내용 가져오기
 	String content=mr.getParameter("content");
+	//종류 가져오기
+	String kind=mr.getParameter("kind");
 	//원본 파일명 
 	String orgFileName=mr.getOriginalFileName("image");
 	//upload 폴더에 저장된 파일명 
@@ -42,6 +44,7 @@
 	ResellDto dto=new ResellDto();
 	dto.setTitle(title);
 	dto.setContent(content);
+	dto.setKind(kind);
 	dto.setImagePath("/upload/"+saveFileName);
 	dto.setWriter(writer);
 	//DB 에 저장

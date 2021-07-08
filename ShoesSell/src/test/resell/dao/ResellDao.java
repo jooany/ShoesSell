@@ -131,7 +131,7 @@ public class ResellDao {
 			//Connection 객체의 참조값 얻어오기 
 			conn = new DbcpBean().getConn();
 			//실행할 sql 문 작성
-			String sql = "SELECT num,title,writer,content,viewCount,regdate,imagePath"
+			String sql = "SELECT num,title,writer,content,viewCount,regdate,imagePath,kind"
 					+ " FROM resell"
 					+ " WHERE num=?";
 			//PreparedStatement 객체의 참조값 얻어오기
@@ -150,6 +150,7 @@ public class ResellDao {
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
 				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -179,7 +180,7 @@ public class ResellDao {
 			//실행할 sql 문 작성
 			String sql = "SELECT *" + 
 					" FROM" + 
-					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath," + 
+					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath,kind," + 
 					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
 					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
 					"	FROM resell" + 
@@ -202,6 +203,7 @@ public class ResellDao {
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
 				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
 				dto2.setPrevNum(rs.getInt("prevNum"));
 				dto2.setNextNum(rs.getInt("nextNum"));
 			}
@@ -231,7 +233,7 @@ public class ResellDao {
 			//실행할 sql 문 작성
 			String sql = "SELECT *" + 
 					" FROM" + 
-					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath," + 
+					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath,kind," + 
 					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
 					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
 					"	FROM resell"+ 
@@ -256,6 +258,7 @@ public class ResellDao {
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
 				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
 				dto2.setPrevNum(rs.getInt("prevNum"));
 				dto2.setNextNum(rs.getInt("nextNum"));
 			}
@@ -285,7 +288,7 @@ public class ResellDao {
 			//실행할 sql 문 작성
 			String sql = "SELECT *" + 
 					" FROM" + 
-					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath," + 
+					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath,kind," + 
 					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
 					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
 					"	FROM resell"+ 
@@ -310,6 +313,7 @@ public class ResellDao {
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
 				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
 				dto2.setPrevNum(rs.getInt("prevNum"));
 				dto2.setNextNum(rs.getInt("nextNum"));
 			}
@@ -339,7 +343,7 @@ public class ResellDao {
 			//실행할 sql 문 작성
 			String sql = "SELECT *" + 
 					" FROM" + 
-					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath," + 
+					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath,kind," + 
 					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
 					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
 					"	FROM resell"+ 
@@ -365,6 +369,7 @@ public class ResellDao {
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
 				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
 				dto2.setPrevNum(rs.getInt("prevNum"));
 				dto2.setNextNum(rs.getInt("nextNum"));
 			}
@@ -395,14 +400,15 @@ public class ResellDao {
 			conn = new DbcpBean().getConn();
 			//실행할 insert, update, delete 문 구성
 			String sql = "INSERT INTO resell"
-					+ " (num,writer,title,content,viewCount,regdate,imagePath)"
-					+ " VALUES(resell_seq.NEXTVAL,?,?,?,0,SYSDATE,?)";
+					+ " (num,writer,title,content,viewCount,regdate,imagePath,kind)"
+					+ " VALUES(resell_seq.NEXTVAL,?,?,?,0,SYSDATE,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩할 내용이 있으면 바인딩한다.
 			pstmt.setString(1, dto.getWriter());
 			pstmt.setString(2, dto.getTitle());
 			pstmt.setString(3, dto.getContent());
 			pstmt.setString(4, dto.getImagePath());
+			pstmt.setString(5, dto.getKind());
 			flag = pstmt.executeUpdate(); //sql 문 실행하고 변화된 row 갯수 리턴 받기
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -436,7 +442,7 @@ public class ResellDao {
 					"		FROM" + 
 					"		    (SELECT result1.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,viewCount,regdate,imagePath" + 
+					"		        (SELECT num,writer,title,viewCount,regdate,imagePath,kind" + 
 					"		        FROM resell" + 
 					"		        ORDER BY num DESC) result1)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
@@ -455,6 +461,7 @@ public class ResellDao {
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
 				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
 				list.add(dto2);
 			}
 		} catch (Exception e) {
@@ -526,7 +533,7 @@ public class ResellDao {
 					"		FROM" + 
 					"		    (SELECT result1.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,viewCount,regdate,imagePath" + 
+					"		        (SELECT num,writer,title,viewCount,regdate,imagePath,kind" + 
 					"		        FROM resell"+ 
 					"			    WHERE title LIKE '%' || ? || '%' "+					
 					"		        ORDER BY num DESC) result1)" + 
@@ -547,6 +554,7 @@ public class ResellDao {
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
 				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
 				list.add(dto2);
 			}
 		} catch (Exception e) {
@@ -582,7 +590,7 @@ public class ResellDao {
 					"		FROM" + 
 					"		    (SELECT result1.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,viewCount,regdate,imagePath" + 
+					"		        (SELECT num,writer,title,viewCount,regdate,imagePath,kind" + 
 					"		        FROM resell"+ 
 					"			    WHERE writer LIKE '%' || ? || '%' "+					
 					"		        ORDER BY num DESC) result1)" + 
@@ -603,6 +611,7 @@ public class ResellDao {
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
 				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
 				list.add(dto2);
 			}
 		} catch (Exception e) {
@@ -638,7 +647,7 @@ public class ResellDao {
 					"		FROM" + 
 					"		    (SELECT result1.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,viewCount,regdate,imagePath" + 
+					"		        (SELECT num,writer,title,viewCount,regdate,imagePath,kind" + 
 					"		        FROM resell"+ 
 					"			    WHERE title LIKE '%'||?||'%' OR content LIKE '%'||?||'%' "+					
 					"		        ORDER BY num DESC) result1)" + 
@@ -660,6 +669,7 @@ public class ResellDao {
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
 				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
 				list.add(dto2);
 			}
 		} catch (Exception e) {
@@ -803,7 +813,7 @@ public class ResellDao {
 					"		FROM" + 
 					"		    (SELECT result1.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num, writer, title, content, viewCount, regdate, imagePath" + 
+					"		        (SELECT num, writer, title, content, viewCount, regdate, imagePath, kind" + 
 					"		        FROM resell"+
 					"		        ORDER BY viewCount DESC) result1)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
@@ -824,6 +834,7 @@ public class ResellDao {
 				dto2.setViewCount(rs.getInt("viewCount"));
 				dto2.setRegdate(rs.getString("regdate"));
 				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
 				dto2.setRowNum(rs.getInt("rnum"));
 				list.add(dto2);
 			}

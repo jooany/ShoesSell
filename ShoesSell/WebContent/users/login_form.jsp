@@ -56,7 +56,7 @@
 </head>
 <body class="text-center">
 	<main class="form-signin">
-        <form action="login.jsp" method="post" id="loginForm">
+        <form action="ajax_login.jsp" method="post" id="loginForm">
         <input type="hidden" name="url" value="<%=url %>"/>
           <img class="mb-4" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
           <h1 class="h3 mb-3 fw-normal">ShoesSell</h1>

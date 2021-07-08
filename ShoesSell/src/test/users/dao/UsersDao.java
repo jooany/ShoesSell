@@ -302,6 +302,7 @@ public class UsersDao {
 			pstmt.setString(3, dto.getEmail());
 			//insert or update or delete 문 수행하고 변화된 row 의 갯수 리턴 받기
 			flag = pstmt.executeUpdate();
+			System.out.println("회원정보 추가햇습니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

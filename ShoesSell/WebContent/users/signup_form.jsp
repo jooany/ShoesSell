@@ -75,7 +75,7 @@
             
 			<div class="btn-toolbar mx-auto" role="toolbar" >
 			  <div class=" btn-group me-2" role="group" >
-			    <button id="signupBtn" type="submit" class="w-100 btn btn-outline-primary">회원가입</button>
+			    <button id="signupBtn" type="button" class="w-100 btn btn-outline-primary">회원가입</button>
 			  </div>
 			  <div class="btn-group me-2" role="group" >
 			    <button id="resetBtn" type="reset" class="w-100 btn btn-outline-danger">입력 초기화</button>
@@ -194,35 +194,36 @@
       }
    });
    
-   //폼에 submit 이벤트가 발생했을때 실행할 함수 등록
+  
+   
    document.querySelector("#signupBtn").addEventListener("click", function(e){
-      /*
-         입력한 아이디, 비밀번호, 이메일의 유효성 여부를 확인해서 하나라도 유효 하지 않으면
-         e.preventDefault(); 
-         가 수행 되도록 해서 폼의 제출을 막아야 한다. 
-      */
-      //폼 전체의 유효성 여부 알아내기 
-      let isFormValid = isIdValid && isPwdValid && isEmailValid;
-         
-      if(!isFormValid){//폼이 유효하지 않으면
-         //폼 전송 막기 
-         e.preventDefault();
-      }else{
-    	  let signupForm=document.querySelector("#signupForm");
-	      // gura_util.js 에 있는 함수를 이용해서 ajax 전송한다. 
-	      ajaxFormPromise(signupForm)
-	      .then(function(response){
-	         return response.json();
-	      })
-	      .then(function(sign){
-	    	  console.log(sign);
-	         if(sign.isSuccess){
-	            alert("회원가입에 성공하였습니다. 로그인 화면으로 이동합니다.");
-	            location.href="<%=request.getContextPath()%>/users/login_form.jsp";
-	         }
-	      });
-      }
-   });
+	      /*
+	         입력한 아이디, 비밀번호, 이메일의 유효성 여부를 확인해서 하나라도 유효 하지 않으면
+	         e.preventDefault(); 
+	         가 수행 되도록 해서 폼의 제출을 막아야 한다. 
+	      */
+	      //폼 전체의 유효성 여부 알아내기 
+	      let isFormValid = isIdValid && isPwdValid && isEmailValid;
+	         
+	      if(!isFormValid){//폼이 유효하지 않으면
+	         //폼 전송 막기 
+	         e.preventDefault();
+	      }else{
+	    	  let signupForm=document.querySelector("#signupForm");
+		      // gura_util.js 에 있는 함수를 이용해서 ajax 전송한다. 
+		      ajaxFormPromise(signupForm)
+		      .then(function(response){
+		         return response.json();
+		      })
+		      .then(function(sign){
+		    	  console.log(sign);
+		         if(sign.isSuccess){
+		            alert("회원가입에 성공하였습니다. 로그인 화면으로 이동합니다.");
+		            location.href="<%=request.getContextPath()%>/users/login_form.jsp";
+		         }
+		      });
+	      }
+	   });
    
    document.querySelector("#resetBtn").addEventListener("click",function(){
 	   document.querySelector("#id").classList.remove("is-valid");

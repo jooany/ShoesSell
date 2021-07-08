@@ -91,7 +91,7 @@
           <%} %>  
          <div id="link" class="btn-toolbar center" role="toolbar">
 			  <div class=" btn-group me-2" role="group" >
-			    <button id="loginBtn" class="w-150 btn btn-lg btn btn-outline-dark" type="submit">로그인</button>
+			    <button id="loginBtn" type="button" class="w-150 btn btn-lg btn btn-outline-dark" type="button">로그인</button>
 			  </div>
 			  <div class="btn-group me-2" role="group" >
 			   <a href="${pageContext.request.contextPath}/users/signup_form.jsp" class="w-150 btn btn-lg btn btn-outline-dark">회원 가입</a>
@@ -114,8 +114,7 @@
 		    })
 		    .then(function(data){
 		  	  console.log(data);
-		  	  
-		  	   if(data.isValid == true){
+		  	   if(data.isValid){
 		    	   alert("로그인 하였습니다.");
 		    	   location.href=data.url;
 		       }else{

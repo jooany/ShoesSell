@@ -89,6 +89,7 @@
   </main>
 </div>
 
+
 <script src="<%=request.getContextPath() %>/js/gura_util.js"></script>
 
 <script>
@@ -233,6 +234,7 @@
 	   document.querySelector("#email").classList.remove("is-valid");
 	   document.querySelector("#email").classList.remove("is-invalid");
    });
+   
 </script>
 </body>
 </html>

@@ -114,8 +114,7 @@
 		    })
 		    .then(function(data){
 		  	  console.log(data);
-		  	  
-		  	   if(data.isValid == true){
+		  	   if(data.isValid){
 		    	   alert("로그인 하였습니다.");
 		    	   location.href=data.url;
 		       }else{

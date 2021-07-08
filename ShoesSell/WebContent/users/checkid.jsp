@@ -8,4 +8,4 @@
    //DB 에서 가입된 아이디가 이미 존재하는지 여부를 얻어낸다.
    boolean isExist=UsersDao.getInstance().isExist(inputId);
 %>    
-{"isExist": <%=isExist%>}
+{"isExist":<%=isExist%>}

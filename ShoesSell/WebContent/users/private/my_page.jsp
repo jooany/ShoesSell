@@ -8,7 +8,6 @@
    //2. UsersDao 객체를 이용해서 가입된 정보를 얻어온다.
    UsersDto dto=UsersDao.getInstance().getData(id);
    String currentPwd=dto.getPwd();
-   //3. 응답한다.
 %>    
 <!DOCTYPE html>
 <html>
@@ -115,7 +114,7 @@
 			    <a href="my_update_form.jsp" class="w-100 btn btn-outline-primary">회원정보 수정</a>
 			  </div>
 			  <div class="btn-group me-2" role="group" >
-			   <a href="javascript:deleteConfirm()" class="w-100 btn btn-outline-danger">회원 탈퇴</a>
+			   <a href="javascript:deleteConfirm()" id="deleteBtn" class="w-100 btn btn-outline-danger">회원 탈퇴</a>
 			  </div>
 		</div>	
 	    
@@ -170,9 +169,21 @@
    function deleteConfirm(){
       const isDelete=confirm("<%=id%> 님 탈퇴 하시겠습니까?");
       if(isDelete){
-         location.href="my_delete.jsp";
+    	 fetch("my_ajax_delete.jsp")
+    	 .then(function(response){
+    		 return response.json();
+    	 })
+    	 .then(function(data){
+    		 console.log(data);
+    		 if(data.isSuccess){
+    			alert("<%=id %>님 회원탈퇴 처리 되었습니다.");
+    			location.href="<%=request.getContextPath()%>/index.jsp";
+    		 }
+    	 }); 
       }
    }
+   
+   
    
    let currentPwd = "<%=currentPwd%>";
    

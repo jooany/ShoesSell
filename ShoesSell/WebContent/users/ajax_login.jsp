@@ -43,9 +43,6 @@
    //아무런 동작을 하지 않았을때 초 단위로 세션 유지시간을 설정할수 있다. (초단위)
    session.setMaxInactiveInterval(60*60*6);
    
-   System.out.println(isValid);
-   System.out.println(url);
-   System.out.println(encodedUrl);
    
 %>    
  {"isValid":<%=isValid%>,"url":"<%=url %>","encodedUrl":"<%=encodedUrl %>"}

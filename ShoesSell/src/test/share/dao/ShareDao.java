@@ -34,7 +34,6 @@ public class ShareDao {
 					+ " OR orgFileName LIKE '%'||?||'%'";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
-			
 			pstmt.setString(1, dto.getTitle());
 			pstmt.setString(2, dto.getOrgFileName());
 			//select 문 수행하고 ResultSet 받아오기
@@ -212,7 +211,7 @@ public class ShareDao {
 		try {
 			conn = new DbcpBean().getConn();
 			//select 문 작성
-			String sql = "SELECT num,writer,title,content,orgFileName,saveFileName,fileSize,regdate"
+			String sql = "SELECT num,writer,title,content,imagePath,orgFileName,saveFileName,fileSize,regdate"
 					+ " FROM board_share"
 					+ " WHERE num=?";
 			pstmt = conn.prepareStatement(sql);
@@ -227,12 +226,11 @@ public class ShareDao {
 				dto2.setWriter(rs.getString("writer"));
 				dto2.setTitle(rs.getString("title"));
 				dto2.setContent(rs.getString("content"));
+				dto2.setImagePath(rs.getString("imagePath"));
 				dto2.setOrgFileName(rs.getString("orgFileName"));
 				dto2.setSaveFileName(rs.getString("saveFileName"));
 				dto2.setFileSize(rs.getLong("fileSize"));
 				dto2.setRegdate(rs.getString("regdate"));
-				dto2.setPrevNum(rs.getInt("prevNum"));
-				dto2.setNextNum(rs.getInt("nextNum"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -262,7 +260,7 @@ public class ShareDao {
 			//select 문 작성
 			String sql = "SELECT *" +
 					" FROM" +
-					" 	(SELECT num,writer,title,content,orgFileName,saveFileName,fileSize,regdate," +
+					" 	(SELECT num,writer,title,content,imagePath,orgFileName,saveFileName,fileSize,regdate," +
 					" 	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," +
 					" 	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" +
 					" 	FROM board_share" + 
@@ -280,6 +278,7 @@ public class ShareDao {
 				dto2.setWriter(rs.getString("writer"));
 				dto2.setTitle(rs.getString("title"));
 				dto2.setContent(rs.getString("content"));
+				dto2.setImagePath(rs.getString("imagePath"));
 				dto2.setOrgFileName(rs.getString("orgFileName"));
 				dto2.setSaveFileName(rs.getString("saveFileName"));
 				dto2.setFileSize(rs.getLong("fileSize"));
@@ -314,7 +313,7 @@ public class ShareDao {
 			//select 문 작성
 			String sql = "SELECT *" +
 					" FROM" +
-					" 	(SELECT num,writer,title,content,orgFileName,saveFileName,fileSize,regdate," +
+					" 	(SELECT num,writer,title,content,imagePath,orgFileName,saveFileName,fileSize,regdate," +
 					" 	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," +
 					" 	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" +
 					" 	FROM board_share" +
@@ -334,6 +333,7 @@ public class ShareDao {
 				dto2.setWriter(rs.getString("writer"));
 				dto2.setTitle(rs.getString("title"));
 				dto2.setContent(rs.getString("content"));
+				dto2.setImagePath(rs.getString("imagePath"));
 				dto2.setOrgFileName(rs.getString("orgFileName"));
 				dto2.setSaveFileName(rs.getString("saveFileName"));
 				dto2.setFileSize(rs.getLong("fileSize"));
@@ -369,7 +369,7 @@ public class ShareDao {
 			//select 문 작성
 			String sql = "SELECT *" +
 					" FROM" +
-					" 	(SELECT num,writer,title,content,orgFileName,saveFileName,fileSize,regdate," +
+					" 	(SELECT num,writer,title,content,imagePath,orgFileName,saveFileName,fileSize,regdate," +
 					" 	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," +
 					" 	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" +
 					" 	FROM board_share" +
@@ -389,6 +389,7 @@ public class ShareDao {
 				dto2.setWriter(rs.getString("writer"));
 				dto2.setTitle(rs.getString("title"));
 				dto2.setContent(rs.getString("content"));
+				dto2.setImagePath(rs.getString("imagePath"));
 				dto2.setOrgFileName(rs.getString("orgFileName"));
 				dto2.setSaveFileName(rs.getString("saveFileName"));
 				dto2.setFileSize(rs.getLong("fileSize"));
@@ -424,7 +425,7 @@ public class ShareDao {
 			//select 문 작성
 			String sql = "SELECT *" +
 					" FROM" +
-					" 	(SELECT num,writer,title,content,orgFileName,saveFileName,fileSize,regdate," +
+					" 	(SELECT num,writer,title,content,imagePath,orgFileName,saveFileName,fileSize,regdate," +
 					" 	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," +
 					" 	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" +
 					" 	FROM board_share" +
@@ -445,6 +446,7 @@ public class ShareDao {
 				dto2.setWriter(rs.getString("writer"));
 				dto2.setTitle(rs.getString("title"));
 				dto2.setContent(rs.getString("content"));
+				dto2.setImagePath(rs.getString("imagePath"));
 				dto2.setOrgFileName(rs.getString("orgFileName"));
 				dto2.setSaveFileName(rs.getString("saveFileName"));
 				dto2.setFileSize(rs.getLong("fileSize"));
@@ -481,7 +483,7 @@ public class ShareDao {
 					"		FROM" + 
 					"		    (SELECT r1.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,content,orgFileName,fileSize,regdate" + 
+					"		        (SELECT num,writer,title,content,imagePath,orgFileName,fileSize,regdate" + 
 					"		        FROM board_share"+
 					"               WHERE title LIKE '%'||?||'%'"+
 					"               OR orgFileName LIKE '%'||?||'%'"+
@@ -502,6 +504,7 @@ public class ShareDao {
 				dto2.setWriter(rs.getString("writer"));
 				dto2.setTitle(rs.getString("title"));
 				dto2.setContent(rs.getString("content"));
+				dto2.setImagePath(rs.getString("imagePath"));
 				dto2.setOrgFileName(rs.getString("orgFileName"));
 				dto2.setFileSize(rs.getLong("fileSize"));
 				dto2.setRegdate(rs.getString("regdate"));
@@ -535,7 +538,7 @@ public class ShareDao {
 					"		FROM" + 
 					"		    (SELECT r1.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,content,orgFileName,fileSize,regdate" + 
+					"		        (SELECT num,writer,title,content,imagePath,orgFileName,fileSize,regdate" + 
 					"		        FROM board_share"+
 					"               WHERE title LIKE '%'||?||'%'"+
 					"		        ORDER BY num DESC) r1)" + 
@@ -554,6 +557,7 @@ public class ShareDao {
 				dto2.setWriter(rs.getString("writer"));
 				dto2.setTitle(rs.getString("title"));
 				dto2.setContent(rs.getString("content"));
+				dto2.setImagePath(rs.getString("imagePath"));
 				dto2.setOrgFileName(rs.getString("orgFileName"));
 				dto2.setFileSize(rs.getLong("fileSize"));
 				dto2.setRegdate(rs.getString("regdate"));
@@ -587,7 +591,7 @@ public class ShareDao {
 					"		FROM" + 
 					"		    (SELECT r1.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,content,orgFileName,fileSize,regdate" + 
+					"		        (SELECT num,writer,title,content,imagePath,orgFileName,fileSize,regdate" + 
 					"		        FROM board_share"+
 					"               WHERE writer LIKE '%'||?||'%'"+
 					"		        ORDER BY num DESC) r1)" + 
@@ -606,6 +610,7 @@ public class ShareDao {
 				dto2.setWriter(rs.getString("writer"));
 				dto2.setTitle(rs.getString("title"));
 				dto2.setContent(rs.getString("content"));
+				dto2.setImagePath(rs.getString("imagePath"));
 				dto2.setOrgFileName(rs.getString("orgFileName"));
 				dto2.setFileSize(rs.getLong("fileSize"));
 				dto2.setRegdate(rs.getString("regdate"));
@@ -639,7 +644,7 @@ public class ShareDao {
 					"		FROM" + 
 					"		    (SELECT r1.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,content,orgFileName,fileSize,regdate" + 
+					"		        (SELECT num,writer,title,content,imagePath,orgFileName,fileSize,regdate" + 
 					"		        FROM board_share" + 
 					"		        ORDER BY num DESC) r1)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
@@ -656,6 +661,7 @@ public class ShareDao {
 				dto2.setWriter(rs.getString("writer"));
 				dto2.setTitle(rs.getString("title"));
 				dto2.setContent(rs.getString("content"));
+				dto2.setImagePath(rs.getString("imagePath"));
 				dto2.setOrgFileName(rs.getString("orgFileName"));
 				dto2.setFileSize(rs.getLong("fileSize"));
 				dto2.setRegdate(rs.getString("regdate"));
@@ -687,16 +693,17 @@ public class ShareDao {
 			conn = new DbcpBean().getConn();
 			//실행할 insert, update, delete 문 구성
 			String sql = "INSERT INTO board_share"
-					+ " (num,writer,title,content,orgFileName,saveFileName,fileSize,regdate)"
-					+ " VALUES(share_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, SYSDATE)";
+					+ " (num,writer,title,content,imagePath,orgFileName,saveFileName,fileSize,regdate)"
+					+ " VALUES(share_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, SYSDATE)";
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩할 내용이 있으면 바인딩한다.
 			pstmt.setString(1, dto.getWriter());
 			pstmt.setString(2, dto.getTitle());
 			pstmt.setString(3, dto.getContent());
-			pstmt.setString(4, dto.getOrgFileName());
-			pstmt.setString(5, dto.getSaveFileName());
-			pstmt.setLong(6, dto.getFileSize());
+			pstmt.setString(4, dto.getImagePath());
+			pstmt.setString(5, dto.getOrgFileName());
+			pstmt.setString(6, dto.getSaveFileName());
+			pstmt.setLong(7, dto.getFileSize());
 			flag = pstmt.executeUpdate(); //sql 문 실행하고 변화된 row 갯수 리턴 받기
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -717,9 +724,3 @@ public class ShareDao {
 	}
 
 }
-
-
-
-
-
-

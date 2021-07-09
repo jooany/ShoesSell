@@ -137,6 +137,7 @@ public class UsersDao {
 			pstmt.setString(1, id);
 			//insert or update or delete 문 수행하고 변화된 row 의 갯수 리턴 받기
 			flag = pstmt.executeUpdate();
+			System.out.println("회원정보가 삭제되었습니다..");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

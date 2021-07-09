@@ -7,6 +7,7 @@ public class ShareDto {
 	private String writer;
 	private String title;
 	private String content;
+	private String imagePath;
 	// 원본파일명
 	private String orgFileName;
 	// 파일시스템에 저장된 파일명
@@ -24,13 +25,15 @@ public class ShareDto {
 	
 	public ShareDto() {}
 
-	public ShareDto(int num, String writer, String title, String content, String orgFileName, String saveFileName,
-			long fileSize, String regdate, int startRowNum, int endRowNum, int prevNum, int nextNum,int rowNum) {
+	public ShareDto(int num, String writer, String title, String content, String imagePath, String orgFileName,
+			String saveFileName, long fileSize, String regdate, int startRowNum, int endRowNum, int prevNum,
+			int nextNum, int rowNum) {
 		super();
 		this.num = num;
 		this.writer = writer;
 		this.title = title;
 		this.content = content;
+		this.imagePath = imagePath;
 		this.orgFileName = orgFileName;
 		this.saveFileName = saveFileName;
 		this.fileSize = fileSize;
@@ -72,6 +75,14 @@ public class ShareDto {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 
 	public String getOrgFileName() {
@@ -137,7 +148,7 @@ public class ShareDto {
 	public void setNextNum(int nextNum) {
 		this.nextNum = nextNum;
 	}
-	
+
 	public int getRowNum() {
 		return rowNum;
 	}
@@ -145,5 +156,5 @@ public class ShareDto {
 	public void setRowNum(int rowNum) {
 		this.rowNum = rowNum;
 	}
+	
 }
-

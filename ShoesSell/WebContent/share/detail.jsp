@@ -1,3 +1,5 @@
+<%--@page import="test.share.dao.ShareCommentDao"--%>
+<%--@page import="test.share.dto.ShareCommentDto"--%>
 <%@page import="java.util.List"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="test.share.dao.ShareDao"%>
@@ -7,7 +9,7 @@
 <%
 	//자세히 보여줄 글번호를 읽어온다. 
 	int num=Integer.parseInt(request.getParameter("num"));
-
+	
 	// 검색키워드
 	String keyword=request.getParameter("keyword");
 	String condition=request.getParameter("condition");
@@ -19,7 +21,7 @@
 	
 	// ShareDto 객체를 생성해서 
 	ShareDto dto=new ShareDto();
-	//자세히 보여줄 글번호를 넣어준다. 
+	// 자세히 보여줄 글번호를 넣어준다.
 	dto.setNum(num);
 	//만일 검색 키워드가 넘어온다면 
 	if(!keyword.equals("")){
@@ -48,7 +50,6 @@
 	if(id != null){
 		isLogin=true;
 	}
-	
 	//글정보를 응답한다.
 %>    
 <!DOCTYPE html>
@@ -56,10 +57,25 @@
 <head>
 <meta charset="UTF-8">
 <title>/Share/share_detail.jsp</title>
-
+<jsp:include page="../include/resource.jsp"></jsp:include>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>  -->
 </head>
 <body>
+<jsp:include page="../include/navbar.jsp">
+   	<jsp:param value="share" name="thisPage"/>
+</jsp:include>
 <div class="container">
+	<nav>
+      	<ul class="breadcrumb">
+         	<li class="breadcrumb-share">
+            	<a href="${pageContext.request.contextPath }/">Home</a>
+         	</li>
+         	<li class="breadcrumb-share">
+            	<a href="${pageContext.request.contextPath }/share/list.jsp">news</a>
+         	</li>
+         	<li class="breadcrumb-share active">detail</li>
+      	</ul>
+   	</nav>
 	<%if(dto.getPrevNum()!=0){ %>
 		<a href="detail.jsp?num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">이전글</a>
 	<%} %>
@@ -89,10 +105,14 @@
 			</td>
 		</tr>
 		<tr>
-			<!-- 파일 보이게 하기  (미완) -->
-			<td colspan="2">
-				<img id="myImage"/>				
+			<td>
+				<img src="${pageContext.request.contextPath }<%=dto.getImagePath()%>"/>
 			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="share_download.jsp?num=<%=dto.getNum()%>"><%=dto.getOrgFileName() %></a>
+			</td>			
 		</tr>
 	</table>
 	<ul>
@@ -106,40 +126,23 @@
 	
 </div>
 <script src="${pageContext.request.contextPath}/js/gura_util.js"></script>
+<!--
 <script>
 	//클라이언트가 로그인 했는지 여부
-	let isLogin=<%=isLogin%>;
+	let isLogin=<%--=isLogin--%>;
 	
 	document.querySelector(".insert-form").addEventListener("submit", function(e){
-		// 만일 로그인 하지 않았으면 
+		//만일 로그인 하지 않았으면 
 		if(!isLogin){
-			// 폼 전송을 막고 
+			//폼 전송을 막고 
 			e.preventDefault();
-			// 로그인 폼으로 이동 시킨다.
+			//로그인 폼으로 이동 시킨다.
 			location.href="${pageContext.request.contextPath}/users/loginform.jsp?url=${pageContext.request.contextPath}/share/detail.jsp?num=<%=num%>";
 		}
-	});
+	};
+
 </script>
-<script>
-	<%-- 미완 수정예정 --%>
-	function readImageFile(file){
-		const reader = new FileReader();
-		// 이미지 파일을 data url형식으로 읽어들이기
-		reader.readAsDataURL(file);
-		// 다 읽었을 때 실행할 함수 등록
-		reader.onload=function(e){
-			// 읽은 이미지 데이터(img요소의 src속성의 value로 지정하면 이미지가 나온다.)
-			console.log(e.target.result);
-			document.querySelector("#myImage").setAttribute("src", e.target.result);
-		};
-	}
-</script>
+-->
 </body>
 </html>
-
-
-
-
-
-
 

@@ -24,7 +24,7 @@
 	
 	// 문자열 얻어오기
 	String title=mr.getParameter("title");
-	// 내용얻어오기
+	// 내용 얻어오기
 	String content = mr.getParameter("content");
 	// 업로드된 파일을 access 할수 있는 File 객체
 	File myShare=mr.getFile("myShare");
@@ -41,34 +41,15 @@
 	dto.setWriter(writer);
 	dto.setTitle(title);
 	dto.setContent(content);
+	dto.setImagePath("/upload/"+saveFileName);
 	dto.setOrgFileName(orgFileName);
 	dto.setSaveFileName(saveFileName);
 	dto.setFileSize(fileSize);
 	
-	// DB에 저장한다.
-	boolean isSuccess = ShareDao.getInstance().insert(dto);
+	//DB 에 저장
+	ShareDao.getInstance().insert(dto);
+	//목록 보기로 리다일렉트 이동  응답
+	String cPath=request.getContextPath();
+	response.sendRedirect(cPath+"/share/list.jsp");
 	
 %>    
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>/share/share_upload.jsp</title>
-</head>
-<body>
-	<%if(isSuccess){ %>
-		<p>
-			파일업로드 되었습니다. <a href="../list.jsp">확인</a>
-		</p>
-	<%}else{ %>
-		<p>
-			업로드 실패 <a href="share_upload_form.jsp">다시시도</a>
-		</p>
-	<%} %>
-</body>
-</html>
-
-
-
-
-

@@ -69,7 +69,30 @@ CREATE TABLE resell(
    title VARCHAR2(100) NOT NULL, --제목
    content CLOB, --글 내용
    viewCount NUMBER, -- 조회수
-   regdate DATE --글 작성일,
+   regdate DATE, --글 작성일,
    imagePath VARCHAR2(100) --이미지 경로
 );
 CREATE SEQUENCE resell_seq;
+
+CREATE TABLE feed(
+   num NUMBER PRIMARY KEY, --글번호
+   writer VARCHAR2(100) NOT NULL, --작성자 (로그인된 아이디)
+   title VARCHAR2(100) NOT NULL, --제목
+   content CLOB, --글 내용
+   regdate DATE, --글 작성일,
+   imagePath VARCHAR2(100), --이미지 경로
+   goodCount NUMBER,
+   isGood CHAR(3) DEFAULT 'no',
+);
+
+CREATE SEQUENCE feed_seq;
+
+CREATE TABLE feed_comment(
+   num NUMBER PRIMARY KEY, --댓글의 글번호
+   writer VARCHAR2(100), --댓글 작성자의 아이디
+   content VARCHAR2(500), --댓글 내용
+   target_id VARCHAR2(100), --댓글의 대상자 아이디
+   ref_group NUMBER,
+   comment_group NUMBER,
+   deleted CHAR(3) DEFAULT 'no'
+);

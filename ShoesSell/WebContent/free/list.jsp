@@ -106,6 +106,9 @@
       	box-sizing: border-box!important;
       	position: relative!important;
    	}
+   	h1{
+   		margin: 10px;
+   	}
 	.page-ui a{
 		text-decoration: none;
 		color: #000;
@@ -136,7 +139,7 @@
 <div class="inner">
 	<div class="container">
 	<a href="private/free_insertform.jsp">Add New Free Text</a>
-	<h1 align="center">Free List</h1>
+	<h1 align="center">Free Bulletin Board</h1>
 	<table class="table table-striped">
 		<thead class="table-dark">
 			<tr>
@@ -191,7 +194,7 @@
 	</div>
 	<div style="clear:both;"></div>
 	
-	<form action="list.jsp" method="get"> 
+	<form align="right" action="list.jsp" method="get"> 
 		<label for="condition">검색조건</label>
 		<select name="condition" id="condition">
 			<option value="title_content" <%=condition.equals("title_content") ? "selected" : ""%>>제목+내용</option>

@@ -11,35 +11,46 @@
 <head>
 <meta charset="UTF-8">
 <title>/resell/private/resell_update_form.jsp</title>
+<jsp:include page="../../include/resource.jsp"></jsp:include>
+<style>
+	#content{
+		height: 500px;
+		width: 1110px;
+	}
+</style>
 </head>
 <body>
 <div class="container">
 	<h1>Resell Update Form</h1>
 	<form action="resell_update.jsp" method="post" id="updateForm">
-		<input type="hidden" name="imagePath" id="imagePath" value="<%=dto.getImagePath()%>"/>
-		<input type="hidden" name="num" value="<%=num %>" />
-		<div>
-			<label for="writer">작성자</label>
-			<input type="text" id="writer" value="<%=dto.getWriter() %>" disabled/>
+		<div class="mb-3">
+			<input type="hidden" name="imagePath" id="imagePath" value="<%=dto.getImagePath()%>"/>
 		</div>
-		<div>
-			<label for="title">제목</label>
-			<input type="text" name="title" id="title" value="<%=dto.getTitle()%>"/>
+		<div class="mb-3">
+			<input type="hidden" name="num" value="<%=num %>" />
 		</div>
-		<div>
-			<label for="content">내용</label>
+		<div class="mb-3">
+			<label class="form-label" for="writer">작성자</label>
+			<input class="form-control" type="text" id="writer" value="<%=dto.getWriter() %>" disabled/>
+		</div>
+		<div class="mb-3">
+			<label class="form-label" for="title">제목</label>
+			<input class="form-control" type="text" name="title" id="title" value="<%=dto.getTitle()%>"/>
+		</div>
+		<div class="mb-3">
+			<label class="form-label" for="content">내용</label>
 			<textarea name="content" id="content"><%=dto.getContent() %></textarea>
 		</div>		
 		<br />
 		<img class="img-wrapper" src="${pageContext.request.contextPath }/<%=dto.getImagePath()%>"/>
 		<br/>
-		<button id="submitBtn" type="submit" onclick="submitContents(this);">수정확인</button>
-		<button type="reset">취소</button>
+		<button class="btn btn-outline-success" id="submitBtn" type="submit" onclick="submitContents(this);">수정확인</button>
+		<button class="btn btn-outline-danger" type="reset">취소</button>
 	</form>
 	<form action="resell_ajax_upload.jsp" method="post" id="ajaxForm" enctype="multipart/form-data" >
-		<div>
-			<label for="image">사진 수정</label>
-			<input type="file" name="image" id="image" 
+		<div class="mb-3">
+			<label class="form-label" for="image">사진 수정</label>
+			<input class="form-control" type="file" name="image" id="image" 
 				accept=".jpg, .jpeg, .png, .JPG, .JPEG"/>
 		</div>
 	</form>

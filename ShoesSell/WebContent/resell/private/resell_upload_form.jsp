@@ -5,32 +5,43 @@
 <head>
 <meta charset="UTF-8">
 <title>/resell/private/resell_upload_form.jsp</title>
+<jsp:include page="../../include/resource.jsp"></jsp:include>
+<style>
+	#content{
+		height: 500px;
+		width: 1110px;
+	}
+</style>
 </head>
 <body>
 <div class="container">
 	<h1>Resell Upload Form</h1>
 	<form action="resell_upload.jsp" method="post" id="uploadForm" enctype="multipart/form-data">
-		<div>
-			<label for="title">제목</label>
-			<input type="text" name="title" id="title"/>
+		<div class="mb-3">
+			<label class="form-label" for="title">제목</label>
+			<input class="form-control" type="text" name="title" id="title"/>
 		</div>
-		<div>
-			<input type="radio" name="kind" id="buy" value="sell" checked/>
-			<label for="sell">판매글</label>
-			<input type="radio" name="kind" id="sell" value="buy"/>
-			<label for="buy">구매글</label>
+		<div class="mb-3">
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="kind" id="buy" value="sell" checked/>
+				<label class="form-check-label" for="sell">판매글</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="kind" id="sell" value="buy"/>
+				<label class="form-check-label" for="buy">구매글</label>
+			</div>
 		</div>
-		<div>
-			<label for="content">내용</label>
+		<div class="mb-3"> 
+			<label class="form-label" for="content">내용</label>
 			<textarea name="content" id="content"></textarea>
 		</div>
-		<div>
-			<label for="image">사진</label>
-			<input type="file" name="image" id="image"
+		<div class="mb-3">
+			<label class="form-label" for="image">사진</label>
+			<input class="form-control" type="file" name="image" id="image"
 				accept=".jpg, .jpeg, .png, .JPG, .JPEG"/>
 		</div>
 		<br />
-		<button type="submit">업로드</button>
+		<button class="btn btn-outline-success" type="submit">업로드</button>
 	</form>
 </div>
 <%--

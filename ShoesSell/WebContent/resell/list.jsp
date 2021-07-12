@@ -99,6 +99,12 @@
 <title>/resell/list.jsp</title>
 <jsp:include page="../include/resource.jsp"></jsp:include>
 <style>
+	.inner{
+      max-width:1100px!important;
+      margin:0 auto!important;
+      box-sizing:border-box!important;
+      position:relative!important;
+   }
 	/* card 이미지 부모요소의 높이 지정 */
 	.img-wrapper{
 		height: 250px;
@@ -147,7 +153,15 @@
 <jsp:include page="../include/navbar.jsp">
 	<jsp:param value="resell" name="thisPage"/>
 </jsp:include>
-<div class="container">
+<div class="inner">
+	<nav>
+      	<ul class="breadcrumb">
+         	<li class="breadcrumb-item">
+            	<a href="${pageContext.request.contextPath }/">Home</a>
+         	</li>
+         	<li class="breadcrumb-item active">Resell갤</li>
+      	</ul>
+   	</nav>
 	<h1><a href="list.jsp">Resell Gallery</a></h1><br/>
 	<a href="private/resell_upload_form.jsp">글쓰기</a>
 	<div class="row">

@@ -223,7 +223,7 @@
 					<a href="private/resell_delete.jsp?num=<%=dto.getNum()%>">삭제</a>
 				</p>		
 			<%} %>
-			<p><a href="list.jsp">목록보기</a></p>
+			<p><a href="list.jsp?kind=<%=dto.getKind()%>">목록보기</a></p>
       	</div>
    	</div>
    	<%if(dto.getPrevNum()!=0){ %>

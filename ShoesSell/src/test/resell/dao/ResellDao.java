@@ -403,7 +403,7 @@ public class ResellDao {
 					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
 					"	FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind "
 					+ 		 " FROM resell "
-					+ 		 " WHERE kind=? ) result1"+ 
+					+ 		 " WHERE kind=? ) result1 "+ 
 					"   WHERE title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'" + 
 					"	ORDER BY num DESC)" + 
 					" WHERE num=?";
@@ -632,7 +632,7 @@ public class ResellDao {
 					"		        (SELECT result1.* " + 
 					"				 FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
 					"					   FROM resell " + 
-					"					   WHERE kind=? ) result1 " + 
+					"					   WHERE kind=? ) result1  " + 
 					"			    WHERE title LIKE '%' || ? || '%'" +					
 					"		        ORDER BY num DESC) result2)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
@@ -692,7 +692,7 @@ public class ResellDao {
 					"		        (SELECT result1.* " + 
 					"				 FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind " + 
 					"					   FROM resell " + 
-					"					   WHERE kind=? ) result1  "+ 
+					"					   WHERE kind=? ) result1   "+ 
 					"			    WHERE writer LIKE '%' || ? || '%'"+					
 					"		        ORDER BY num DESC) result2)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
@@ -752,7 +752,7 @@ public class ResellDao {
 					"		        (SELECT result1.* " + 
 					"				 FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
 					"		               FROM resell " + 
-					"					   WHERE kind=? ) result1 "+ 
+					"					   WHERE kind=? ) result1  "+ 
 					"			    WHERE title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'"+					
 					"		        ORDER BY num DESC) result2)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
@@ -806,12 +806,12 @@ public class ResellDao {
 					+ " FROM (SELECT result1.* " + 
 					"		  FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
 					"				FROM resell " + 
-					"				WHERE kind=? ) result1 "
-					+ " WHERE kind=? AND (title LIKE '%'||?||'%') ";
+					"				WHERE kind=? ) result1 ) "
+					+ " WHERE title LIKE '%'||?||'%' ";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
 			pstmt.setString(1, dto.getKind());
-			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getTitle());
 			//select 문 수행하고 ResultSet 받아오기
 			rs = pstmt.executeQuery();
 			//while문 혹은 if문에서 ResultSet 으로 부터 data 추출
@@ -847,7 +847,7 @@ public class ResellDao {
 					+ " FROM (SELECT result1.*" + 
 					"		  FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
 					"				FROM resell " + 
-					"				WHERE kind=? ) result1"
+					"				WHERE kind=? ) result1 )"
 					+ " WHERE writer LIKE '%'||?||'%' ";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.

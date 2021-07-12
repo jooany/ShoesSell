@@ -11,7 +11,8 @@
    	int num=Integer.parseInt(request.getParameter("num"));
 	//조회수 올리기
 	ResellDao.getInstance().addViewCount(num);
-   	
+   	//글종류 가져오기
+	String kind=request.getParameter("kind");
    	/*
 	[ 검색 키워드에 관련된 처리 ]
 	-검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.		
@@ -29,6 +30,8 @@
 	ResellDto dto=new ResellDto();
 	//자세히 보여줄 글번호를 넣어준다. 
 	dto.setNum(num);
+	//글종류 넣어준다.
+	dto.setKind(kind);
 	//만일 검색 키워드가 넘어온다면 
 	if(!keyword.equals("")){
 		//검색 조건이 무엇이냐에 따라 분기 하기
@@ -201,7 +204,7 @@
             	<a href="${pageContext.request.contextPath }/">Home</a>
          	</li>
          	<li class="breadcrumb-item">
-            	<a href="${pageContext.request.contextPath }/resell/list.jsp">Resell갤</a>
+            	<a href="${pageContext.request.contextPath }/resell/list.jsp?kind=<%=dto.getKind()%>">Resell갤</a>
          	</li>
          	<li class="breadcrumb-item active">Detail</li>
       	</ul>
@@ -227,10 +230,10 @@
       	</div>
    	</div>
    	<%if(dto.getPrevNum()!=0){ %>
-		<a href="detail.jsp?num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">이전글</a>
+		<a href="detail.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">이전글</a>
 	<%} %>
 	<%if(dto.getNextNum()!=0){ %>
-		<a href="detail.jsp?num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">다음글</a>
+		<a href="detail.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">다음글</a>
 	<%} %>
 	<!-- 댓글 목록 -->
 	<div class="comments">

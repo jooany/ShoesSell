@@ -96,3 +96,8 @@ CREATE TABLE feed_comment(
    comment_group NUMBER,
    deleted CHAR(3) DEFAULT 'no'
 );
+
+CREATE TABLE feed_good_count(
+	feed_num NUMBER PRIMARY KEY, --피드의 번호
+	liked_user VARCHAR2(100)
+);

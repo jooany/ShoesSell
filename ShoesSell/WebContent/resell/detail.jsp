@@ -95,10 +95,10 @@
 <title>/resell/detail.jsp</title>
 <style>
 	.inner{
-      max-width:1100px!important;
-      margin:0 auto!important;
-      box-sizing:border-box!important;
-      position:relative!important;
+      	max-width:1100px!important;
+      	margin:0 auto!important;
+      	box-sizing:border-box!important;
+      	position:relative!important;
    }
 	/* 댓글 프로필 이미지를 작은 원형으로 만든다. */
 	.profile-image{
@@ -183,6 +183,10 @@
 			transform: rotate(360deg);
 		}
 	}
+	.card-img-top{
+		width: 50%!important;
+    	margin: 0 auto!important;
+	}
 </style>
 <jsp:include page="../include/resource.jsp"></jsp:include>
 </head>
@@ -202,7 +206,7 @@
          	<li class="breadcrumb-item active">Detail</li>
       	</ul>
    	</nav>
-	<div class="card mb-3" >
+	<div class="card mb-3">
       	<img class="card-img-top" src="${pageContext.request.contextPath }<%=dto.getImagePath()%>"/>
       	<div class="card-body">
       		<div>

@@ -94,6 +94,12 @@
 <meta charset="UTF-8">
 <title>/resell/detail.jsp</title>
 <style>
+	.inner{
+      max-width:1100px!important;
+      margin:0 auto!important;
+      box-sizing:border-box!important;
+      position:relative!important;
+   }
 	/* 댓글 프로필 이미지를 작은 원형으로 만든다. */
 	.profile-image{
 		width: 50px;
@@ -184,7 +190,7 @@
 <jsp:include page="../include/navbar.jsp">
    	<jsp:param value="resell" name="thisPage"/>
 </jsp:include>
-<div class="container">
+<div class="inner">
 	<nav>
       	<ul class="breadcrumb">
          	<li class="breadcrumb-item">
@@ -193,16 +199,17 @@
          	<li class="breadcrumb-item">
             	<a href="${pageContext.request.contextPath }/resell/list.jsp">Resell갤</a>
          	</li>
-         	<li class="breadcrumb-item active">상세보기</li>
+         	<li class="breadcrumb-item active">Detail</li>
       	</ul>
    	</nav>
-	<div class="card mb-3">
+	<div class="card mb-3" >
       	<img class="card-img-top" src="${pageContext.request.contextPath }<%=dto.getImagePath()%>"/>
       	<div class="card-body">
       		<div>
       			<p class="card-text"><%=dto.getTitle()%></p>
       			<p class="card-text"><%=dto.getKind() %></p>
       		</div>
+      		<br />
          	<p class="card-text">by <strong><%=dto.getWriter() %></strong></p>
          	<p class="card-text"><small><%=dto.getRegdate() %></small></p>
          	<p class="card-text"><%=dto.getContent() %></p>

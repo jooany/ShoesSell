@@ -156,8 +156,8 @@
                  </form>
               </div>
               <div class="modal-footer">
-                 <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                 <button id="changePwdBtn" type="reset" class="btn btn-primary" data-bs-dismiss="modal">변경하기</button>
+                 <button id="resetBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                 <button id="changePwdBtn" type="reset" class="btn btn-primary">변경하기</button>
              </div>
            </div>
         </div>
@@ -184,8 +184,10 @@
    }
    
    
-   
    let currentPwd = "<%=currentPwd%>";
+   let isPwdValid = false;
+   let isNewPwdValid = false;
+   let isNewPwdValid2 = false;
    
    //현재 비밀번호 유효성 검사
    function checkPwd(){
@@ -195,8 +197,11 @@
 	      const pwd=document.querySelector("#pwd").value;
 	      	      
 	      if(pwd != currentPwd ){      
+	    	  	 isPwdValid = false;
 		         document.querySelector("#pwd").classList.add("is-invalid");
+		         return;
 		      }else{
+		    	 isPwdValid = true;
 		         document.querySelector("#pwd").classList.add("is-valid");
 		      }
 	   }
@@ -217,16 +222,21 @@
 	      // 최소5글자 최대 10글자인지를 검증할 정규표현식
 	      const reg_pwd=/^.{5,10}$/;
 	      if(!reg_pwd.test(newpwd)){
+	    	 isNewPwdValid = false;
 	         document.querySelector("#newPwd").classList.add("is-invalid");
 	         return; //함수를 여기서 종료
 	      }else{
+	    	  isNewPwdValid = true;
 	          document.querySelector("#newPwd").classList.add("is-valid");
 	      }
 	      
-	      if(newpwd != newpwd2){//비밀번호와 비밀번호 확인란이 다르면      
+	      if(newpwd != newpwd2){//비밀번호와 비밀번호 확인란이 다르면    
+	    	     isNewPwdValid2 = false;
 		         document.querySelector("#newPwd2").classList.add("is-invalid");
+		         return;
 		      }else{
-		         document.querySelector("#newPwd2").classList.add("is-valid");
+		    	 isNewPwdValid2 = true;
+				 document.querySelector("#newPwd2").classList.add("is-valid");
 		      }
 	   }
 	   
@@ -236,23 +246,47 @@
 	   
    
    //비밀번호 변경 버튼을 눌렀을때 호출되는 함수 등록 
-   document.querySelector("#changePwdBtn").addEventListener("click", function(){
-      //ajax 제출할 폼의 참조값 얻어오기
-      let changePwdForm=document.querySelector("#changePwdForm");
-      // gura_util.js 에 있는 함수를 이용해서 ajax 전송한다. 
-      ajaxFormPromise(changePwdForm)
-      .then(function(response){
-         return response.json();
-      })
-      .then(function(data){
-    	  console.log(data);
-         if(data.isValid){
-            alert("수정에 성공하셨습니다. 로그인 화면으로 이동합니다.");
-            location.href="<%=request.getContextPath()%>/users/login_form.jsp";
-         }else{
-            alert("수정 실패했습니다.!");
-         }
-      });
+   
+   document.querySelector("#changePwdBtn").addEventListener("click", function(e){
+      
+	  let isFormValid = isPwdValid && isNewPwdValid && isNewPwdValid2;
+	  console.log(isPwdValid);
+	  console.log(isNewPwdValid);
+	  console.log(isNewPwdValid2);
+	  console.log(isFormValid);
+	  
+      if(!isFormValid){
+    	  e.preventDefault();
+      }else{
+    	  let changePwdForm=document.querySelector("#changePwdForm");
+    	   // gura_util.js 에 있는 함수를 이용해서 ajax 전송한다. 
+    	   ajaxFormPromise(changePwdForm)
+    	   .then(function(response){
+    	      return response.json();
+    	   })
+    	   .then(function(data){
+    	 	  console.log(data);
+    	      if(data.isValid){
+    	         alert("수정에 성공하셨습니다. 로그인 화면으로 이동합니다.");
+    	         location.href="<%=request.getContextPath()%>/users/login_form.jsp";
+    	      }
+    	   });
+      }
+   });
+   
+   
+ //ajax 제출할 폼의 참조값 얻어오기
+  
+   document.querySelector("#resetBtn").addEventListener("click",function(){
+	   document.querySelector("#pwd").classList.remove("is-valid");
+	   document.querySelector("#pwd").classList.remove("is-invalid");
+	   document.querySelector("#newPwd").classList.remove("is-valid");
+	   document.querySelector("#newPwd").classList.remove("is-invalid");
+	   document.querySelector("#newPwd2").classList.remove("is-valid");
+	   document.querySelector("#newPwd2").classList.remove("is-invalid");
+	   document.querySelector("#pwd").value="";
+	   document.querySelector("#newPwd").value="";
+	   document.querySelector("#newPwd2").value="";
    });
    
    

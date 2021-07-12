@@ -18,19 +18,7 @@
     	dto.setEmail(email);
     	dto.setId(id);
     	//DB에 수정 반영하고
-    	UsersDao.getInstance().update(dto);
+    	boolean isSuccess = UsersDao.getInstance().update(dto);
     	//응 답한다.
     %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<script>
-	alert("<%=id %>님 정보가 수정되었습니다.");
-	location.href="my_page.jsp";
-</script>
-</body>
-</html>
+{"isSuccess":<%=isSuccess %>}

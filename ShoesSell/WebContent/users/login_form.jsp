@@ -51,6 +51,10 @@
           font-size: 3.5rem;
         }
       }
+      
+      .btn-toolbar{
+      	justify-content:center!important;
+      }
 </style>
 <link href="signin.css" rel="stylesheet">
 </head>
@@ -89,7 +93,7 @@
                   </label>
              </div>
           <%} %>  
-         <div id="link" class="btn-toolbar center" role="toolbar">
+         <div id="link" class="btn-toolbar " role="toolbar">
 			  <div class=" btn-group me-2" role="group" >
 			    <button id="loginBtn" type="button" class="w-150 btn btn-lg btn btn-outline-dark" type="button">로그인</button>
 			  </div>

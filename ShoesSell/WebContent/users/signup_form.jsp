@@ -117,7 +117,7 @@
       }
       
       //2. util 에 있는 함수를 이용해서 ajax 요청하기
-      ajaxPromise("checkid.jsp", "get", "inputId="+inputId)
+      ajaxPromise("ajax_checkid.jsp", "get", "inputId="+inputId)
       .then(function(response){
          return response.json();
       })
@@ -235,7 +235,6 @@
 	   document.querySelector("#email").classList.remove("is-valid");
 	   document.querySelector("#email").classList.remove("is-invalid");
    });
-   
 </script>
 </body>
 </html>

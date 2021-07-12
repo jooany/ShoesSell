@@ -13,6 +13,7 @@
    UsersDto dto=UsersDao.getInstance().getData(id);
    boolean isValid = pwd.equals(dto.getPwd());
    // 구 비밀번호가 맞다면 비밀번호를 수정한다.
+   
    if(isValid){
       //dto 에 새 비밀번호를 담아서 
       dto.setPwd(newPwd);
@@ -20,6 +21,20 @@
       UsersDao.getInstance().updatePwd(dto);
       //비밀번호를 수정했으면 로그 아웃처리를 하고 새로 로그인 하도록 한다.
       session.removeAttribute("id");
+      
+      Cookie[] cookies = request.getCookies();
+  	  for (int i = 0; i < cookies.length; i++) {
+  		
+  		if (cookies[i].getName().equals("savedId")){
+    		cookies[i].setMaxAge(0);   // 유효시간을 0으로 설정함으로써 쿠키를 삭제 시킨다.  
+    		cookies[i].setPath("/ShoesSell/users");
+    		response.addCookie(cookies[i]);
+    		}else if(cookies[i].getName().equals("savedPwd")){
+    			cookies[i].setMaxAge(0);   // 유효시간을 0으로 설정함으로써 쿠키를 삭제 시킨다.  
+        		cookies[i].setPath("/ShoesSell/users");
+        		response.addCookie(cookies[i]);	
+    		}
+  	}
    }
 %>    
  {"isValid":<%=isValid%>}

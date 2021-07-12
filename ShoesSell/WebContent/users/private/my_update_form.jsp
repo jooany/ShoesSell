@@ -50,7 +50,7 @@
 	  <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
 	    <img class="me-3" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38">
 	    <div class="lh-1">
-	      <h1 class="h6 mb-0 text-white lh-1">My Update </h1>
+	      <h1 class="h6 mb-0 text-white lh-1">MyUpdate </h1>
 	    </div>
 	  </div>
 	
@@ -86,13 +86,15 @@
 	      </p>
 	    </div>
 	    
-	  <form action="my_update.jsp" method="post">  
+	  <form action="my_ajax_update.jsp" method="post" id="updateForm">  
 	    <input type="hidden" name="profile" value="<%=dto.getProfile()==null ? "empty" : dto.getProfile() %>"/> 
+	    
 	    <div class="d-flex text-muted pt-3">
 	      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"/><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
 	      <p class="pb-3 mb-0 small lh-sm border-bottom">
-	        <strong class="d-block text-gray-dark">Email</strong>
-	        <strong><input type="text" name="email" id="email" value="<%=dto.getEmail()%>"/></strong>
+	        <strong class="d-block text-gray-dark"><label for="email" class="form-label">Email (@을 포함하여 작성해주세요.)</label></strong>
+	        <strong><input type="text" class="form-control" name="email" id="email" value="<%=dto.getEmail() %>"/></strong>
+	        <div class="invalid-feedback">이메일 형식을 확인하세요.</div>
 	      </p>
 	    </div>
 	    
@@ -105,7 +107,8 @@
 	      </p>
 	    </div>
 	    
-		 <button type="submit" class="btn btn-outline-dark">수정 반영</button>
+		 <button id="updateBtn" type="button" class="btn btn-outline-dark">수정 반영</button>
+		 
 	     </form>
 	  </div>
 	 </main>
@@ -119,6 +122,70 @@
 
 <script>
 
+	let isEmailValid=false;
+	
+	const inputEmail=document.querySelector("#email").value;
+    //2. 이메일을 검증할 정규 표현식 객체를 만들어서
+    const reg_email=/@/;
+    //3. 정규표현식 매칭 여부에 따라 분기하기
+    if(reg_email.test(inputEmail)){//만일 매칭된다면
+       //document.querySelector(".invalid-feedback3").style.display="none";
+       isEmailValid=true;
+	   document.querySelector("#email").classList.add("is-valid");
+    }else{
+       //document.querySelector(".invalid-feedback3").style.display="block";
+       isEmailValid=false;
+       document.querySelector("#email").classList.add("is-invalid");
+    }
+	
+	
+	//이메일을 입력했을때 실행할 함수 등록
+	   document.querySelector("#email").addEventListener("input", function(){
+		   document.querySelector("#email").classList.remove("is-valid");
+		   document.querySelector("#email").classList.remove("is-invalid");
+		   
+	      //1. 입력한 이메일을 읽어와서
+	      const reinputEmail=this.value;
+	      //2. 이메일을 검증할 정규 표현식 객체를 만들어서
+	      const reg_email=/@/;
+	      //3. 정규표현식 매칭 여부에 따라 분기하기
+	      if(reg_email.test(reinputEmail)){//만일 매칭된다면
+	         //document.querySelector(".invalid-feedback3").style.display="none";
+	         isEmailValid=true;
+	  	     document.querySelector("#email").classList.add("is-valid");
+	      }else{
+	         //document.querySelector(".invalid-feedback3").style.display="block";
+	         isEmailValid=false;
+	         document.querySelector("#email").classList.add("is-invalid");
+	      }
+	   });
+	
+	   document.querySelector("#updateBtn").addEventListener("click", function(e){
+			  
+		   
+		      let isFormValid = isEmailValid;
+		         
+		      if(!isFormValid){//폼이 유효하지 않으면
+		         //폼 전송 막기 
+		         e.preventDefault();
+		      }else{
+		    	  let signupForm=document.querySelector("#updateForm");
+			      // gura_util.js 에 있는 함수를 이용해서 ajax 전송한다. 
+			      ajaxFormPromise(signupForm)
+			      .then(function(response){
+			         return response.json();
+			      })
+			      .then(function(update){
+			    	  console.log(update);
+			         if(update.isSuccess){
+			        	 alert("<%=id%>님 개인정보 수정을 완료했습니다.");
+				         location.href="my_page.jsp";
+			         }
+			      });
+		      }
+		   });
+	
+	  
    //프로필 이미지 링크를 클릭하면 
    document.querySelector("#profileLink").addEventListener("click", function(){
       // input type="file" 을 강제 클릭 시킨다. 
@@ -147,8 +214,8 @@
          // inputname ="profile"요소의 value값으로 이미지 경로 넣어주기
       });
    });
-   
-   
+      
 </script>
+
 </body>
 </html>

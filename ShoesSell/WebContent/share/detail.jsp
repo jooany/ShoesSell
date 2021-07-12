@@ -38,7 +38,7 @@
 			dto=ShareDao.getInstance().getDataW(dto);
 		}
 	}else{
-		dto=ShareDao.getInstance().getData(dto);
+		dto=ShareDao.getInstance().getData(num);
 	}
 	//특수기호를 인코딩한 키워드를 미리 준비한다. 
 	String encodedK=URLEncoder.encode(keyword);
@@ -83,7 +83,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/share/share_detail.jsp</title>
+<title>/share/detail.jsp</title>
 <style>
 	/* 댓글 프로필 이미지를 작은 원형으로 만든다. */
 	.profile-image{
@@ -183,9 +183,9 @@
             	<a href="${pageContext.request.contextPath }/">Home</a>
          	</li>
          	<li class="breadcrumb-share">
-            	<a href="${pageContext.request.contextPath }/share/list.jsp">news</a>
+            	<a href="${pageContext.request.contextPath }/share/list.jsp">/ news</a>
          	</li>
-         	<li class="breadcrumb-share active">detail</li>
+         	<li class="breadcrumb-share active">/ detail</li>
       	</ul>
    	</nav>
 	<%if(dto.getPrevNum()!=0){ %>
@@ -230,7 +230,7 @@
 	<ul>
 		<li><a href="list.jsp">목록보기</a></li>
 		<%if(dto.getWriter().equals(id)){ %>
-			<li><a href="private/share_update_form.jsp?num=<%=dto.getNum()%>">수정</a></li>
+			<li><a href="private/share_ajax_form.jsp?num=<%=dto.getNum()%>">수정</a></li>
 			<li><a href="private/share_delete.jsp?num=<%=dto.getNum()%>">삭제</a></li>
 		<%} %>
 		
@@ -503,6 +503,8 @@
 </script>
 </body>
 </html>
+
+
 
 
 

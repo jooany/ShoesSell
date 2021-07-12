@@ -4,6 +4,8 @@
 <%@ page language="java" contentType="application/json; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	//post 방식 전송했을때 한글 깨지지 않도록 
+	request.setCharacterEncoding("utf-8");
    	// Tomcat 서버를 실행했을때 WebContent/upload 폴더의 실제 경로 얻어오기
    	String realPath=application.getRealPath("/upload");
    	System.out.println("realPath:"+realPath);
@@ -20,8 +22,8 @@
          	sizeLimit,
          	"utf-8",
          	new DefaultFileRenamePolicy());
-   	//업로드된 이미지 파일의 저장 경로만 json 으로 응답하면 된다.
-   	String saveFileName=mr.getFilesystemName("image");
+   	//업로드된 파일 json으로 응답하면 된다.
+   	String saveFileName=mr.getFilesystemName("myShare");
    	String imagePath="/upload/"+saveFileName;
 %>    
 {"imagePath":"<%=imagePath %>"}

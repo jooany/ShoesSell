@@ -127,6 +127,7 @@
 	}
 	table.notice_view th {
 		width: 120px;
+		background-color: #eee;
 		border: 1px solid #c8c8c8;
 	    padding: 10px 10px 8px 20px;
 	}
@@ -264,9 +265,10 @@
 					</svg>
             	</a>
          	</li>
-         	<li class="breadcrumb-item active">
+         	<li class="breadcrumb-item">
             	<a href="${pageContext.request.contextPath }/free/list.jsp">Free Bulletin Board</a>
          	</li>
+         	<li class="breadcrumb-item active">Detail</li>
       	</ul>
    	</nav>
    	<div align="right">

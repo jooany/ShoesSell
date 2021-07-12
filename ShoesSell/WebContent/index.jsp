@@ -83,7 +83,7 @@
    // 메소드를 이용해서 전제 row 의 갯수를 얻어온다.
    totalRow1=ShareDao.getInstance().getCount();
    totalRow2=FreeDao.getInstance().getCount();
-   totalRow3=ResellDao.getInstance().getCount(dto3);
+   totalRow3=ResellDao.getInstance().getCountMain();
      
    //하단 시작 페이지 번호 
    int startPageNum1 = 1 + ((pageNum1-1)/PAGE_DISPLAY_COUNT1)*PAGE_DISPLAY_COUNT1;

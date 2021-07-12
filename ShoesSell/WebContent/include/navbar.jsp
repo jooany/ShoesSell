@@ -36,6 +36,9 @@
 						<li class="nav-item">
 		          			<a class="nav-link <%=thisPage.equals("resell") ? "active" : "" %>" href="<%=request.getContextPath() %>/resell/list.jsp?kind=buy">마켓</a>
 		        		</li>
+		        		<li class="nav-item">
+		          			<a class="nav-link <%=thisPage.equals("resell") ? "active" : "" %>" href="<%=request.getContextPath() %>/feed/list.jsp">피드</a>
+		        		</li>
 	      			</ul>
 	      			<%if(id==null){ %>
 	      				<a class="btn btn-outline-primary btn-sm me-2 " href="${pageContext.request.contextPath}/users/signup_form.jsp">회원가입</a>

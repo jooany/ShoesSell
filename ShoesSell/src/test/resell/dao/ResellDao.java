@@ -169,6 +169,61 @@ public class ResellDao {
 	}
 	
 	//글하나의 정보를 리턴하는 메소드
+	public ResellDto getKind(ResellDto dto) {
+		ResellDto dto2=null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			//Connection 객체의 참조값 얻어오기 
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문 작성
+			String sql = "SELECT *" + 
+					" FROM" + 
+					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath,kind," + 
+					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
+					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
+					"	FROM resell" + 
+					"	ORDER BY num DESC)" + 
+					" WHERE kind=?";
+			
+			//PreparedStatement 객체의 참조값 얻어오기
+			pstmt = conn.prepareStatement(sql);
+			//? 에 바인딩할 내용이 있으면 여기서 바인딩
+			pstmt.setString(1, dto.getKind());
+			//select 문 수행하고 결과를 ResultSet 으로 받아오기
+			rs = pstmt.executeQuery();
+			//ResultSet 객체에 있는 내용을 추출해서 원하는 Data type 으로 포장하기
+			if(rs.next()) {
+				dto2=new ResellDto();
+				dto2.setNum(rs.getInt("num"));
+				dto2.setWriter(rs.getString("writer"));
+				dto2.setTitle(rs.getString("title"));
+				dto2.setContent(rs.getString("content"));
+				dto2.setViewCount(rs.getInt("viewCount"));
+				dto2.setRegdate(rs.getString("regdate"));
+				dto2.setImagePath(rs.getString("imagePath"));
+				dto2.setKind(rs.getString("kind"));
+				dto2.setPrevNum(rs.getInt("prevNum"));
+				dto2.setNextNum(rs.getInt("nextNum"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		return dto2;
+	}
+	
+	//글하나의 정보를 리턴하는 메소드
 	public ResellDto getData(ResellDto dto) {
 		ResellDto dto2=null;
 		Connection conn = null;
@@ -343,10 +398,12 @@ public class ResellDao {
 			//실행할 sql 문 작성
 			String sql = "SELECT *" + 
 					" FROM" + 
-					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath,kind," + 
+					"	(SELECT result.*," + 
 					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
 					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
-					"	FROM resell"+ 
+					"	FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind "
+					+ 		 " FROM resell "
+					+ 		 " WHERE kind=? ) result1"+ 
 					"   WHERE title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'" + 
 					"	ORDER BY num DESC)" + 
 					" WHERE num=?";
@@ -440,16 +497,19 @@ public class ResellDao {
 			//select 문 작성
 			String sql = "SELECT *" + 
 					"		FROM" + 
-					"		    (SELECT result1.*, ROWNUM AS rnum" + 
+					"		    (SELECT result2.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,viewCount,regdate,imagePath,kind" + 
-					"		        FROM resell" + 
-					"		        ORDER BY num DESC) result1)" + 
+					"		        (SELECT result1.* " + 
+					"		        FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind"  + 
+					"					  FROM resell " + 
+					"					  WHERE kind=? ) result1 " + 
+					"		        ORDER BY num DESC) result2)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
-			pstmt.setInt(1, dto.getStartRowNum());
-			pstmt.setInt(2, dto.getEndRowNum());
+			pstmt.setString(1, dto.getKind());
+			pstmt.setInt(2, dto.getStartRowNum());
+			pstmt.setInt(3, dto.getEndRowNum());
 			//select 문 수행하고 ResultSet 받아오기
 			rs = pstmt.executeQuery();
 			//while문 혹은 if문에서 ResultSet 으로 부터 data 추출
@@ -480,7 +540,7 @@ public class ResellDao {
 		return list;
 	}
 	//전체 글의 갯수를 리턴하는 메소드
-	public int getCount() {
+	public int getCount(ResellDto dto) {
 		//글의 갯수를 담을 지역변수 
 		int count=0;
 		Connection conn = null;
@@ -489,11 +549,13 @@ public class ResellDao {
 		try {
 			conn = new DbcpBean().getConn();
 			//select 문 작성
-			String sql = "SELECT NVL(MAX(ROWNUM), 0) AS num "
-					+ " FROM resell";
+			String sql = "SELECT NVL(MAX(ROWNUM), 0) AS num "+  
+					"		  FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind " + 
+					"			    FROM resell " + 
+					"			    WHERE kind=? ) ";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
-
+			pstmt.setString(1, dto.getKind());
 			//select 문 수행하고 ResultSet 받아오기
 			rs = pstmt.executeQuery();
 			//while문 혹은 if문에서 ResultSet 으로 부터 data 추출
@@ -531,18 +593,21 @@ public class ResellDao {
 			//select 문 작성
 			String sql = "SELECT *" + 
 					"		FROM" + 
-					"		    (SELECT result1.*, ROWNUM AS rnum" + 
+					"		    (SELECT result2.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,viewCount,regdate,imagePath,kind" + 
-					"		        FROM resell"+ 
-					"			    WHERE title LIKE '%' || ? || '%' "+					
-					"		        ORDER BY num DESC) result1)" + 
+					"		        (SELECT result1.* " + 
+					"				 FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
+					"					   FROM resell " + 
+					"					   WHERE kind=? ) result1 " + 
+					"			    WHERE title LIKE '%' || ? || '%'" +					
+					"		        ORDER BY num DESC) result2)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
-			pstmt.setString(1, dto.getTitle());
-			pstmt.setInt(2, dto.getStartRowNum());
-			pstmt.setInt(3, dto.getEndRowNum());
+			pstmt.setString(1, dto.getKind());
+			pstmt.setString(2, dto.getTitle());
+			pstmt.setInt(3, dto.getStartRowNum());
+			pstmt.setInt(4, dto.getEndRowNum());
 			//select 문 수행하고 ResultSet 받아오기
 			rs = pstmt.executeQuery();
 			//while문 혹은 if문에서 ResultSet 으로 부터 data 추출
@@ -588,18 +653,21 @@ public class ResellDao {
 			//select 문 작성
 			String sql = "SELECT *" + 
 					"		FROM" + 
-					"		    (SELECT result1.*, ROWNUM AS rnum" + 
+					"		    (SELECT result2.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,viewCount,regdate,imagePath,kind" + 
-					"		        FROM resell"+ 
-					"			    WHERE writer LIKE '%' || ? || '%' "+					
-					"		        ORDER BY num DESC) result1)" + 
+					"		        (SELECT result1.* " + 
+					"				 FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind " + 
+					"					   FROM resell " + 
+					"					   WHERE kind=? ) result1  "+ 
+					"			    WHERE writer LIKE '%' || ? || '%'"+					
+					"		        ORDER BY num DESC) result2)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
-			pstmt.setString(1, dto.getWriter());
-			pstmt.setInt(2, dto.getStartRowNum());
-			pstmt.setInt(3, dto.getEndRowNum());
+			pstmt.setString(1, dto.getKind());
+			pstmt.setString(2, dto.getWriter());
+			pstmt.setInt(3, dto.getStartRowNum());
+			pstmt.setInt(4, dto.getEndRowNum());
 			//select 문 수행하고 ResultSet 받아오기
 			rs = pstmt.executeQuery();
 			//while문 혹은 if문에서 ResultSet 으로 부터 data 추출
@@ -645,19 +713,22 @@ public class ResellDao {
 			//select 문 작성
 			String sql = "SELECT *" + 
 					"		FROM" + 
-					"		    (SELECT result1.*, ROWNUM AS rnum" + 
+					"		    (SELECT result2.*, ROWNUM AS rnum" + 
 					"		    FROM" + 
-					"		        (SELECT num,writer,title,viewCount,regdate,imagePath,kind" + 
-					"		        FROM resell"+ 
-					"			    WHERE title LIKE '%'||?||'%' OR content LIKE '%'||?||'%' "+					
-					"		        ORDER BY num DESC) result1)" + 
+					"		        (SELECT result1.* " + 
+					"				 FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
+					"		               FROM resell " + 
+					"					   WHERE kind=? ) result1 "+ 
+					"			    WHERE title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'"+					
+					"		        ORDER BY num DESC) result2)" + 
 					"		WHERE rnum BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
-			pstmt.setString(1, dto.getTitle());
-			pstmt.setString(2, dto.getContent());
-			pstmt.setInt(3, dto.getStartRowNum());
-			pstmt.setInt(4, dto.getEndRowNum());
+			pstmt.setString(1, dto.getKind());
+			pstmt.setString(2, dto.getTitle());
+			pstmt.setString(3, dto.getContent());
+			pstmt.setInt(4, dto.getStartRowNum());
+			pstmt.setInt(5, dto.getEndRowNum());
 			//select 문 수행하고 ResultSet 받아오기
 			rs = pstmt.executeQuery();
 			//while문 혹은 if문에서 ResultSet 으로 부터 data 추출
@@ -698,10 +769,14 @@ public class ResellDao {
 			conn = new DbcpBean().getConn();
 			//select 문 작성
 			String sql = "SELECT NVL(MAX(ROWNUM), 0) AS num "
-					+ " FROM resell"
-					+ " WHERE title LIKE '%'||?||'%' ";
+					+ " FROM (SELECT result1.* " + 
+					"		  FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
+					"				FROM resell " + 
+					"				WHERE kind=? ) result1 "
+					+ " WHERE kind=? AND (title LIKE '%'||?||'%') ";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
+			pstmt.setString(1, dto.getKind());
 			pstmt.setString(1, dto.getTitle());
 			//select 문 수행하고 ResultSet 받아오기
 			rs = pstmt.executeQuery();
@@ -735,11 +810,15 @@ public class ResellDao {
 			conn = new DbcpBean().getConn();
 			//select 문 작성
 			String sql = "SELECT NVL(MAX(ROWNUM), 0) AS num "
-					+ " FROM resell"
+					+ " FROM (SELECT result1.*" + 
+					"		  FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
+					"				FROM resell " + 
+					"				WHERE kind=? ) result1"
 					+ " WHERE writer LIKE '%'||?||'%' ";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
-			pstmt.setString(1, dto.getWriter());
+			pstmt.setString(1, dto.getKind());
+			pstmt.setString(2, dto.getWriter());
 			//select 문 수행하고 ResultSet 받아오기
 			rs = pstmt.executeQuery();
 			//while문 혹은 if문에서 ResultSet 으로 부터 data 추출
@@ -772,12 +851,16 @@ public class ResellDao {
 			conn = new DbcpBean().getConn();
 			//select 문 작성
 			String sql = "SELECT NVL(MAX(ROWNUM), 0) AS num "
-					+ " FROM resell"
-					+ " WHERE title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'";
+					+ " FROM (SELECT result1.*" + 
+					"		  FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
+					"			    FROM resell " + 
+					"			    WHERE kind=? ) result1 )" +
+					" WHERE title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
-			pstmt.setString(1, dto.getTitle());
-			pstmt.setString(2, dto.getContent());
+			pstmt.setString(1, dto.getKind());
+			pstmt.setString(2, dto.getTitle());
+			pstmt.setString(3, dto.getContent());
 			//select 문 수행하고 ResultSet 받아오기
 			rs = pstmt.executeQuery();
 			//while문 혹은 if문에서 ResultSet 으로 부터 data 추출

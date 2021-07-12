@@ -41,11 +41,17 @@
 	
 	//특수기호를 인코딩한 키워드를 미리 준비한다. 
 	String encodedK=URLEncoder.encode(keyword);
-		
+	String kind=request.getParameter("kind");	
+	//만일 Kind 가 넘어오지 않는다면
+	if(kind==null){
+		kind="";
+	}
 	//ResellDto 객체에 startRowNum 과 endRowNum 을 담는다.
 	ResellDto dto=new ResellDto();
 	dto.setStartRowNum(startRowNum);
 	dto.setEndRowNum(endRowNum);
+	dto.setKind(kind);
+	
 	
 	//ArrayList 객체의 참조값을 담을 지역변수를 미리 만든다.
 	List<ResellDto> list=null;
@@ -75,7 +81,7 @@
 		//키워드가 없을때 호출하는 메소드를 이용해서 파일 목록을 얻어온다. 
 		list=ResellDao.getInstance().getList(dto);
 		//키워드가 없을때 호출하는 메소드를 이용해서 전제 row 의 갯수를 얻어온다.
-		totalRow=ResellDao.getInstance().getCount();
+		totalRow=ResellDao.getInstance().getCount(dto);
 	}
 	
 	//하단 시작 페이지 번호 
@@ -91,8 +97,6 @@
 	}
 	//로그인된 아이디 (로그인 안한경우 null 인것에 주의하기!!!)
 	String id=(String)session.getAttribute("id");
-	
-	String kind=request.getParameter("kind");
 %>    
 <!DOCTYPE html>
 <html>
@@ -167,7 +171,15 @@
          	<li class="breadcrumb-item active">Resell갤</li>
       	</ul>
    	</nav>
-	<h1><a href="list.jsp">Resell Gallery</a></h1><br/>
+   	<h1>ResellGallery</h1>
+   	<ul class="nav">
+  		<li class="nav-item">
+    		<a class="nav-link" href="list.jsp?kind=buy">Buy</a>
+  		</li>
+  		<li class="nav-item">
+    		<a class="nav-link" href="list.jsp?kind=sell">Sell</a>
+  		</li>
+	</ul>
 	<a href="private/resell_upload_form.jsp" class="btn btn-secondary">글쓰기</a>
 	<div class="row">
 		<%for(ResellDto tmp:list){ %>
@@ -184,7 +196,13 @@
 					<p class="card-text"><small><%=tmp.getKind() %></small></p>
 					<p class="card-text">by <strong><%=tmp.getWriter() %></strong></p>
 					<p class="card-text"><small><%=tmp.getRegdate() %></small></p>
-					<p class="card-text"><small><%=tmp.getViewCount() %></small></p>
+					<p class="card-text">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+  							<path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+ 							<path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+						</svg>
+						<small><%=tmp.getViewCount() %></small>
+					</p>
 				</div>
 				<!-- card-body 끝 -->
 			</div>
@@ -205,7 +223,7 @@
 			<%for(int i=startPageNum; i<=endPageNum; i++) {%>
 				<%if(i==pageNum){ %>
 					<li class="page-item active">
-						<a class="page-link" href="list.jsp?pageNum=<%=i %>"><%=i %></a>
+						<a class="page-link" href="list.jsp?kind=<%=dto.getKind() %>pageNum=<%=i %>"><%=i %></a>
 					</li>
 				<%}else{ %>
 					<li class="page-item">
@@ -228,7 +246,8 @@
 	<div style="clear:both;"></div>
 	
 	<form action="list.jsp" method="get"> 
-		<div class="input-group mb-6">
+		<input type="hidden" name="kind" value="<%=dto.getKind() %>"/>
+		<div class="input-group mb-6"> 
 			<span class="input-group-text">검색조건</span>
 			<select class="form-select" name="condition" id="condition">
 				<option value="title_content" <%=condition.equals("title_content") ? "selected" : ""%>>제목+내용</option>

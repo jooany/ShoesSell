@@ -91,6 +91,8 @@
 	}
 	//로그인된 아이디 (로그인 안한경우 null 인것에 주의하기!!!)
 	String id=(String)session.getAttribute("id");
+	
+	String kind=request.getParameter("kind");
 %>    
 <!DOCTYPE html>
 <html>
@@ -147,6 +149,9 @@
 		float: left;
 		padding: 5px;
 	}
+	.input-group{
+		width: 50%;
+	}
 </style>
 </head>
 <body>
@@ -163,7 +168,7 @@
       	</ul>
    	</nav>
 	<h1><a href="list.jsp">Resell Gallery</a></h1><br/>
-	<a href="private/resell_upload_form.jsp">글쓰기</a>
+	<a href="private/resell_upload_form.jsp" class="btn btn-secondary">글쓰기</a>
 	<div class="row">
 		<%for(ResellDto tmp:list){ %>
 		<div class="col-6 col-md-4 col-lg-3">
@@ -219,18 +224,20 @@
 			<%} %>
 		</ul>
 	</nav>	
-</div>
-<div style="clear:both;"></div>
+	
+	<div style="clear:both;"></div>
 	
 	<form action="list.jsp" method="get"> 
-		<label for="condition">검색조건</label>
-		<select name="condition" id="condition">
-			<option value="title_content" <%=condition.equals("title_content") ? "selected" : ""%>>제목+내용</option>
-			<option value="title" <%=condition.equals("title") ? "selected" : ""%>>제목</option>
-			<option value="writer" <%=condition.equals("writer") ? "selected" : ""%>>작성자</option>
-		</select>
-		<input type="text" id="keyword" name="keyword" placeholder="검색어..." value="<%=keyword%>"/>
-		<button type="submit">검색</button>
+		<div class="input-group mb-6">
+			<span class="input-group-text">검색조건</span>
+			<select class="form-select" name="condition" id="condition">
+				<option value="title_content" <%=condition.equals("title_content") ? "selected" : ""%>>제목+내용</option>
+				<option value="title" <%=condition.equals("title") ? "selected" : ""%>>제목</option>
+				<option value="writer" <%=condition.equals("writer") ? "selected" : ""%>>작성자</option>
+			</select>
+			<input class="form-control" type="text" id="keyword" name="keyword" placeholder="검색어..." value="<%=keyword%>"/>
+			<button type="submit" class="btn btn-outline-success">검색</button>
+		</div>
 	</form>	
 	
 	<%if(!condition.equals("")){ %>
@@ -238,5 +245,7 @@
 			<strong><%=totalRow %></strong> 개의 글이 검색 되었습니다.
 		</p>
 	<%} %>
+</div>
+<br />
 </body>
 </html>

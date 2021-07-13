@@ -4,6 +4,8 @@
     pageEncoding="UTF-8"%>
 <%
 	int num=Integer.parseInt(request.getParameter("num"));
+	String kind=request.getParameter("kind");
+
 	ResellDto dto=ResellDao.getInstance().getData(num);
 %>
 <!DOCTYPE html>
@@ -49,6 +51,7 @@
 			<input type="hidden" name="imagePath" id="imagePath" value="<%=dto.getImagePath()%>"/>
 		</div>
 		<div class="mb-3">
+			<input type="hidden" name="kind" value="<%=kind %>" />
 			<input type="hidden" name="num" value="<%=num %>" />
 		</div>
 		<div class="mb-3">
@@ -66,7 +69,7 @@
 		<br />
 		<img class="img-wrapper" src="${pageContext.request.contextPath }/<%=dto.getImagePath()%>"/>
 		<br/>
-		<button class="btn btn-outline-success" id="submitBtn" type="submit" onclick="submitContents(this);">수정확인</button>
+		<button class="btn btn-outline-success" id="submitBtn" type="submit" onclick="submitContents(this); ">수정확인</button>
 		<button class="btn btn-outline-danger" type="reset">취소</button>
 	</form>
 	<form action="resell_ajax_upload.jsp" method="post" id="ajaxForm" enctype="multipart/form-data" >

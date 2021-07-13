@@ -222,8 +222,8 @@
          	<p class="card-text"><%=dto.getContent() %></p>
          	<%if(dto.getWriter().equals(id)){ %>
 				<p>
-					<a href="private/resell_update_form.jsp?num=<%=dto.getNum()%>">수정</a>
-					<a href="private/resell_delete.jsp?num=<%=dto.getNum()%>">삭제</a>
+					<a href="private/resell_update_form.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getNum()%>">수정</a>
+					<a href="private/resell_delete.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getNum()%>">삭제</a>
 				</p>		
 			<%} %>
 			<p><a href="list.jsp?kind=<%=dto.getKind()%>">목록보기</a></p>

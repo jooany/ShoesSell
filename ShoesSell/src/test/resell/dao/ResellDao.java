@@ -131,12 +131,15 @@ public class ResellDao {
 			//Connection 객체의 참조값 얻어오기 
 			conn = new DbcpBean().getConn();
 			//실행할 sql 문 작성
-			String sql = "SELECT num,title,writer,content,viewCount,regdate,imagePath,kind"
-					+ " FROM resell"
+			String sql = "SELECT result1.* "
+					+ " FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind " + 
+					"		  FROM resell " + 
+					"		  WHERE kind=? ) result1"
 					+ " WHERE num=?";
 			//PreparedStatement 객체의 참조값 얻어오기
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩할 내용이 있으면 여기서 바인딩
+			pstmt.setString(1, dto2.getKind());
 			pstmt.setInt(1, num);
 			//select 문 수행하고 결과를 ResultSet 으로 받아오기
 			rs = pstmt.executeQuery();
@@ -169,61 +172,6 @@ public class ResellDao {
 	}
 	
 	//글하나의 정보를 리턴하는 메소드
-	public ResellDto getKind(ResellDto dto) {
-		ResellDto dto2=null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			//Connection 객체의 참조값 얻어오기 
-			conn = new DbcpBean().getConn();
-			//실행할 sql 문 작성
-			String sql = "SELECT *" + 
-					" FROM" + 
-					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath,kind," + 
-					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
-					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
-					"	FROM resell" + 
-					"	ORDER BY num DESC)" + 
-					" WHERE kind=?";
-			
-			//PreparedStatement 객체의 참조값 얻어오기
-			pstmt = conn.prepareStatement(sql);
-			//? 에 바인딩할 내용이 있으면 여기서 바인딩
-			pstmt.setString(1, dto.getKind());
-			//select 문 수행하고 결과를 ResultSet 으로 받아오기
-			rs = pstmt.executeQuery();
-			//ResultSet 객체에 있는 내용을 추출해서 원하는 Data type 으로 포장하기
-			if(rs.next()) {
-				dto2=new ResellDto();
-				dto2.setNum(rs.getInt("num"));
-				dto2.setWriter(rs.getString("writer"));
-				dto2.setTitle(rs.getString("title"));
-				dto2.setContent(rs.getString("content"));
-				dto2.setViewCount(rs.getInt("viewCount"));
-				dto2.setRegdate(rs.getString("regdate"));
-				dto2.setImagePath(rs.getString("imagePath"));
-				dto2.setKind(rs.getString("kind"));
-				dto2.setPrevNum(rs.getInt("prevNum"));
-				dto2.setNextNum(rs.getInt("nextNum"));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-			}
-		}
-		return dto2;
-	}
-	
-	//글하나의 정보를 리턴하는 메소드
 	public ResellDto getData(ResellDto dto) {
 		ResellDto dto2=null;
 		Connection conn = null;
@@ -235,17 +183,20 @@ public class ResellDao {
 			//실행할 sql 문 작성
 			String sql = "SELECT *" + 
 					" FROM" + 
-					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath,kind," + 
+					"	(SELECT result1.*," + 
 					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
 					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
-					"	FROM resell" + 
+					"	FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind " + 
+					"		  FROM resell " + 
+					"		  WHERE kind=? ) result1" + 
 					"	ORDER BY num DESC)" + 
 					" WHERE num=?";
 			
 			//PreparedStatement 객체의 참조값 얻어오기
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩할 내용이 있으면 여기서 바인딩
-			pstmt.setInt(1, dto.getNum());
+			pstmt.setString(1, dto.getKind());
+			pstmt.setInt(2, dto.getNum());
 			//select 문 수행하고 결과를 ResultSet 으로 받아오기
 			rs = pstmt.executeQuery();
 			//ResultSet 객체에 있는 내용을 추출해서 원하는 Data type 으로 포장하기
@@ -286,12 +237,14 @@ public class ResellDao {
 			//Connection 객체의 참조값 얻어오기 
 			conn = new DbcpBean().getConn();
 			//실행할 sql 문 작성
-			String sql = "SELECT *" + 
+			String sql ="SELECT *" + 
 					" FROM" + 
-					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath,kind," + 
-					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
-					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
-					"	FROM resell"+ 
+					"	(SELECT result1.*, " + 
+					"	 LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
+					"	 LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum " + 
+					"	 FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
+					"		   FROM resell "+ 
+					"	        WHERE kind=? ) result1 "+ 
 					"   WHERE title LIKE '%'||?||'%'" + 
 					"	ORDER BY num DESC)" + 
 					" WHERE num=?";
@@ -299,8 +252,9 @@ public class ResellDao {
 			//PreparedStatement 객체의 참조값 얻어오기
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩할 내용이 있으면 여기서 바인딩
-			pstmt.setString(1, dto.getTitle());
-			pstmt.setInt(2, dto.getNum());
+			pstmt.setString(1, dto.getKind());
+			pstmt.setString(2, dto.getTitle());
+			pstmt.setInt(3, dto.getNum());
 			//select 문 수행하고 결과를 ResultSet 으로 받아오기
 			rs = pstmt.executeQuery();
 			//ResultSet 객체에 있는 내용을 추출해서 원하는 Data type 으로 포장하기
@@ -343,10 +297,12 @@ public class ResellDao {
 			//실행할 sql 문 작성
 			String sql = "SELECT *" + 
 					" FROM" + 
-					"	(SELECT num,title,writer,content,viewCount,regdate,imagePath,kind," + 
-					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
-					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
-					"	FROM resell"+ 
+					"	(SELECT result1.*, " + 
+					"	 LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
+					"	 LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum " + 
+					"	 FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind" + 
+					"		   FROM resell "+ 
+					"	        WHERE kind=? ) result1 "+ 
 					"   WHERE writer LIKE '%'||?||'%'" + 
 					"	ORDER BY num DESC)" + 
 					" WHERE num=?";
@@ -354,8 +310,9 @@ public class ResellDao {
 			//PreparedStatement 객체의 참조값 얻어오기
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩할 내용이 있으면 여기서 바인딩
-			pstmt.setString(1, dto.getWriter());
-			pstmt.setInt(2, dto.getNum());
+			pstmt.setString(1, dto.getKind());
+			pstmt.setString(2, dto.getWriter());
+			pstmt.setInt(3, dto.getNum());
 			//select 문 수행하고 결과를 ResultSet 으로 받아오기
 			rs = pstmt.executeQuery();
 			//ResultSet 객체에 있는 내용을 추출해서 원하는 Data type 으로 포장하기
@@ -398,7 +355,7 @@ public class ResellDao {
 			//실행할 sql 문 작성
 			String sql = "SELECT *" + 
 					" FROM" + 
-					"	(SELECT result.*," + 
+					"	(SELECT result1.*," + 
 					"	LAG(num, 1, 0) OVER(ORDER BY num DESC) AS prevNum," + 
 					"	LEAD(num, 1, 0) OVER(ORDER BY num DESC) nextNum" + 
 					"	FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind "
@@ -411,9 +368,10 @@ public class ResellDao {
 			//PreparedStatement 객체의 참조값 얻어오기
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩할 내용이 있으면 여기서 바인딩
-			pstmt.setString(1, dto.getTitle());
-			pstmt.setString(2, dto.getContent());
-			pstmt.setInt(3, dto.getNum());
+			pstmt.setString(1, dto.getKind());
+			pstmt.setString(2, dto.getTitle());
+			pstmt.setString(3, dto.getContent());
+			pstmt.setInt(4, dto.getNum());
 			//select 문 수행하고 결과를 ResultSet 으로 받아오기
 			rs = pstmt.executeQuery();
 			//ResultSet 객체에 있는 내용을 추출해서 원하는 Data type 으로 포장하기

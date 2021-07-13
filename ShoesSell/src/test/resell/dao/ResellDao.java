@@ -131,15 +131,12 @@ public class ResellDao {
 			//Connection 객체의 참조값 얻어오기 
 			conn = new DbcpBean().getConn();
 			//실행할 sql 문 작성
-			String sql = "SELECT result1.* "
-					+ " FROM (SELECT num,title,writer,content,viewCount,regdate,imagePath,kind " + 
-					"		  FROM resell " + 
-					"		  WHERE kind=? ) result1"
+			String sql = "SELECT num,title,writer,content,viewCount,regdate,imagePath,kind "
+					+ " FROM resell "
 					+ " WHERE num=?";
 			//PreparedStatement 객체의 참조값 얻어오기
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩할 내용이 있으면 여기서 바인딩
-			pstmt.setString(1, dto2.getKind());
 			pstmt.setInt(1, num);
 			//select 문 수행하고 결과를 ResultSet 으로 받아오기
 			rs = pstmt.executeQuery();

@@ -81,8 +81,7 @@ CREATE TABLE feed(
    content CLOB, --글 내용
    regdate DATE, --글 작성일,
    imagePath VARCHAR2(100), --이미지 경로
-   goodCount NUMBER,
-   isGood CHAR(3) DEFAULT 'no',
+   goodCount NUMBER
 );
 
 CREATE SEQUENCE feed_seq;
@@ -97,7 +96,7 @@ CREATE TABLE feed_comment(
    deleted CHAR(3) DEFAULT 'no'
 );
 
-CREATE TABLE feed_good_count(
-	feed_num NUMBER PRIMARY KEY, --피드의 번호
+CREATE TABLE feed_good(
+	feed_num NUMBER, --피드의 번호
 	liked_user VARCHAR2(100)
 );

@@ -10,13 +10,12 @@ public class FeedDto {
 	private String imagePath;
 	private String profile;
 	private int goodCount;
-	private String isGood;
 	private int articleNum;
 	
 	public FeedDto() {}
 
 	public FeedDto(int num, String writer, String title, String content, String regdate, String imagePath, String profile,
-			int goodCount, String isGood, int articleNum) {
+			int goodCount, int articleNum) {
 		super();
 		this.num = num;
 		this.writer = writer;
@@ -26,7 +25,6 @@ public class FeedDto {
 		this.imagePath = imagePath;
 		this.profile = profile;
 		this.goodCount = goodCount;
-		this.isGood = isGood;
 		this.articleNum = articleNum;
 	}
 
@@ -94,14 +92,6 @@ public class FeedDto {
 		this.goodCount = goodCount;
 	}
 
-	public String getIsGood() {
-		return isGood;
-	}
-
-	public void setIsGood(String isGood) {
-		this.isGood = isGood;
-	}
-
 	public int getArticleNum() {
 		return articleNum;
 	}
@@ -109,13 +99,6 @@ public class FeedDto {
 	public void setArticleNum(int articleNum) {
 		this.articleNum = articleNum;
 	}
-	
-	
-
-	
-	
-	
-	
 	
 	
 }

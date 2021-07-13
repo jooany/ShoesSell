@@ -1,12 +1,17 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="test.resell.dao.ResellDao"%>
 <%@page import="test.resell.dto.ResellDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	int num=Integer.parseInt(request.getParameter("num"));
-	String kind=request.getParameter("kind");
-
 	ResellDto dto=ResellDao.getInstance().getData(num);
+	
+	String kind=request.getParameter("kind");
+	String keyword=request.getParameter("keyword");
+	String condition=request.getParameter("condition");
+	
+	String encodedK=URLEncoder.encode(keyword);
 %>
 <!DOCTYPE html>
 <html>
@@ -53,6 +58,8 @@
 		<div class="mb-3">
 			<input type="hidden" name="kind" value="<%=kind %>" />
 			<input type="hidden" name="num" value="<%=num %>" />
+			<input type="hidden" name="keyword" value="<%=encodedK %>" />
+			<input type="hidden" name="condition" value="<%=condition %>" />
 		</div>
 		<div class="mb-3">
 			<label class="form-label" for="writer">작성자</label>

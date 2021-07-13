@@ -15,8 +15,8 @@
 	boolean isDeleteGood=false;
 	boolean isGood=FeedDao.getInstance().isGood(dto);
 	if(isGood==true){
-		isDeleteGood=FeedDao.getInstance().goodDelete(dto);	
+		isDeleteGood=FeedDao.getInstance().goodDelete(dto);
 	}
 %>
     
-{"isDeleteGood":"<%=isDeleteGood%>"}
+{"isDeleteGood":<%=isDeleteGood%>}

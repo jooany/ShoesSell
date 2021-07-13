@@ -91,10 +91,7 @@
 			transform: rotate(360deg);
 		}
 	}	
-	button{
-		border:none!important;
-		background:none!important;
-	}
+
 	.right_side{
 		float:right;
 	}
@@ -139,14 +136,15 @@
 				<img src="../images/kim1.png" />
 				<div class="heart_1"></div>
 			</div>
-			<div class="good_box">
-				<button class="heart_btn">
-				<% if(isUserGood==false){ %>
-					  <i class="heart_icon far fa-heart"></i>
-				<%}else{ %>
-					  <i class="heart_icon fas fa-heart"></i>
-				<%} %>	
-				</button>
+			<div class="good_box">				
+				<a data-num="1" data-isgood="<%=isUserGood %>" data-goodcount="<%=goodCount %>"  class="data1 good_event heart_btn" href="javascript:">				
+					<% if(isUserGood==false){ %>
+						  <i class="heart_icon far fa-heart"></i>
+					<%}else{ %>
+						  <i class="heart_icon fas fa-heart"></i>
+					<%} %>	
+				</a>	
+				
 				<span>좋아요 <%=goodCount%> 개</span>
 			</div>
 			
@@ -163,13 +161,13 @@
 			<textarea name="content"></textarea>
 			<button type="submit">등록</button>
 		</form>
-		</article>
-		<div class="loader">
+		</article>	
+	</div><!-- article_list.end -->
+	<div class="loader">
 			<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
 				  <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
 				  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
 			</svg>
-		</div>
 	</div>
 </div>
 <script src="${pageContext.request.contextPath}/js/gura_util.js"></script>
@@ -177,8 +175,7 @@
 
 <script>
 
-	//이벤트 리스너 등록
-	add
+
 
 	//댓글의 현재 페이지 번호를 관리할 변수를 만들고 초기값 1 대입하기
 	let currentPage=1;
@@ -191,12 +188,18 @@
 		window.innerHeight => 웹브라우저의 창의 높이
 		document.body.offsetHeight => body 의 높이 (문서객체가 차지하는 높이)
 	*/
+	
+	//list.jsp 로딩 시점에 만들어진 1 페이지 해당되는 피드에 이벤트 리스너 등록
+	addIsGoodListener(".good_event");
+		
 	window.addEventListener("scroll", function(){
 		//바닥 까지 스크롤 했는지 여부 
 		const isBottom = 
 			window.innerHeight + window.scrollY  >= document.body.offsetHeight;	
 		//현재 바닥까지 스크롤 했고 로딩중이 아니고 현재 페이지가 마지막이 아니라면
 		if(isBottom && !isLoading){
+			//로딩바 띄우기
+			document.querySelector(".loader").style.display="block";
 			
 			//로딩 작업중이라고 표시
 			isLoading=true;
@@ -219,63 +222,74 @@
 				document.querySelector(".article_list")
 					.insertAdjacentHTML("beforeend", data);
 				//로딩이 끝났다고 표시한다.
-				isLoading=false;			
+				isLoading=false;
+				
+				//새로 추가된 피드의 하트 버튼인 a 요소를 찾아서 이벤트 리스너 등록 하기
+				addIsGoodListener(".page-"+currentPage+" .good_event");
+				
 				//로딩바 숨기기
 				document.querySelector(".loader").style.display="none";
 			});
 		}
 	});
 				
-	
-	$(".heart_btn").on("click",function(){	
-		
-		let isGood =<%=isUserGood%>;
-		let goodCount=<%=goodCount%>;
+	function addIsGoodListener(sel){
+		//좋아요 기능 링크의 참조값을 배열에 담아오기 
+		let goodLinks=document.querySelectorAll(sel);
+		for(let i=0; i<goodLinks.length; i++){
+			goodLinks[i].addEventListener("click",function(){
+				//click 이벤트가 일어난 바로 그 요소의 isGood(로그인유저의 추천여부)를 data-isGood으로 읽어옴.
+				let isGood=this.getAttribute("data-isgood");
+				let goodCount=this.getAttribute("data-goodcount");
+				let num=this.getAttribute("data-num");
 				
-		//유저가 추천하지않았다면, 추천 테이블에 insert하고, 아이콘을 꽉 찬 하트로.
-		if(isGood==false){
-			
-			$(this).html("<i class='fas fa-heart'></i>");
-			
-			goodCount++;
-			$(this).next().replaceWith("<span>좋아요 "+goodCount+" 개</span>");
-			
-			ajaxPromise("private/ajax_good_insert.jsp", "get", "num=<%=dto.getNum()%>&id=<%=id%>")
-			.then(function(response){
-				return response.json();
+				alert(isGood+"/"+goodCount+"/"+num);
+				//유저가 이미 추천했다면, 추천 테이블에 delete하고, 아이콘을 빈 하트로.
+				//유저가 추천하지않았다면, 추천 테이블에 insert하고, 아이콘을 꽉 찬 하트로.
+				if(isGood=="true"){						
+					$(this).html("<i class='far fa-heart'></i>");
+					
+					goodCount--;
+					$(this).next().replaceWith("<span>좋아요 "+goodCount+" 개</span>");
+					
+					ajaxPromise("private/ajax_good_delete.jsp", "get", "num=<%=dto.getNum()%>&id=<%=id%>")
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						if(data.isDeleteGood){//유저가 테이블에 추가되었다면 
+							alert("테이블 삭제됨!");
+							$(".data"+num).removeAttr("data-isgood");
+							$(".data"+num).removeAttr("data-goodcount");
+							$(".data"+num).attr('data-isgood','false');
+							$(".data"+num).attr('data-goodcount',goodCount);							
+						}
+					});		
+				}else{
+					$(this).html("<i class='fas fa-heart'></i>");
+					
+					goodCount++;
+					$(this).next().replaceWith("<span>좋아요 "+goodCount+" 개</span>");
+					
+					ajaxPromise("private/ajax_good_insert.jsp", "get", "num=<%=dto.getNum()%>&id=<%=id%>")
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						if(data.isInsertGood){//유저가 테이블에 추가되었다면 
+							alert("테이블 추가됨!");
+							$(".data"+num).removeAttr("data-isgood");
+							$(".data"+num).removeAttr("data-goodcount");
+							$(".data"+num).attr('data-isgood','true');
+							$(".data"+num).attr('data-goodcount',goodCount);
+						}
+					});	
+					
+				}//else 끝 				
 			})
-			.then(function(data){
-				//data 는 {isExist:true} or {isExist:false} 형태의 object 이다.
-				//추천테이블에 insert 성공하면 색있는 하트로 변함.		
-				if(data.isInsertGood){//유저가 테이블에 추가되었다면 
-					isGood=true;
-				}
-			});
-
-			
-		//유저가 이미 추천했다면, 추천 테이블에 delete하고, 아이콘을 빈 하트로.
-		}else{
-		
-			$(this).html("<i class='far fa-heart'></i>");
-			
-			goodCount--;
-			$(this).next().replaceWith("<span>좋아요 "+goodCount+" 개</span>");
-			
-			
-			ajaxPromise("private/ajax_good_delete.jsp", "get", "num=<%=dto.getNum()%>&id=<%=id%>")
-			.then(function(response){
-				return response.json();
-			})
-			.then(function(data){
-				//data 는 {isExist:true} or {isExist:false} 형태의 object 이다.
-				//추천테이블에 delete를 성공하면 빈 하트로 변함.
-				if(data.isDeleteGood){//유저가 테이블에 추가되었다면 
-					isGood=false;
-				}
-			});
-			
 		}
-	});
+	}
+
 	
 </script>
 

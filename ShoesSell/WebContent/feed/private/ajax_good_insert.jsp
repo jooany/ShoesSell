@@ -20,4 +20,4 @@
 			
 %>
     
-{"isInsertGood":"<%=isInsertGood%>"}
+{"isInsertGood":<%=isInsertGood%>}

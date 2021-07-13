@@ -6,7 +6,7 @@
     pageEncoding="UTF-8"%>
 <%
 	//한 페이지에 몇개씩 표시할 것인지
-	final int PAGE_ROW_COUNT=8;
+	final int PAGE_ROW_COUNT=4;
 	//하단 페이지를 몇개씩 표시할 것인지
 	final int PAGE_DISPLAY_COUNT=5;
 	
@@ -42,10 +42,7 @@
 	//특수기호를 인코딩한 키워드를 미리 준비한다. 
 	String encodedK=URLEncoder.encode(keyword);
 	String kind=request.getParameter("kind");	
-	//만일 Kind 가 넘어오지 않는다면
-	if(kind==null){
-		kind="";
-	}
+	
 	//ResellDto 객체에 startRowNum 과 endRowNum 을 담는다.
 	ResellDto dto=new ResellDto();
 	dto.setStartRowNum(startRowNum);
@@ -171,8 +168,8 @@
          	<li class="breadcrumb-item active">Resell갤</li>
       	</ul>
    	</nav>
-   	<h1>ResellGallery</h1>
    	<ul class="nav">
+   		<h1>ResellGallery</h1>
   		<li class="nav-item">
     		<a class="nav-link" href="list.jsp?kind=buy">Buy</a>
   		</li>
@@ -185,7 +182,7 @@
 		<%for(ResellDto tmp:list){ %>
 		<div class="col-6 col-md-4 col-lg-3">
 			<div class="card mb-3">
-				<a href="detail.jsp?num=<%=tmp.getNum() %>">
+				<a href="detail.jsp?kind=<%=tmp.getKind() %>&num=<%=tmp.getNum() %>&condition=<%=condition %>&keyword=<%=encodedK %>">
 					<div class="img-wrapper">
 						<img class="card-img-top" src="${pageContext.request.contextPath }<%=tmp.getImagePath() %>" />
 					</div>
@@ -209,39 +206,33 @@
 		</div>
 		<%} %>
 	</div>
-	<nav>
+	<div class="page-ui clearfix">
 		<ul class="pagination justify-content-center">
 			<%if(startPageNum != 1){ %>
 				<li class="page-item">
-					<a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>">Prev</a>
-				</li>
-			<%}else{ %>
-				<li class="page-item disabled">
-					<a class="page-link" href="javascript:">Prev</a>
+					<a class="page-link" href="list.jsp?kind=<%=dto.getKind() %>&pageNum=<%=startPageNum-1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Prev</a>
 				</li>
 			<%} %>
-			<%for(int i=startPageNum; i<=endPageNum; i++) {%>
-				<%if(i==pageNum){ %>
+			
+			<%for(int i=startPageNum; i<=endPageNum ; i++){ %>
+				<%if(pageNum == i){ %>
 					<li class="page-item active">
-						<a class="page-link" href="list.jsp?kind=<%=dto.getKind() %>pageNum=<%=i %>"><%=i %></a>
+						<a class="page-link" class="active" href="list.jsp?kind=<%=dto.getKind() %>&pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
 					</li>
 				<%}else{ %>
-					<li class="page-item">
-						<a class="page-link" href="list.jsp?pageNum=<%=i %>"><%=i %></a>
+					<li>
+						<a class="page-link" href="list.jsp?kind=<%=dto.getKind() %>&pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
 					</li>
 				<%} %>
+			
 			<%} %>
 			<%if(endPageNum < totalPageCount){ %>
 				<li class="page-item">
-					<a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>">Next</a>
-				</li>
-			<%}else{ %>
-				<li class="page-item disabled">
-					<a class="page-link" href="javascript:">Next</a>
+					<a class="page-link" href="list.jsp?kind=<%=dto.getKind() %>&pageNum=<%=endPageNum+1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Next</a>
 				</li>
 			<%} %>
 		</ul>
-	</nav>	
+	</div>
 	
 	<div style="clear:both;"></div>
 	

@@ -7,14 +7,34 @@
 <title>/resell/private/resell_upload_form.jsp</title>
 <jsp:include page="../../include/resource.jsp"></jsp:include>
 <style>
+	.inner{
+      max-width:1100px!important;
+      margin:0 auto!important;
+      box-sizing:border-box!important;
+      position:relative!important;
+   }
 	#content{
 		height: 500px;
-		width: 1110px;
+		width: 1098px;
 	}
 </style>
 </head>
 <body>
-<div class="container">
+<jsp:include page="../../include/navbar.jsp">
+   	<jsp:param value="resell" name="thisPage"/>
+</jsp:include>
+<div class="inner">
+	<nav>
+   		<ul class="breadcrumb">
+      		<li class="breadcrumb-item">
+         		<a href="${pageContext.request.contextPath }/">Home</a>
+      		</li>
+      		<li class="breadcrumb-item">
+         		<a href="${pageContext.request.contextPath }/resell/list.jsp">Resell갤</a>
+      		</li>
+      		<li class="breadcrumb-item active">글쓰기</li>
+   		</ul>
+	</nav>
 	<h1>Resell Upload Form</h1>
 	<form action="resell_upload.jsp" method="post" id="uploadForm" enctype="multipart/form-data">
 		<div class="mb-3">

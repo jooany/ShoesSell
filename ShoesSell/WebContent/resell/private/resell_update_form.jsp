@@ -4,8 +4,6 @@
     pageEncoding="UTF-8"%>
 <%
 	int num=Integer.parseInt(request.getParameter("num"));
-	String kind=request.getParameter("kind");
-
 	ResellDto dto=ResellDao.getInstance().getData(num);
 %>
 <!DOCTYPE html>
@@ -51,7 +49,6 @@
 			<input type="hidden" name="imagePath" id="imagePath" value="<%=dto.getImagePath()%>"/>
 		</div>
 		<div class="mb-3">
-			<input type="hidden" name="kind" value="<%=kind %>" />
 			<input type="hidden" name="num" value="<%=num %>" />
 		</div>
 		<div class="mb-3">

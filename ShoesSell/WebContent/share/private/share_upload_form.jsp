@@ -18,40 +18,13 @@
 			<label for="content">내용</label>
 			<textarea name="content" id="content"></textarea>
 		</div>
-		<!-- 첨부파일 삽입 & 삽입한 파일이 이미지일경우 바로확인 -->
 		<div class="image-container">
 			<label for="myShare">첨부파일</label>
-			<img style="width: 100px; height: 100px;" id="inputShare" src="https://dummyimage.com/600x400/fff/000.jpg&text=+Attachments">
+			<img style="width: 100px; height: 100px;" id="inputShare" src="https://dummyimage.com/600x400/fff/000.jpg&text=+Attachments" onerror="this.style.display='none'"/>
 			<input style="display: block;" type="file" name="myShare" id="myShare">
 		</div>
 		<button type="submit">업로드</button>
 	</form>
-	<!-- 
-	<script>
-	// 유튜브 URL 찾는 패턴
-	function youtubeParser(url, ...groups) {
-		console.log(url);
-	  	const container = `
-	    	<div class="video-container">
-	      		<iframe width="560" height="315" src="https://www.youtube.com/embed/#ID#" title="YouTube video player"
-	      			frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-	      		</iframe>
-	    	</div>`;
-
-	  	return groups && groups[6].length == 11
-	    ? container.replace("#ID#", groups[6])
-	    : url;
-	}
-
-	const content = document.querySelector("#content");
-
-	// 유튜브 URL 찾는 패턴
-	const youtubeUrlExp = /(http:|https:)?(\/\/)?(www\.)?(youtube.com|youtu.be)\/(watch|embed)?(\?v=|\/)?(\S+)?/g;
-	const wrappedContent = content.innerHTML.replace(youtubeUrlExp, youtubeParser);
-	
-	content.innerHTML = wrappedContent;
-	</script>
-	 -->
 	<script>
 		function readImage(input) {
 		    // 인풋 태그에 파일이 있는 경우
@@ -64,9 +37,10 @@
 		            previewImage.src = e.target.result;
 		        }
 		        // reader가 이미지 읽도록 하기
-		        reader.readAsDataURL(input.files[0])
+		        reader.readAsDataURL(input.files[0]);
 		    }
 		};
+		
 		// input file에 change 이벤트 부여
 		const inputImage = document.getElementById("myShare");
 		inputImage.addEventListener("change",function(e){

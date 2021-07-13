@@ -3,11 +3,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	//post 방식 전송했을때 한글 깨지지 않도록 
-	request.setCharacterEncoding("utf-8");
+	//1. 요청 파라미터로 전달되는 수정할 내용를 읽어온다.
 	int num=Integer.parseInt(request.getParameter("num"));
-	ShareDto dto=ShareDao.getInstance().getData(num);
-%>
+	//2. 번호에 해당하는 내용을 얻어온다.
+	ShareDao dao=ShareDao.getInstance();
+	ShareDto dto=dao.getData(num);
+	//3. 수정할 양식(form) 을 응답한다.
+%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,34 +17,39 @@
 <title>/share/private/share_update_form.jsp</title>
 </head>
 <body>
-<div class="container">
-	<h1>share수정폼</h1>
+<div class="container">	
 	<form action="share_update.jsp" method="post" id="updateForm">
-		<input type="hidden" name="imagePath" id="imagePath" value="<%=dto.getImagePath()%>"/>
-		<input type="hidden" name="num" value="<%=num %>" />
 		<div>
-			<label for="writer">작성자</label>
-			<input type="text" id="writer" value="<%=dto.getWriter() %>" disabled/>
+			<input type="hidden" name="imagePath" id="imagePath" value="<%=dto.getImagePath()%>"/>
 		</div>
 		<div>
-			<label for="title">제목</label>
-			<input type="text" name="title" id="title" value="<%=dto.getTitle()%>"/>
+			<input type="hidden" name="num" value="<%=dto.getNum() %>" />
+		</div>
+		<div class="mb-3">
+			<label class="form-label" for="num">번호</label>
+			<%-- input 요소에 disabled 속성을 추가하면 수정도 불가하고 전송도 되지 않는다. --%>
+			<input class="form-control" type="text" name="num" id="num" value="<%=dto.getNum() %>" disabled/>
+		</div>
+		<div class="mb-3">
+			<label class="form-label" for="title">제목</label>
+			<input class="form-control" type="text" name="title" id="title" value="<%=dto.getTitle() %>"/>
+		</div>
+		<div class="mb-3">
+			<label class="form-label" for="content">내용</label>
+			<input class="form-control" type="text" name="content" id="content" value="<%=dto.getContent() %>"/>
 		</div>
 		<div>
-			<label for="content">내용</label>
-			<textarea name="content" id="content"><%=dto.getContent() %></textarea>
+			<img id="inputShare" src="${pageContext.request.contextPath}/<%=dto.getImagePath() %>" onerror="this.style.display='none'"/>
 		</div>
-		<button id="submitBtn" type="submit" onclick="submitContents(this);">수정확인</button>
-		<button type="reset">취소</button>
+		<button class="btn btn-primary" type="submit">수정확인</button>
+		<button class="btn btn-warning" type="reset">취소</button>
 	</form>
 	<form action="share_ajax_upload.jsp" method="post" id="ajaxForm" enctype="multipart/form-data" >
 		<div class="image-container">
 			<label for="myShare">파일수정</label>
-			<img id="inputShare" src="${pageContext.request.contextPath}<%=dto.getImagePath() %>">
 			<input style="display: block;" type="file" name="myShare" id="myShare">
 		</div>
 	</form>
-	
 </div>
 
 <script src="${pageContext.request.contextPath}/js/gura_util.js"></script>
@@ -84,13 +91,14 @@
 			console.log(data);
 			//이미지 경로에 context path 추가하기
 			const path="${pageContext.request.contextPath}"+data.imagePath;
+			//img 요소에 src 속성의 값을 넣어주어서 이미지 출력하기
+			document.querySelector("#inputShare").setAttribute("src", path);
+			//input type="hidden"인 요소에 value 를 넣어준다.
+			document.querySelector("#imagePath").value = data.imagePath;
 			
 		});
 	});
-	//등록 버튼을 눌렀을때 첫번째 form 을 강제 submit 시키기
-	document.querySelector("#submitBtn").addEventListener("click", function(){
-		document.querySelector("#updateForm").submit();
-	});
+	
 </script>
 </body>
 </html>

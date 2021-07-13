@@ -1,3 +1,4 @@
+<%@page import="test.feed.dto.FeedGoodDto"%>
 <%@page import="test.feed.dao.FeedDao"%>
 <%@page import="java.util.List"%>
 <%@page import="test.feed.dto.FeedDto"%>
@@ -16,6 +17,16 @@
 	FeedDto dto=new FeedDto();
 	dto=FeedDao.getInstance().getData(currentPage);
 	
+	//추천 테이블의 dto의 user에 로그인한 id를 저장함.
+	FeedGoodDto dto2=new FeedGoodDto();
+	dto2.setLiked_user(id);
+	dto2.setFeed_num(dto.getNum());
+	
+	//불러오는 글을 User가 눌렀는지 확인
+	boolean isUserGood=FeedDao.getInstance().isGood(dto2);
+	
+	//추천 글의 개수 
+	int goodCount=FeedDao.getInstance().goodCount(dto.getNum());
 %>    
     
     
@@ -25,6 +36,8 @@
 <head>
 <meta charset="UTF-8">
 <jsp:include page="../include/resource.jsp"></jsp:include>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 
 <title>/feed/list.jsp</title>
 
@@ -35,18 +48,31 @@
       box-sizing:border-box!important;
       position:relative!important;
    }
+   .inner2{
+      max-width:1000px!important;
+      margin:0 auto!important;
+      box-sizing:border-box!important;
+      position:relative!important;   	
+   }
 	.article_list{
 
 	}
 	.article_content{
-		width:600px;
+		width:640px;
 		height:700px;
-		border:1px solid pink;
+		border:1px solid pink;		
 	}
-	.test_box{
-		width:600px;
-		height:500px;
-		border:1px solid red;
+	.banner_box{
+		width:640px;
+		margin-top:50px;
+		box-sizing:border-box;
+		overflow:hidden;
+	}
+	.banner_box .img1{
+		margin-bottom:30px;
+	}
+	.banner_box .img2{
+	
 	}
 	.loader{
 		/* 로딩 이미지를 가운데 정렬하기 위해 */
@@ -56,8 +82,7 @@
 	}
 	.loader svg{
 		animation: rotateAni 1s ease-out infinite;
-	}
-	
+	}	
 	@keyframes rotateAni{
 		0%{
 			transform: rotate(0deg);
@@ -66,12 +91,41 @@
 			transform: rotate(360deg);
 		}
 	}	
+
+	.right_side{
+		float:right;
+	}
+	.right_side .introduce_box{
+		border:1px solid;
+		width:300px;
+		height:150px;
+		margin-bottom:30px;
+	}
+	.write_btn>div{
+		border:1px solid rgba(0,0,0,.5);
+		border-radius:4px;
+		width:300px;
+		height:50px;
+		text-align:center;
+		line-height:50px;
+	}
+	
 </style>
 </head>
 <body>
 <div class="inner">
 	<jsp:include page="../include/navbar.jsp"></jsp:include>
-	<div class="test_box"></div>
+</div>
+<div class="inner2">
+	<div class="right_side">
+		<div class="introduce_box"></div>
+		<a class="write_btn" href="private/feed_insertform.jsp">
+			<div>글쓰기</div>
+		</a>
+	</div>
+	<div class="banner_box">
+		<img class="img1" src="../images/adver2.PNG" alt="news" />
+	</div>
 	<div class="article_list">
 		<article class="article_content">
 			<header>
@@ -82,16 +136,19 @@
 				<img src="../images/kim1.png" />
 				<div class="heart_1"></div>
 			</div>
-			<div class="good_box">
-				<button class="heart_btn">
-					  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-heart" viewBox="0 0 16 16">
-	  					 <path d="m8 6.236-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
-					  </svg>
-				</button>
-				<span>좋아요 <%=dto.getGoodCount() %> 개</span>
+			<div class="good_box">				
+				<a data-num="1" data-isgood="<%=isUserGood %>" data-goodcount="<%=goodCount %>"  class="data1 good_event heart_btn" href="javascript:">				
+					<% if(isUserGood==false){ %>
+						  <i class="heart_icon far fa-heart"></i>
+					<%}else{ %>
+						  <i class="heart_icon fas fa-heart"></i>
+					<%} %>	
+				</a>	
+				
+				<span>좋아요 <%=goodCount%> 개</span>
 			</div>
 			
-			<div class="comment_box">hihi  안녕안녕!!여기는 댓글 임시장소</div>
+			<div class="comment_box">있잖아 이거 댓글 박스이고 첫번째 글이야!!!</div>
 			<div class="write_time"><%=dto.getRegdate() %></div>
 			
 		<!-- 원글에 댓글을 작성할 폼 -->
@@ -104,19 +161,21 @@
 			<textarea name="content"></textarea>
 			<button type="submit">등록</button>
 		</form>
-		</article>
-		<div class="loader">
+		</article>	
+	</div><!-- article_list.end -->
+	<div class="loader">
 			<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
 				  <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
 				  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
 			</svg>
-		</div>
 	</div>
 </div>
 <script src="${pageContext.request.contextPath}/js/gura_util.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
+
+
 
 	//댓글의 현재 페이지 번호를 관리할 변수를 만들고 초기값 1 대입하기
 	let currentPage=1;
@@ -129,12 +188,18 @@
 		window.innerHeight => 웹브라우저의 창의 높이
 		document.body.offsetHeight => body 의 높이 (문서객체가 차지하는 높이)
 	*/
+	
+	//list.jsp 로딩 시점에 만들어진 1 페이지 해당되는 피드에 이벤트 리스너 등록
+	addIsGoodListener(".good_event");
+		
 	window.addEventListener("scroll", function(){
 		//바닥 까지 스크롤 했는지 여부 
 		const isBottom = 
 			window.innerHeight + window.scrollY  >= document.body.offsetHeight;	
 		//현재 바닥까지 스크롤 했고 로딩중이 아니고 현재 페이지가 마지막이 아니라면
 		if(isBottom && !isLoading){
+			//로딩바 띄우기
+			document.querySelector(".loader").style.display="block";
 			
 			//로딩 작업중이라고 표시
 			isLoading=true;
@@ -157,36 +222,75 @@
 				document.querySelector(".article_list")
 					.insertAdjacentHTML("beforeend", data);
 				//로딩이 끝났다고 표시한다.
-				isLoading=false;			
+				isLoading=false;
+				
+				//새로 추가된 피드의 하트 버튼인 a 요소를 찾아서 이벤트 리스너 등록 하기
+				addIsGoodListener(".page-"+currentPage+" .good_event");
+				
 				//로딩바 숨기기
 				document.querySelector(".loader").style.display="none";
 			});
 		}
 	});
-		
-	let isGood=false; 
-		
-	$(".heart_btn").on("click",function(){
-		//2. util 에 있는 함수를 이용해서 ajax 요청하기
-		ajaxPromise("ajax_feed_good.jsp", "get", "isGood="+isGood)
-		.then(function(response){
-			return response.json();
-		})
-		.then(function(data){
-			console.log(data);
-			//data 는 {isExist:true} or {isExist:false} 형태의 object 이다.
-			if(data.isExist){//만일 존재한다면
-				//사용할수 없는 아이디라는 피드백을 보이게 한다. 
-				isIdValid=false;
-				// is-invalid 클래스를 추가한다. 
-				document.querySelector("#id").classList.add("is-invalid");
-			}else{
-				isIdValid=true;
-				document.querySelector("#id").classList.add("is-valid");
-			}
-		});
-		
-	});
+				
+	function addIsGoodListener(sel){
+		//좋아요 기능 링크의 참조값을 배열에 담아오기 
+		let goodLinks=document.querySelectorAll(sel);
+		for(let i=0; i<goodLinks.length; i++){
+			goodLinks[i].addEventListener("click",function(){
+				//click 이벤트가 일어난 바로 그 요소의 isGood(로그인유저의 추천여부)를 data-isGood으로 읽어옴.
+				let isGood=this.getAttribute("data-isgood");
+				let goodCount=this.getAttribute("data-goodcount");
+				let num=this.getAttribute("data-num");
+				
+				alert(isGood+"/"+goodCount+"/"+num);
+				//유저가 이미 추천했다면, 추천 테이블에 delete하고, 아이콘을 빈 하트로.
+				//유저가 추천하지않았다면, 추천 테이블에 insert하고, 아이콘을 꽉 찬 하트로.
+				if(isGood=="true"){						
+					$(this).html("<i class='far fa-heart'></i>");
+					
+					goodCount--;
+					$(this).next().replaceWith("<span>좋아요 "+goodCount+" 개</span>");
+					
+					ajaxPromise("private/ajax_good_delete.jsp", "get", "num=<%=dto.getNum()%>&id=<%=id%>")
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						if(data.isDeleteGood){//유저가 테이블에 추가되었다면 
+							alert("테이블 삭제됨!");
+							$(".data"+num).removeAttr("data-isgood");
+							$(".data"+num).removeAttr("data-goodcount");
+							$(".data"+num).attr('data-isgood','false');
+							$(".data"+num).attr('data-goodcount',goodCount);							
+						}
+					});		
+				}else{
+					$(this).html("<i class='fas fa-heart'></i>");
+					
+					goodCount++;
+					$(this).next().replaceWith("<span>좋아요 "+goodCount+" 개</span>");
+					
+					ajaxPromise("private/ajax_good_insert.jsp", "get", "num=<%=dto.getNum()%>&id=<%=id%>")
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						if(data.isInsertGood){//유저가 테이블에 추가되었다면 
+							alert("테이블 추가됨!");
+							$(".data"+num).removeAttr("data-isgood");
+							$(".data"+num).removeAttr("data-goodcount");
+							$(".data"+num).attr('data-isgood','true');
+							$(".data"+num).attr('data-goodcount',goodCount);
+						}
+					});	
+					
+				}//else 끝 				
+			})
+		}
+	}
+
+	
 </script>
 
 </body>

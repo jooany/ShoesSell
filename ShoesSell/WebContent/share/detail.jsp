@@ -218,19 +218,19 @@
 		</tr>
 		<tr>
 			<td>
-				<img src="${pageContext.request.contextPath }<%=dto.getImagePath()%>"/>
+				<img src="${pageContext.request.contextPath }<%=dto.getImagePath()%>" onerror="this.style.display='none'"/>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<a href="share_download.jsp?num=<%=dto.getNum()%>"><%=dto.getOrgFileName() %></a>
+				<a href="share_download.jsp?num=<%=dto.getNum()%>"><%=dto.getSaveFileName() %></a>
 			</td>			
 		</tr>
 	</table>
 	<ul>
 		<li><a href="list.jsp">목록보기</a></li>
 		<%if(dto.getWriter().equals(id)){ %>
-			<li><a href="private/share_ajax_form.jsp?num=<%=dto.getNum()%>">수정</a></li>
+			<li><a href="private/share_update_form.jsp?num=<%=dto.getNum()%>">수정</a></li>
 			<li><a href="private/share_delete.jsp?num=<%=dto.getNum()%>">삭제</a></li>
 		<%} %>
 		

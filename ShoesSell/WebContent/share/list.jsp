@@ -118,7 +118,7 @@
 				<td><a href="share_download.jsp?num=<%=tmp.getNum()%>"><%=tmp.getOrgFileName() %></a></td>
 				<td><%=tmp.getFileSize() %>byte</td>
 				<td><%=tmp.getRegdate() %></td>
-				<td><a href="private/share_ajax_form.jsp?num=<%=tmp.getNum() %>">수정</a></td>
+				<td><a href="private/share_update_form.jsp?num=<%=tmp.getNum() %>">수정</a></td>
 				<td>
 					<%if(tmp.getWriter().equals(id)){ %>
 						<a href="javascript:deleteConfirm(<%=tmp.getNum()%>)">삭제</a>

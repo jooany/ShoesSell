@@ -27,13 +27,15 @@ public class ShareDao {
 			conn = new DbcpBean().getConn();
 			//실행할 insert, update, delete 문 구성
 			String sql = "UPDATE board_share"
-					+ " SET title=?, content=?, imagePath=?"
+					+ " SET title=?, content=?, imagePath=?"//, orgFileName=?, SaveFileName=?
 					+ " WHERE num=?";
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩할 내용이 있으면 바인딩한다.
 			pstmt.setString(1, dto.getTitle());
 			pstmt.setString(2, dto.getContent());
 			pstmt.setString(3, dto.getImagePath());
+			//pstmt.setString(4, dto.getOrgFileName());
+			//pstmt.setString(5, dto.getSaveFileName());
 			pstmt.setInt(4, dto.getNum());
 			flag = pstmt.executeUpdate(); //sql 문 실행하고 변화된 row 갯수 리턴 받기
 		} catch (Exception e) {

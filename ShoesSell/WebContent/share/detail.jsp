@@ -134,6 +134,7 @@
 	}
 	.comments dd{
 		margin-left: 50px;
+		margin-bottom: 20px!important;
 	}
 	.comment-form textarea, .comment-form button{
 		float: left;
@@ -285,7 +286,7 @@
 		<button type="submit">등록</button>
 	</form>
 	<!-- 댓글 목록 -->
-	<div class="comments ">
+	<div class="comments">
 		<ul>
 			<%for(ShareCommentDto tmp: commentList){ %>
 				<%if(tmp.getDeleted().equals("yes")){ %>

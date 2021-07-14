@@ -10,11 +10,11 @@
 	request.setCharacterEncoding("utf-8");
 	// Tomcat 서버를 실행했을때 WebContent/upload 폴더의 실제 경로 얻어오기
 	String realPath=application.getRealPath("/upload");
-
+	
 	//해당 경로를 access 할수 있는 파일 객체 생성
 	File f=new File(realPath);
 	if(!f.exists()){ //만일  폴더가 존재 하지 않으면
-		f.mkdir(); //upload 폴더 만들기 
+	   f.mkdir(); //upload 폴더 만들기 
 	}
 	//최대 업로드 사이즈 설정
 	int sizeLimit=1024*1024*100; // 100 MByte
@@ -31,16 +31,16 @@
 	long fileSize=myShare.length();   
 	String orgFileName=mr.getOriginalFileName("myShare");
 	String saveFileName=mr.getFilesystemName("myShare");
-     
+      
 	ShareDto dto = new ShareDto();
 	dto.setNum(num);
-  	dto.setImagePath("/upload/"+saveFileName);
+	dto.setImagePath("/upload/"+saveFileName);
 	dto.setOrgFileName(orgFileName);
 	dto.setSaveFileName(saveFileName);
 	dto.setFileSize(fileSize);
-  
+   
 	ShareDao.getInstance().imageUpdate(dto);
-     
+      
 	String imagePath="/upload/"+saveFileName;
 %>    
 {"imagePath":"<%=imagePath %>"}

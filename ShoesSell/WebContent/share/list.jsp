@@ -130,7 +130,14 @@
 	}
 	#title > a{
 		display: block;
-		width:70px;
+		width:200px;
+		overflow:hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap;
+	}
+	#Ofile > a{
+		display: block;
+		width:200px;
 		overflow:hidden;
 		text-overflow:ellipsis;
 		white-space:nowrap;
@@ -165,7 +172,7 @@
 				<th scope="col">번호</th>
 				<th scope="col">작성자</th>
 				<th scope="col">제목</th>
-				<th scope="col">공유파일</th>
+				<th scope="col">파일</th>
 				<th scope="col">파일크기</th>
 				<th scope="col">등록일</th>
 				<th scope="col">수정</th>
@@ -178,7 +185,7 @@
 				<td><%=tmp.getNum() %></td>
 				<td><%=tmp.getWriter() %></td>
 				<td id="title"><a href="detail.jsp?num=<%=tmp.getNum()%>&keyword=<%=encodedK %>&condition=<%=condition %>"><%=tmp.getTitle() %></a></td>
-				<td><a href="share_download.jsp?num=<%=tmp.getNum()%>"><%=tmp.getOrgFileName() %></a></td>
+				<td id="Ofile"><a href="share_download.jsp?num=<%=tmp.getNum()%>"><%=tmp.getOrgFileName() %></a></td>
 				<td><%=tmp.getFileSize() %>byte</td>
 				<td><%=tmp.getRegdate() %></td>
 				<td>

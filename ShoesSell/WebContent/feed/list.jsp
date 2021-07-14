@@ -56,16 +56,25 @@
       box-sizing:border-box!important;
       position:relative!important;   	
    }
-	.article_list{
-
+   	.right_side{
+		float:right;
 	}
-	.article_content{
-		width:640px;
-		height:750px;
-		border:1px solid pink;		
+	.right_side .introduce_box{
+		border:1px solid;
+		width:300px;
+		height:150px;
+		margin-bottom:30px;
+	}
+	.write_btn>div{
+		border:1px solid rgba(0,0,0,.5);
+		border-radius:4px;
+		width:300px;
+		height:50px;
+		text-align:center;
+		line-height:50px;
 	}
 	.banner_box{
-		width:640px;
+		width:630px;
 		margin-top:50px;
 		box-sizing:border-box;
 		overflow:hidden;
@@ -73,9 +82,82 @@
 	.banner_box .img1{
 		margin-bottom:30px;
 	}
-	.banner_box .img2{
-	
+	.article_list{
+		width:630px;
+		height:fit-content;
+
 	}
+	.article_content{
+		width:630px;
+		height:fit-content;
+		border:1px solid rgba(0,0,0,.15);	
+		box-sizing:border-box!important;
+		overflow:hidden;	
+	}
+	.article_content .profile_header{
+		width:150px;
+		height:60px;
+		display:flex;
+		
+		align-items:center;
+	}
+	.profile_header .profile_img{
+		width:35px;
+		height:35px;
+		border-radius:50%;
+		margin-left:15px;
+	}
+	.profile_header .writer_date{
+		margin-left:10px;
+	}
+	.writer_date .writer_name{
+		font-size:15px;
+		font-weight:600;
+		color:rgba(0,0,0,.8);
+	}
+	.writer_date .write_time{
+		font-size:13px;
+		color:rgba(0,0,0,.7);
+	}
+	
+	.article_content .img_box{
+	}
+	.article_content .img_box>img{
+		max-width:630px;
+	}
+	
+	.article_content .good_box{
+		width:150px;
+		height:50px;
+		box-sizing:border-box;
+		line-height:50px;
+	}
+	.good_box .heart_btn{
+		color:rgb(255, 54, 90);
+		text-decoration:none;
+		margin-left:15px!important;
+	}
+	.good_box .heart_btn>i{
+		font-size:18px;
+		margin-top:10px;
+	}
+	.good_box span{
+		font-size:18px;
+		font-weight:500!important;
+	}
+	.content_box{
+		font-size:14px;
+		margin-left:15px;
+	}
+	.content_box .content_writer_name{
+		font-weight:600;
+		color:rgba(0,0,0,.8);
+	}
+	.content_box .content_title{
+	}
+
+
+	
 	.loader{
 		/* 로딩 이미지를 가운데 정렬하기 위해 */
 		text-align: center;
@@ -93,24 +175,6 @@
 			transform: rotate(360deg);
 		}
 	}	
-
-	.right_side{
-		float:right;
-	}
-	.right_side .introduce_box{
-		border:1px solid;
-		width:300px;
-		height:150px;
-		margin-bottom:30px;
-	}
-	.write_btn>div{
-		border:1px solid rgba(0,0,0,.5);
-		border-radius:4px;
-		width:300px;
-		height:50px;
-		text-align:center;
-		line-height:50px;
-	}
 	
 </style>
 </head>
@@ -119,23 +183,20 @@
 	<jsp:include page="../include/navbar.jsp"></jsp:include>
 </div>
 <div class="inner2">
-	<div class="right_side">
-		<div class="introduce_box"></div>
-		<a class="write_btn" href="private/feed_insertform.jsp">
-			<div>글쓰기</div>
-		</a>
-	</div>
 	<div class="banner_box">
 		<img class="img1" src="../images/adver2.PNG" alt="news" />
 	</div>
 	<div class="article_list">
 		<article class="article_content">
-			<header>
-				<div class="profile_img"><%=dto.getProfile() %></div>
-				<div class="writer_name"><%=dto.getWriter() %></div>
+			<header class="profile_header">
+				<img class="profile_img" src="<%=request.getContextPath()%><%=dto.getProfile()%>"/>
+				<div class="writer_date">
+					<div class="writer_name"><%=dto.getWriter() %></div>
+					<div class="write_time"><%=dto.getRegdate() %></div>
+				</div>
 			</header>
 			<div class="img_box">
-				<img src="../images/kim1.png" />
+				<img src="${pageContext.request.contextPath }<%=dto.getImagePath() %>" />
 				<div class="heart_1"></div>
 			</div>
 			<div class="good_box">				
@@ -147,11 +208,15 @@
 					<%} %>	
 				</a>	
 				
-				<span>좋아요 <%=goodCount%> 개</span>
+				<span><%=goodCount%> </span>
 			</div>
-			
-			<div class="comment_box">있잖아 이거 댓글 박스이고 첫번째 글이야!!!</div>
-			<div class="write_time"><%=dto.getRegdate() %></div>
+			<div class="content_box">
+				<span class="content_writer_name"><%=dto.getWriter() %></span>
+				<span class="content_title"><%=dto.getTitle() %></span>
+				<p class="content"><%=dto.getContent() %></p>
+			</div>
+			<div class="comment_box"></div>
+		
 			
 		<!-- 원글에 댓글을 작성할 폼 -->
 		<form class="comment-form insert-form" action="private/comment_insert.jsp" method="post">
@@ -256,7 +321,7 @@
 					$(this).html("<i class='far fa-heart'></i>");
 					
 					goodCount--;
-					$(this).next().replaceWith("<span>좋아요 "+goodCount+" 개</span>");
+					$(this).next().replaceWith("<span>"+goodCount+"</span>");
 					
 					ajaxPromise("private/ajax_good_delete.jsp", "get", "num=<%=dto.getNum()%>&id=<%=id%>")
 					.then(function(response){
@@ -277,7 +342,7 @@
 					$(this).html("<i class='fas fa-heart'></i>");
 					
 					goodCount++;
-					$(this).next().replaceWith("<span>좋아요 "+goodCount+" 개</span>");
+					$(this).next().replaceWith("<span>"+goodCount+"</span>");
 					
 					ajaxPromise("private/ajax_good_insert.jsp", "get", "num=<%=dto.getNum()%>&id=<%=id%>")
 					.then(function(response){

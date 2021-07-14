@@ -31,37 +31,44 @@
 %>      
 
 <article class="article_content">
-			<header>
-				<div class="profile_img"><%=dto.getProfile() %></div>
+		<header class="profile_header">
+			<img class="profile_img" src="<%=request.getContextPath()%><%=dto.getProfile()%>"/>
+			<div class="writer_date">
 				<div class="writer_name"><%=dto.getWriter() %></div>
-			</header>
-			<div class="img_box">
-				<img src="../images/kim1.png" />
-				<div class="heart_1"></div>
+				<div class="write_time"><%=dto.getRegdate() %></div>
 			</div>
-			<div class="good_box page-<%=articleNum%>">				
-				<a data-orgnum="<%=dto.getNum() %>" data-num="<%=articleNum %>" data-isgood="<%=isUserGood %>" data-goodcount="<%=goodCount %>" class="data<%=articleNum %> good_event heart_btn" href="javascript:">				
-					<% if(isUserGood==false){ %>
-						  <i class="heart_icon far fa-heart"></i>
-					<%}else{ %>
-						  <i class="heart_icon fas fa-heart"></i>
-					<%} %>	
-				</a>	
-				
-				<span>좋아요 <%=goodCount%> 개</span>
-			</div>
+		</header>
+		<div class="img_box">
+			<img src="${pageContext.request.contextPath }<%=dto.getImagePath() %>" />
+			<div class="heart_1"></div>
+		</div>
+		<div class="good_box page-<%=articleNum%>">				
+			<a data-orgnum="<%=dto.getNum() %>" data-num="<%=articleNum %>" data-isgood="<%=isUserGood %>" data-goodcount="<%=goodCount %>" class="data<%=articleNum %> good_event heart_btn" href="javascript:">				
+				<% if(isUserGood==false){ %>
+					  <i class="heart_icon far fa-heart"></i>
+				<%}else{ %>
+					  <i class="heart_icon fas fa-heart"></i>
+				<%} %>	
+			</a>	
 			
-			<div class="comment_box">있잖아 이거 댓글 박스이고 첫번째 글이야!!!</div>
-			<div class="write_time"><%=dto.getRegdate() %></div>
-			
-		<!-- 원글에 댓글을 작성할 폼 -->
-		<form class="comment-form insert-form" action="private/comment_insert.jsp" method="post">
-			<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
-			<input type="hidden" name="ref_group" value="<%=dto.getNum()%>"/>
-			<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
-			<input type="hidden" name="target_id" value="<%=dto.getWriter()%>"/>
-			
-			<textarea name="content"></textarea>
-			<button type="submit">등록</button>
-		</form>
+			<span class="good-count"><%=goodCount%> </span>
+		</div>
+		
+		<div class="content_box">
+				<span class="content_writer_name"><%=dto.getWriter() %></span>
+				<span class="content_title"><%=dto.getTitle() %></span>
+				<p class="content"><%=dto.getContent() %></p>
+		</div>
+		<div class="comment_box"></div>
+		
+	<!-- 원글에 댓글을 작성할 폼 -->
+	<form class="comment-form insert-form" action="private/comment_insert.jsp" method="post">
+		<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
+		<input type="hidden" name="ref_group" value="<%=dto.getNum()%>"/>
+		<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
+		<input type="hidden" name="target_id" value="<%=dto.getWriter()%>"/>
+		
+		<textarea name="content"></textarea>
+		<button type="submit">등록</button>
+	</form>
 </article>

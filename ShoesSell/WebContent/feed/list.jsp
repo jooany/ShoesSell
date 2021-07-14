@@ -1,3 +1,5 @@
+<%@page import="test.users.dao.UsersDao"%>
+<%@page import="test.users.dto.UsersDto"%>
 <%@page import="test.feed.dto.FeedGoodDto"%>
 <%@page import="test.feed.dao.FeedDao"%>
 <%@page import="java.util.List"%>
@@ -21,6 +23,9 @@
 	FeedGoodDto dto2=new FeedGoodDto();
 	dto2.setLiked_user(id);
 	dto2.setFeed_num(dto.getNum());
+	
+	//로그인한 id로 users dto에서 profile 이미지 가져옴.
+	UsersDto dto3=UsersDao.getInstance().getData(id);
 	
 	//불러오는 글을 User가 눌렀는지 확인
 	boolean isUserGood=FeedDao.getInstance().isGood(dto2);
@@ -333,7 +338,7 @@
 
 	 <div class="right_side">
 	     <div class="introduce_box">
-				<img class="profile_img" src="<%=request.getContextPath()%><%=dto.getProfile()%>"/>
+				<img class="profile_img" src="<%=request.getContextPath()%><%=dto3.getProfile()%>"/>
 				<div class="introduce">
 					<div class="introduce_content">
 						<span class="fw-bolder"><%=id %></span><span class="nim"> 님,</span>
@@ -538,6 +543,13 @@
 			})
 		}
 	}
+	$(".write_btn").on("click",function(){
+		//로그인 하지 않았다면, 로그인 알림과 함께 로그인 폼으로 보내버리기
+		if(!isLogin){
+			location.href=
+				"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/feed/list.jsp";
+		}
+	})
 	
 </script>
 

@@ -40,7 +40,7 @@
 				<div class="heart_1"></div>
 			</div>
 			<div class="good_box page-<%=articleNum%>">				
-				<a data-num="<%=articleNum %>" data-isgood="<%=isUserGood %>" data-goodcount="<%=goodCount %>" class="data<%=articleNum %> good_event heart_btn" href="javascript:">				
+				<a data-orgnum="<%=dto.getNum() %>" data-num="<%=articleNum %>" data-isgood="<%=isUserGood %>" data-goodcount="<%=goodCount %>" class="data<%=articleNum %> good_event heart_btn" href="javascript:">				
 					<% if(isUserGood==false){ %>
 						  <i class="heart_icon far fa-heart"></i>
 					<%}else{ %>

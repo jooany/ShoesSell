@@ -27,6 +27,8 @@
 	
 	//추천 글의 개수 
 	int goodCount=FeedDao.getInstance().goodCount(dto.getNum());
+	
+	int totalFeedCount=FeedDao.getInstance().feedCount();
 %>    
     
     
@@ -59,7 +61,7 @@
 	}
 	.article_content{
 		width:640px;
-		height:700px;
+		height:750px;
 		border:1px solid pink;		
 	}
 	.banner_box{
@@ -137,7 +139,7 @@
 				<div class="heart_1"></div>
 			</div>
 			<div class="good_box">				
-				<a data-num="1" data-isgood="<%=isUserGood %>" data-goodcount="<%=goodCount %>"  class="data1 good_event heart_btn" href="javascript:">				
+				<a data-orgnum="<%=dto.getNum() %>" data-num="1" data-isgood="<%=isUserGood %>" data-goodcount="<%=goodCount %>"  class="data1 good_event heart_btn" href="javascript:">				
 					<% if(isUserGood==false){ %>
 						  <i class="heart_icon far fa-heart"></i>
 					<%}else{ %>
@@ -175,11 +177,16 @@
 
 <script>
 
-
-
+	//클라이언트가 로그인 했는지 여부
+	let isLogin=<%=isLogin%>;
+	
+	//list.jsp 로딩 시점에 만들어진 1 페이지 해당되는 피드에 이벤트 리스너 등록
+	addIsGoodListener(".good_event");
+	   
 	//댓글의 현재 페이지 번호를 관리할 변수를 만들고 초기값 1 대입하기
 	let currentPage=1;
-	
+	//마지막 페이지는 totalPageCount 이다.  
+	let lastPage=<%=totalFeedCount%>;
 	//추가로 댓글을 요청하고 그 작업이 끝났는지 여부를 관리할 변수 
 	let isLoading=false; //현재 로딩중인지 여부 
 	
@@ -188,16 +195,14 @@
 		window.innerHeight => 웹브라우저의 창의 높이
 		document.body.offsetHeight => body 의 높이 (문서객체가 차지하는 높이)
 	*/
-	
-	//list.jsp 로딩 시점에 만들어진 1 페이지 해당되는 피드에 이벤트 리스너 등록
-	addIsGoodListener(".good_event");
 		
 	window.addEventListener("scroll", function(){
 		//바닥 까지 스크롤 했는지 여부 
 		const isBottom = 
 			window.innerHeight + window.scrollY  >= document.body.offsetHeight;	
+		let isLast = currentPage == lastPage; 
 		//현재 바닥까지 스크롤 했고 로딩중이 아니고 현재 페이지가 마지막이 아니라면
-		if(isBottom && !isLoading){
+		if(isBottom && !isLoading && !isLast){
 			//로딩바 띄우기
 			document.querySelector(".loader").style.display="block";
 			
@@ -242,8 +247,9 @@
 				let isGood=this.getAttribute("data-isgood");
 				let goodCount=this.getAttribute("data-goodcount");
 				let num=this.getAttribute("data-num");
+				let orgnum=this.getAttribute("data-orgnum");
 				
-				alert(isGood+"/"+goodCount+"/"+num);
+				alert(orgnum);
 				//유저가 이미 추천했다면, 추천 테이블에 delete하고, 아이콘을 빈 하트로.
 				//유저가 추천하지않았다면, 추천 테이블에 insert하고, 아이콘을 꽉 찬 하트로.
 				if(isGood=="true"){						
@@ -263,6 +269,8 @@
 							$(".data"+num).removeAttr("data-goodcount");
 							$(".data"+num).attr('data-isgood','false');
 							$(".data"+num).attr('data-goodcount',goodCount);							
+						}else{
+							alert("삭제 실패!!!");
 						}
 					});		
 				}else{
@@ -282,6 +290,9 @@
 							$(".data"+num).removeAttr("data-goodcount");
 							$(".data"+num).attr('data-isgood','true');
 							$(".data"+num).attr('data-goodcount',goodCount);
+						}else{
+							alert("등록 실패!!")
+							
 						}
 					});	
 					

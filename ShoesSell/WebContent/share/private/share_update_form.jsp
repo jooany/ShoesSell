@@ -182,16 +182,6 @@
 			});
 		}
 	}
-	// 파일을 안넣으면 넘어가지않게 실행할 함수등록
-	document.querySelector("#updateForm").addEventListener("submit", function(e){
-		// 파일사이즈 검증하고 
-		const myShare=document.querySelector("#myShare").value;
-		//만일 폼 제출을 막고 싶으면  e.preventDefault();
-		if(myShare.length < 1){
-			alert("파일을 추가하세요");
-			e.preventDefault();
-		}
-	});
 </script>
 </body>
 </html>

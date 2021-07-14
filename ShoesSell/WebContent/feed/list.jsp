@@ -39,7 +39,8 @@
 <meta charset="UTF-8">
 <jsp:include page="../include/resource.jsp"></jsp:include>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
+<!-- Remember to include jQuery :) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <title>/feed/list.jsp</title>
 
@@ -73,23 +74,58 @@
       box-sizing:border-box!important;
       position:relative!important;   	
    }
+   /*오른쪽 글쓰기 버튼 콘텐츠*/
    	.right_side{
+   		margin-top:100px;
 		float:right;
+		width:300px;
+		height:content-fit;
+		border:1px solid rgba(0,0,0,.15);
+		border-radius:4px;
+		box-sizing:border-box!important;
+		overflow:hidden;
 	}
 	.right_side .introduce_box{
-		border:1px solid;
 		width:300px;
-		height:150px;
+		margin-left:15px;
+		margin-top:30px;
 		margin-bottom:30px;
+		display:flex!important;
 	}
-	.write_btn>div{
-		border:1px solid rgba(0,0,0,.5);
-		border-radius:4px;
+	.introduce_box>img{
+		width:45px;
+		height:45px;
+		border-radius:50%;
+	}
+	.introduce_box .introduce{
+		margin-left:10px;
+	}
+	.lead_write{
+		font-size:13px;
+		color:rgba(0,0,0,.7);
+	}
+	.introduce .nim{
+		font-size:14px;
+	}
+	/*글쓰기 버튼*/
+	.write_btn{
+		text-decoration:none;
+		color:white;
+		font-weight:600;
+		background-color:rgb(255, 153, 20);
 		width:300px;
 		height:50px;
 		text-align:center;
 		line-height:50px;
+		border:none;
 	}
+	.write_btn:hover{
+		color:white;
+		background-color:rgb(201, 81, 0);
+	}
+
+	
+	/*광고 배너*/
 	.banner_box{
 		width:630px;
 		margin-top:50px;
@@ -139,9 +175,12 @@
 	}
 	
 	.article_content .img_box{
+		display:flex;
+		justify-content:center;
 	}
 	.article_content .img_box>img{
 		max-width:630px;
+		
 	}
 	
 	.article_content .good_box{
@@ -211,15 +250,107 @@
 		100%{
 			transform: rotate(360deg);
 		}
-	}	
-	
+	}
+	.modal-content{
+		width:500px;
+		height:content-fit;
+		margin:0 auto!important;
+	}
+	.modal-content textarea{
+		width:466px;
+		height:150px;
+		border:1px solid rgba(0,0,0,.15);
+		border-radius:4px;
+	}
+	.insert_btn{
+		margin-top:30px;
+		margin-bottom:30px;
+		width:466px;
+		height:50px;
+		border:none;
+		text-decoration:none;
+		color:white;
+		font-weight:600;
+		background-color:rgb(255, 153, 20);
+		text-align:center;
+		line-height:50px;
+		border-radius:4px;
+
+	}
+	.insert_btn:hover{
+		color:white;
+		background-color:rgb(201, 81, 0);
+	}
+
 </style>
 </head>
 <body>
 <div class="inner">
-	<jsp:include page="../include/navbar.jsp"></jsp:include>
+	<jsp:include page="../include/navbar.jsp">
+		<jsp:param value="feed" name="thisPage"/>
+	</jsp:include>
 </div>
+
 <div class="inner2">
+
+<!-- Modal -->
+<div class="modal fade modal_total" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">새 게시물 작성</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <!-- modal 안의 내용 -->
+      <div class="modal-body">
+      
+        <form id="uploadForm" action="private/feed_insert.jsp" method="post" id="insertForm" enctype="multipart/form-data">
+            <div class="input-group flex-nowrap">
+            	 <span class="input-group-text" id="title">제목</span>
+		         <label class="form-label" for="title"></label>
+		         <input class="form-control" type="text" name="title" id="title" aria-label="title" aria-describedby="title"/>
+      		</div>
+	        <div> 
+				<label class="form-label" for="content"></label>
+				<textarea name="content" id="content"></textarea>
+			</div>
+			<div>
+				<label class="form-label" for="image"></label>
+				<input class="form-control" type="file" name="image" id="image"
+					accept=".jpg, .jpeg, .png, .JPG, .JPEG"/>
+			</div>
+			<button type="submit" class="insert_btn">작성</button>
+        
+        </form> 
+              
+      </div> 
+        
+     
+    </div>
+  </div>
+</div>
+
+	 <div class="right_side">
+	     <div class="introduce_box">
+				<img class="profile_img" src="<%=request.getContextPath()%><%=dto.getProfile()%>"/>
+				<div class="introduce">
+					<div class="introduce_content">
+						<span class="fw-bolder"><%=id %></span><span class="nim"> 님,</span>
+						<p class="lead_write">피드를 작성해보세요!</p>
+					</div>
+				</div>
+			</div>
+		<div>
+			
+
+    	<button type="button" class="write_btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    		<div>글쓰기</div>
+    	</button>
+    		
+   		</div>
+	      
+    </div>
 	<div class="banner_box">
 		<img class="img1" src="../images/adver2.PNG" alt="news" />
 	</div>
@@ -254,7 +385,7 @@
 			</div>
 			<div class="comment_box">				
 				<!-- 원글에 댓글을 작성할 폼 -->
-				<form class="comment-form insert-form " action="private/comment_insert.jsp" method="post">
+				<form class="comment-form insert-form " action="private/comment_insert.jsp" method="post" enctype="multipart/form-data">
 					<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
 					<input type="hidden" name="ref_group" value="<%=dto.getNum()%>"/>
 					<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
@@ -274,7 +405,8 @@
 	</div>
 </div>
 <script src="${pageContext.request.contextPath}/js/gura_util.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
 
 <script>
 
@@ -406,7 +538,6 @@
 			})
 		}
 	}
-
 	
 </script>
 

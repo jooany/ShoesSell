@@ -5,6 +5,7 @@
 <%
 	//1. GET 방식 파라미터로 전달되는 삭제할 글번호를 읽어와서 
 	int num=Integer.parseInt(request.getParameter("num"));
+	String kind=request.getParameter("kind");
 
 	//2. 삭제할 글의 작성자와 로그인 아이디가 같은지 비교를 해서 
 	String writer=ResellDao.getInstance().getData(num).getWriter();
@@ -29,7 +30,7 @@
 	<%if(isSuccess){%>
 		<script>
 			alert("삭제 했습니다.");
-			location.href="${pageContext.request.contextPath }/resell/list.jsp";
+			location.href="${pageContext.request.contextPath }/resell/list.jsp?kind=<%=kind%>";
 		</script>
 	<%}else{%>
 		<script>

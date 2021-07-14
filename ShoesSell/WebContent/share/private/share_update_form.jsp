@@ -15,15 +15,55 @@
 <head>
 <meta charset="UTF-8">
 <title>/share/private/share_update_form.jsp</title>
+<jsp:include page="../../include/resource.jsp"></jsp:include>
+<style>
+	.container{
+      	max-width: 1100px!important;
+      	margin: 0 auto!important;
+      	box-sizing: border-box!important;
+      	position: relative!important;
+   	}
+	h1{
+		font-weight: bold!important;
+		text-align: center;
+	}
+	button{
+		float: right;
+	}
+	
+</style>
 </head>
 <body>
-<div class="container">	
+<div class="container">
+<jsp:include page="../../include/navbar.jsp">
+	<jsp:param value="file" name="thisPage"/>
+</jsp:include>
+	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="${pageContext.request.contextPath}/index.jsp">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+						<path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+					</svg>
+				</a>
+			</li>
+			<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/share/list.jsp">News</a></li>
+			<li class="breadcrumb-item active">rewrite</li>
+		</ol>
+	</nav>
+	<h1>rewrite</h1>
 	<form action="share_update.jsp" method="post" id="updateForm">
-		<div>
-			<input type="hidden" name="imagePath" id="imagePath" value="<%=dto.getImagePath()%>"/>
+		<div class="mb-3">
+			<input class="form-control" type="hidden" name="imagePath" id="imagePath" value="<%=dto.getImagePath()%>"/>
 		</div>
-		<div>
-			<input type="hidden" name="num" value="<%=dto.getNum() %>" />
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+			<button class="btn btn-outline-success btn-sm me-md-2" type="submit">수정확인</button>
+			<button class="btn btn-outline-warning btn-sm me-md-2" type="reset">수정취소</button>
+			<button class="btn btn-outline-primary btn-sm" type="reset" onclick="location.href='javascript:history.back();'">뒤로가기</button>
+		</div>
+		<div class="mb-3">
+			<input class="form-control" type="hidden" name="num" value="<%=dto.getNum() %>" />
 		</div>
 		<div class="mb-3">
 			<label class="form-label" for="num">번호</label>
@@ -36,18 +76,18 @@
 		</div>
 		<div class="mb-3">
 			<label class="form-label" for="content">내용</label>
-			<input class="form-control" type="text" name="content" id="content" value="<%=dto.getContent() %>"/>
+			<textarea class="form-control" name="content" id="content" style="height: 100px"><%=dto.getContent() %></textarea>
 		</div>
 		<div>
-			<img id="inputShare" src="${pageContext.request.contextPath}/<%=dto.getImagePath() %>" onerror="this.style.display='none'"/>
+			<label for="myShare" class="mb-3">파일수정</label>
+			<img id="inputShare" src="${pageContext.request.contextPath}/<%=dto.getImagePath() %>" onerror="this.src='https://dummyimage.com/300x200/fff/000.jpg&text=NO+IMAGE'"/>
 		</div>
-		<button class="btn btn-primary" type="submit">수정확인</button>
-		<button class="btn btn-warning" type="reset">취소</button>
 	</form>
 	<form action="share_ajax_upload.jsp" method="post" id="ajaxForm" enctype="multipart/form-data" >
-		<div class="image-container">
-			<label for="myShare">파일수정</label>
-			<input style="display: block;" type="file" name="myShare" id="myShare">
+		<div class="image-container mb-3">
+			<input type="hidden" name="num" value="<%=num %>" />
+			<label for="myShare"></label>
+			<input class="form-control form-control" style="display: block;" type="file" name="myShare" id="myShare">
 		</div>
 	</form>
 </div>
@@ -99,6 +139,50 @@
 		});
 	});
 	
+</script>
+<script>
+	
+	addUpdateListener(".update-link");
+	addDeleteListener(".delete-link");	
+
+	//인자로 전달되는 선택자를 이용해서 이벤트 리스너를 등록하는 함수 
+	function addUpdateListener(sel){
+		// 첨부파일 수정 링크의 참조값을 배열에 담아오기 
+		let updateLinks=document.querySelectorAll(sel);
+		for(let i=0; i<updateLinks.length; i++){
+			updateLinks[i].addEventListener("click", function(){
+				//click 이벤트가 일어난 바로 그 요소의 data-num 속성의 value 값을 읽어온다. 
+				const num=this.getAttribute("num"); //파일의 글번호
+				document.querySelector("#updateForm"+num).style.display="block";
+				
+			});
+		}
+	}
+	function addDeleteListener(sel){
+		//댓글 삭제 링크의 참조값을 배열에 담아오기 
+		let deleteLinks=document.querySelectorAll(sel);
+		for(let i=0; i<deleteLinks.length; i++){
+			deleteLinks[i].addEventListener("click", function(){
+				//click 이벤트가 일어난 바로 그 요소의 num 속성의 value 값을 읽어온다. 
+				const num=this.getAttribute("num"); // 파일의 글번호
+				const isDelete=confirm("첨부파일을 삭제 하시겠습니까?");
+				if(isDelete){
+					// gura_util.js 에 있는 함수들 이용해서 ajax 요청
+					ajaxPromise("private/share_File_delete.jsp", "post", "num="+num)
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						//만일 삭제 성공이면 
+						if(data.isSuccess){
+							// 파일이 있는 곳에 삭제된 댓글입니다를 출력해 준다. 
+							alert("파일을 삭제하였습니다.");
+						}
+					});
+				}
+			});
+		}
+	}
 </script>
 </body>
 </html>

@@ -192,16 +192,17 @@
 		background:none;
 	}
 
-
 	
 	.loader{
 		/* 로딩 이미지를 가운데 정렬하기 위해 */
 		text-align: center;
 		/* 일단 숨겨 놓기 */
 		display: none;
+		width:30px;
 	}
 	.loader svg{
 		animation: rotateAni 1s ease-out infinite;
+		
 	}	
 	@keyframes rotateAni{
 		0%{

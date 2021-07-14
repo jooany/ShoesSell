@@ -1,5 +1,3 @@
-<%@page import="test.users.dao.UsersDao"%>
-<%@page import="test.users.dto.UsersDto"%>
 <%@page import="test.feed.dto.FeedGoodDto"%>
 <%@page import="test.feed.dao.FeedDao"%>
 <%@page import="java.util.List"%>
@@ -23,9 +21,6 @@
 	FeedGoodDto dto2=new FeedGoodDto();
 	dto2.setLiked_user(id);
 	dto2.setFeed_num(dto.getNum());
-	
-	//로그인한 id로 users dto에서 profile 이미지 가져옴.
-	UsersDto dto3=UsersDao.getInstance().getData(id);
 	
 	//불러오는 글을 User가 눌렀는지 확인
 	boolean isUserGood=FeedDao.getInstance().isGood(dto2);
@@ -128,7 +123,6 @@
 		color:white;
 		background-color:rgb(201, 81, 0);
 	}
-
 	
 	/*광고 배너*/
 	.banner_box{
@@ -143,7 +137,6 @@
 	.article_list{
 		width:630px;
 		height:fit-content;
-
 	}
 	.article_content{
 		width:630px;
@@ -235,7 +228,6 @@
 		border:none;
 		background:none;
 	}
-
 	
 	.loader{
 		/* 로딩 이미지를 가운데 정렬하기 위해 */
@@ -280,13 +272,11 @@
 		text-align:center;
 		line-height:50px;
 		border-radius:4px;
-
 	}
 	.insert_btn:hover{
 		color:white;
 		background-color:rgb(201, 81, 0);
 	}
-
 </style>
 </head>
 <body>
@@ -338,10 +328,10 @@
 
 	 <div class="right_side">
 	     <div class="introduce_box">
-				<img class="profile_img" src="<%=request.getContextPath()%><%=dto3.getProfile()%>"/>
+				
 				<div class="introduce">
 					<div class="introduce_content">
-						<span class="fw-bolder"><%=id %></span><span class="nim"> 님,</span>
+						<span class="fw-bolder"><%=isLogin? id : "로그인하세요" %></span><span class="nim"> 님,</span>
 						<p class="lead_write">피드를 작성해보세요!</p>
 					</div>
 				</div>
@@ -414,7 +404,6 @@
 
 
 <script>
-
 	//클라이언트가 로그인 했는지 여부
 	let isLogin=<%=isLogin%>;
 	
@@ -494,7 +483,6 @@
 				let goodCount=this.getAttribute("data-goodcount");
 				let num=this.getAttribute("data-num");
 				let orgnum=this.getAttribute("data-orgnum");
-
 				//유저가 이미 추천했다면, 추천 테이블에 delete하고, 아이콘을 빈 하트로.
 				//유저가 추천하지않았다면, 추천 테이블에 insert하고, 아이콘을 꽉 찬 하트로.
 				if(isGood=="true"){						
@@ -543,13 +531,6 @@
 			})
 		}
 	}
-	$(".write_btn").on("click",function(){
-		//로그인 하지 않았다면, 로그인 알림과 함께 로그인 폼으로 보내버리기
-		if(!isLogin){
-			location.href=
-				"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/feed/list.jsp";
-		}
-	})
 	
 </script>
 

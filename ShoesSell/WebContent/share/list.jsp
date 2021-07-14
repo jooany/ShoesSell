@@ -181,7 +181,10 @@
 				<td><a href="share_download.jsp?num=<%=tmp.getNum()%>"><%=tmp.getOrgFileName() %></a></td>
 				<td><%=tmp.getFileSize() %>byte</td>
 				<td><%=tmp.getRegdate() %></td>
-				<td><a href="private/share_update_form.jsp?num=<%=tmp.getNum() %>">수정</a></td>
+				<td>
+					<%if(tmp.getWriter().equals(id)){ %>
+						<a href="private/share_update_form.jsp?num=<%=tmp.getNum() %>">수정</a></td>
+					<%} %>
 				<td>
 					<%if(tmp.getWriter().equals(id)){ %>
 						<a href="javascript:deleteConfirm(<%=tmp.getNum()%>)">삭제</a>
@@ -191,7 +194,7 @@
 		<%} %>
 		</tbody>
 	</table>
-	<button class="btn btn-outline-primary btn-sm" onclick = "location.href = 'private/share_upload_form.jsp'">share</button></a>
+	<button class="btn btn-outline-primary" onclick = "location.href = 'private/share_upload_form.jsp'">파일 업로드</button></a>
 	<div class="page-ui clearfix">
 		<ul class="pagination justify-content-center">
 			<%if(startPageNum != 1){ %>
@@ -219,10 +222,8 @@
 			<%} %>
 		</ul>
 	</div>
-	
 	<div style="clear:both;"></div>
-	
-	<form align="right" action="list.jsp" method="get"> 
+	<form style="text-align:right" action="list.jsp" method="get"> 
 		<label for="condition">검색조건</label>
 		<select name="condition" id="condition">
 			<option value="title_filename" <%=condition.equals("title_filename") ? "selected" : ""%>>제목+파일명</option>

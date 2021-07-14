@@ -29,7 +29,7 @@
 	// 업로드된 파일을 access 할수 있는 File 객체
 	File myShare=mr.getFile("myShare");
 	//파일의 크기 (byte)
-	long fileSize=myShare.length();	
+	long fileSize=myShare.length();
 	//원본 파일명 
 	String orgFileName=mr.getOriginalFileName("myShare");
 	

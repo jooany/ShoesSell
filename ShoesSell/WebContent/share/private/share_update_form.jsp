@@ -23,14 +23,17 @@
       	box-sizing: border-box!important;
       	position: relative!important;
    	}
-	h1{
-		font-weight: bold!important;
-		text-align: center;
-	}
 	button{
 		float: right;
 	}
-	
+	a{
+		text-decoration: none;
+	}
+	#inputShare{
+		padding-left: 30px;
+		max-width: 700px!important;
+		max-height: 500px!important;
+	}
 </style>
 </head>
 <body>
@@ -52,23 +55,21 @@
 			<li class="breadcrumb-item active">rewrite</li>
 		</ol>
 	</nav>
-	<h1>rewrite</h1>
 	<form action="share_update.jsp" method="post" id="updateForm">
 		<div class="mb-3">
 			<input class="form-control" type="hidden" name="imagePath" id="imagePath" value="<%=dto.getImagePath()%>"/>
 		</div>
 		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 			<button class="btn btn-outline-success btn-sm me-md-2" type="submit">수정확인</button>
-			<button class="btn btn-outline-warning btn-sm me-md-2" type="reset">수정취소</button>
 			<button class="btn btn-outline-primary btn-sm" type="reset" onclick="location.href='javascript:history.back();'">뒤로가기</button>
 		</div>
 		<div class="mb-3">
 			<input class="form-control" type="hidden" name="num" value="<%=dto.getNum() %>" />
 		</div>
 		<div class="mb-3">
-			<label class="form-label" for="num">번호</label>
+			<label class="form-label" for="num"></label>
 			<%-- input 요소에 disabled 속성을 추가하면 수정도 불가하고 전송도 되지 않는다. --%>
-			<input class="form-control" type="text" name="num" id="num" value="<%=dto.getNum() %>" disabled/>
+			<input type="hidden" class="form-control" type="text" name="num" id="num" value="<%=dto.getNum() %>" disabled/>
 		</div>
 		<div class="mb-3">
 			<label class="form-label" for="title">제목</label>
@@ -183,6 +184,16 @@
 			});
 		}
 	}
+	// 파일을 안넣으면 넘어가지않게 실행할 함수등록
+	document.querySelector("#updateForm").addEventListener("submit", function(e){
+		// 파일사이즈 검증하고 
+		const myShare=document.querySelector("#myShare").value;
+		//만일 폼 제출을 막고 싶으면  e.preventDefault();
+		if(myShare.length < 1){
+			alert("파일을 추가하세요");
+			e.preventDefault();
+		}
+	});
 </script>
 </body>
 </html>

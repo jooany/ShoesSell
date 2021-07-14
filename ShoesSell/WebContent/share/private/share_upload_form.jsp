@@ -44,7 +44,8 @@
 		text-decoration: none;
 	}
 	button{
-		float: right;
+		float: right!important; 
+		margin-bottom: 20px;
 	}
 	#img > img{
 		max-width: 700px!important;
@@ -73,6 +74,7 @@
 		</ol>
 	</nav>
 	<form action="share_upload.jsp" id="uploadForm" method="post" enctype="multipart/form-data" >
+		<button class="btn btn-outline-primary btn-sm btn" type="submit">업로드</button>
 		<div class="mb-3">
 			<label for="title">제목</label>
 			<input class="form-control" type="text" name="title" id="title" />
@@ -86,7 +88,6 @@
 			<img class="mb-3" id="inputShare" src="https://dummyimage.com/300x200/fff/000.jpg&text=+Attachments" onerror="this.parentNode.style.display='none'"/>
 			<input class="form-control" style="display: block;" type="file" name="myShare" id="myShare">
 		</div>
-		<button class="btn btn-outline-primary btn-sm" type="submit">업로드</button>
 	</form>
 	<script>
 		function readImage(input) {

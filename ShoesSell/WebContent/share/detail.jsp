@@ -1,8 +1,8 @@
+<%@page import="test.share.dao.ShareDao"%>
 <%@page import="test.share.dao.ShareCommentDao"%>
 <%@page import="test.share.dto.ShareCommentDto"%>
 <%@page import="java.util.List"%>
 <%@page import="java.net.URLEncoder"%>
-<%@page import="test.share.dao.ShareDao"%>
 <%@page import="test.share.dto.ShareDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -10,38 +10,43 @@
 	//자세히 보여줄 글번호를 읽어온다. 
 	int num=Integer.parseInt(request.getParameter("num"));
 	
-	// 검색키워드
+	// 검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.
 	String keyword=request.getParameter("keyword");
 	String condition=request.getParameter("condition");
-	// 키워드 == null
+	//만일 키워드가 넘어오지 않는다면 
 	if(keyword==null){
+		//키워드와 검색 조건에 빈 문자열을 넣어준다. 
+		//클라이언트 웹브라우저에 출력할때 "null" 을 출력되지 않게 하기 위해서  
 		keyword="";
 		condition=""; 
 	}
 	
 	// ShareDto 객체를 생성해서 
 	ShareDto dto=new ShareDto();
-	// 자세히 보여줄 글번호를 넣어준다.
+	//자세히 보여줄 글번호를 넣어준다. 
 	dto.setNum(num);
-	//만일 검색 키워드가 넘어온다면 
-	if(!keyword.equals("")){
-		//검색 조건따라 분기
-		if(condition.equals("title_filename")){//제목 + 파일명 검색인 경우
-			dto.setTitle(keyword);
-			dto.setOrgFileName(keyword);
-			dto=ShareDao.getInstance().getDataTF(dto);
-		}else if(condition.equals("title")){ //제목 검색인 경우
-			dto.setTitle(keyword);
-			dto=ShareDao.getInstance().getDataT(dto);
-		}else if(condition.equals("writer")){ //작성자 검색인 경우
-			dto.setWriter(keyword);
-			dto=ShareDao.getInstance().getDataW(dto);
-		}
-	}else{
-		dto=ShareDao.getInstance().getData(dto);
-	}
+   //만일 검색 키워드가 넘어온다면 
+   if(!keyword.equals("")){
+      //검색 조건이 무엇이냐에 따라 분기 하기
+      if(condition.equals("title_filename")){//제목 + 내용 검색인 경우
+         //검색 키워드를 ShareDto 에 담아서 전달한다.
+         dto.setTitle(keyword);
+         dto.setOrgFileName(keyword);
+         dto=ShareDao.getInstance().getDataTF(dto);
+      }else if(condition.equals("title")){ //제목 검색인 경우
+         dto.setTitle(keyword);
+         dto=ShareDao.getInstance().getDataT(dto);
+      }else if(condition.equals("writer")){ //작성자 검색인 경우
+         dto.setWriter(keyword);
+         dto=ShareDao.getInstance().getDataW(dto);
+      } // 다른 검색 조건을 추가 하고 싶다면 아래에 else if() 를 계속 추가 하면 된다.
+   }else{//검색 키워드가 넘어오지 않는다면
+	   dto=ShareDao.getInstance().getData(dto);
+   }
+
 	//특수기호를 인코딩한 키워드를 미리 준비한다. 
 	String encodedK=URLEncoder.encode(keyword);
+	
 	
 	//로그인된 아이디 (로그인을 하지 않았으면 null 이다)
 	String id=(String)session.getAttribute("id");
@@ -51,6 +56,9 @@
 		isLogin=true;
 	}
 	
+	/*
+		[ 댓글 페이징 처리에 관련된 로직 ]
+	*/
 	//한 페이지에 몇개씩 표시할 것인지
 	final int PAGE_ROW_COUNT=10;
 	
@@ -70,15 +78,15 @@
 	commentDto.setEndRowNum(endRowNum);
 	
 	//1페이지에 해당하는 댓글 목록만 select 되도록 한다. 
-	List<ShareCommentDto> commentList= ShareCommentDao.getInstance().getList(commentDto);
+	List<ShareCommentDto> commentList=ShareCommentDao.getInstance().getList(commentDto);
 	
 	//원글의 글번호를 이용해서 댓글 전체의 갯수를 얻어낸다.
 	int totalRow=ShareCommentDao.getInstance().getCount(num);
 	//댓글 전체 페이지의 갯수
 	int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
-	//글정보를 응답한다.
 	
-%>    
+	//글정보를 응답한다.
+%>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -191,6 +199,7 @@
 	
 	.loader svg{
 		animation: rotateAni 1s ease-out infinite;
+		animation-iteration-count: 3;
 	}
 	
 	@keyframes rotateAni{
@@ -210,7 +219,7 @@
 <jsp:include page="../include/navbar.jsp">
    	<jsp:param value="share" name="thisPage"/>
 </jsp:include>
-	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
 				<a href="${pageContext.request.contextPath}/index.jsp">
@@ -230,6 +239,7 @@
 			<button class="btn btn-outline-primary btn-sm mb-3" type="button" onclick="location.href='private/share_delete.jsp?num=<%=dto.getNum()%>'">삭제</button>
 		<%} %>
 	</div>
+	
 	<table class="table"  frame=void>
 		<tr align="center">
 			<th>제목</th>
@@ -259,23 +269,22 @@
 				<img src="${pageContext.request.contextPath }<%=dto.getImagePath()%>" onerror="this.style.display='none'"/>
 			</td>
 		</tr>
-		
 	</table>
 	<div class="Btn">
-		<%if(dto.getPrevNum()!=0){ %>
-			<button class="btn btn-outline-primary btn-lg me-md-2 mb-3" type="button" onclick="location.href='detail.jsp?num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>'">이전글</button>
-		<%} %>
-		<button class="btn btn-outline-success btn-sm me-md-2 mb-3" type="button" onclick="location.href='list.jsp'">목록보기</button>
-		<%if(dto.getNextNum()!=0){ %>
-			<button class="btn btn-outline-primary btn-lg mb-3" type="button" onclick="location.href='detail.jsp?num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>'">다음글</button>
-		<%} %>
-		<% if(!keyword.equals("")){ %>
-			<p>	
-				<strong><%=condition %></strong> 조건, 
-				<strong><%=keyword %></strong> 검색어로 검색된 내용 자세히 보기 
-			</p>
-		<%} %>
+			<%if(dto.getPrevNum()!=0){ %>
+				<button class="btn btn-outline-primary btn-lg me-md-2 mb-3" type="button" onclick="location.href='detail.jsp?num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>'">이전글</button>
+			<%} %>
+			<button class="btn btn-outline-success btn-sm me-md-2 mb-3" type="button" onclick="location.href='list.jsp'">목록보기</button>
+			<%if(dto.getNextNum()!=0){ %>
+				<button class="btn btn-outline-primary btn-lg mb-3" type="button" onclick="location.href='detail.jsp?num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>'">다음글</button>
+			<%} %>
 	</div>
+	<% if(!keyword.equals("")){ %>
+		<p>	
+			<strong><%=condition %></strong> 조건, 
+			<strong><%=keyword %></strong> 검색어로 검색된 내용 자세히 보기 
+		</p>
+	<%} %>	
 	<!-- 원글에 댓글을 작성할 폼 -->
 	<form id="comm" class="comment-form insert-form" action="private/share_comment_insert.jsp" method="post">
 		<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
@@ -337,8 +346,7 @@
 						<button type="submit">등록</button>
 					</form>	
 					<%if(tmp.getWriter().equals(id)){ %>	
-					<form id="updateForm<%=tmp.getNum() %>" class="comment-form update-form" 
-						action="private/share_comment_update.jsp" method="post">
+					<form id="updateForm<%=tmp.getNum() %>" class="comment-form update-form" action="private/share_comment_update.jsp" method="post">
 						<input type="hidden" name="num" value="<%=tmp.getNum() %>" />
 						<textarea name="content"><%=tmp.getContent() %></textarea>
 						<button type="submit">수정</button>
@@ -368,7 +376,7 @@
 			//폼 전송을 막고 
 			e.preventDefault();
 			//로그인 폼으로 이동 시킨다.
-			location.href="${pageContext.request.contextPath}/users/loginform.jsp?url=${pageContext.request.contextPath}/share/detail.jsp?num=<%=num%>";
+			location.href="${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/share/detail.jsp?num=<%=num%>";
 		}
 	});
 	

@@ -78,7 +78,7 @@
 	if(endPageNum > totalPageCount){
 		endPageNum=totalPageCount; //보정
 	}
-	
+
 	// 로그인된 아이디 (로그인 null 주의)
 	String id=(String)session.getAttribute("id");
 %>
@@ -177,7 +177,7 @@
 			<tr>
 				<td><%=tmp.getNum() %></td>
 				<td><%=tmp.getWriter() %></td>
-				<td id="title"><a href="detail.jsp?num=<%=tmp.getNum()%>"><%=tmp.getTitle() %></a></td>
+				<td id="title"><a href="detail.jsp?num=<%=tmp.getNum()%>&keyword=<%=encodedK %>&condition=<%=condition %>"><%=tmp.getTitle() %></a></td>
 				<td><a href="share_download.jsp?num=<%=tmp.getNum()%>"><%=tmp.getOrgFileName() %></a></td>
 				<td><%=tmp.getFileSize() %>byte</td>
 				<td><%=tmp.getRegdate() %></td>
@@ -225,12 +225,12 @@
 	<div style="clear:both;"></div>
 	<form style="text-align:right" action="list.jsp" method="get"> 
 		<label for="condition">검색조건</label>
-		<select name="condition" id="condition">
+		<select name="condition" id="condition" >
 			<option value="title_filename" <%=condition.equals("title_filename") ? "selected" : ""%>>제목+파일명</option>
 			<option value="title" <%=condition.equals("title") ? "selected" : ""%>>제목</option>
 			<option value="writer" <%=condition.equals("writer") ? "selected" : ""%>>작성자</option>
 		</select>
-		<input type="text" id="keyword" name="keyword" placeholder="검색어..." value="<%=keyword%>"/>
+		<input type="text" id="keyword" name="keyword" placeholder="검색어..." value="<%=keyword %>"/>
 		<button type="submit">검색</button>
 	</form>	
 	

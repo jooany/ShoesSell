@@ -88,25 +88,88 @@
 <meta charset="UTF-8">
 <title>/share/share_list.jsp</title>
 <jsp:include page="../include/resource.jsp"></jsp:include>
+<style>
+   	.container{
+      	max-width: 1100px!important;
+      	margin: 0 auto!important;
+      	box-sizing: border-box!important;
+      	position: relative!important;
+   	}
+   	h1{
+   		text-align:center;
+   		font-weight:bold;
+   	}
+   	table{
+   		text-align:center;
+   	}
+	.page-ui a{
+		text-decoration: none;
+		color: #000;
+	}
+	
+	.page-ui a:hover{
+		text-decoration: underline;
+	}
+	
+	.page-ui a.active{
+		color: red;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	.page-ui ul{
+		list-style-type: none;
+		padding: 0;
+	}
+	
+	.page-ui ul > li{
+		float: left;
+		padding: 5px;
+	}
+	a {
+		text-decoration: none;
+	}
+	#title > a{
+		display: block;
+		width:70px;
+		overflow:hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap;
+	}
+	button{
+		float: right;
+	}
+</style>
 </head>
 <body>
+<div class="container">
 <jsp:include page="../include/navbar.jsp">
 	<jsp:param value="file" name="thisPage"/>
 </jsp:include>
-<div class="container">
-	<a href="private/share_upload_form.jsp">share</a>
+	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="${pageContext.request.contextPath}/index.jsp">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+						<path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+					</svg>
+				</a>
+			</li>
+			<li class="breadcrumb-item active">News</li>
+		</ol>
+	</nav>
 	<h1>News</h1>
-	<table>
-		<thead>
+	<table class="table table-striped">
+		<thead class="table-dark">
 			<tr>
-				<th>번호</th>
-				<th>작성자</th>
-				<th>제목</th>
-				<th>공유파일</th>
-				<th>파일크기</th>
-				<th>등록일</th>
-				<th>수정</th>
-				<th>삭제</th>
+				<th scope="col">번호</th>
+				<th scope="col">작성자</th>
+				<th scope="col">제목</th>
+				<th scope="col">공유파일</th>
+				<th scope="col">파일크기</th>
+				<th scope="col">등록일</th>
+				<th scope="col">수정</th>
+				<th scope="col">삭제</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -114,7 +177,7 @@
 			<tr>
 				<td><%=tmp.getNum() %></td>
 				<td><%=tmp.getWriter() %></td>
-				<td><a href="detail.jsp?num=<%=tmp.getNum()%>"><%=tmp.getTitle() %></a></td>
+				<td id="title"><a href="detail.jsp?num=<%=tmp.getNum()%>"><%=tmp.getTitle() %></a></td>
 				<td><a href="share_download.jsp?num=<%=tmp.getNum()%>"><%=tmp.getOrgFileName() %></a></td>
 				<td><%=tmp.getFileSize() %>byte</td>
 				<td><%=tmp.getRegdate() %></td>
@@ -128,26 +191,30 @@
 		<%} %>
 		</tbody>
 	</table>
-	<div>
-		<ul>
+	<button class="btn btn-outline-primary btn-sm" onclick = "location.href = 'private/share_upload_form.jsp'">share</button></a>
+	<div class="page-ui clearfix">
+		<ul class="pagination justify-content-center">
 			<%if(startPageNum != 1){ %>
-				<li>
-					<a href="list.jsp?pageNum=<%=startPageNum-1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Prev</a>
+				<li class="page-item">
+					<a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Prev</a>
 				</li>	
 			<%} %>
 			
 			<%for(int i=startPageNum; i<=endPageNum ; i++){ %>
-				<li>
+				<li class="page-item active">
 					<%if(pageNum == i){ %>
-						<a class="active" href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
+						<li class="page-item active">
+							<a class="page-link" class="active" href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
+						</li>
 					<%}else{ %>
-						<a href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
-					<%} %>
-				</li>	
+						<li>
+							<a class="page-link" href="list.jsp?pageNum=<%=i %>&condition=<%=condition %>&keyword=<%=encodedK %>"><%=i %></a>
+						</li>
+					<%} %>	
 			<%} %>
 			<%if(endPageNum < totalPageCount){ %>
-				<li>
-					<a href="list.jsp?pageNum=<%=endPageNum+1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Next</a>
+				<li class="page-item">
+					<a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>&condition=<%=condition %>&keyword=<%=encodedK %>">Next</a>
 				</li>
 			<%} %>
 		</ul>
@@ -155,7 +222,7 @@
 	
 	<div style="clear:both;"></div>
 	
-	<form action="list.jsp" method="get"> 
+	<form align="right" action="list.jsp" method="get"> 
 		<label for="condition">검색조건</label>
 		<select name="condition" id="condition">
 			<option value="title_filename" <%=condition.equals("title_filename") ? "selected" : ""%>>제목+파일명</option>

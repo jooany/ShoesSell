@@ -58,11 +58,11 @@
 			<label class="form-label" for="content">내용</label>
 			<textarea name="content" id="content"><%=dto.getContent() %></textarea>
 		</div>
-	</form>
-	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 		<button class="btn btn-outline-primary me-md-2 btn-sm" type="submit" onclick="submitContents(this);">수정 확인</button>
 		<button class="btn btn-outline-danger btn-sm" type="reset" onclick="location.href='javascript:history.back();'">취소</button>
 	</div>
+	</form>
 </div>
 
 <!-- SmartEditor 에서 필요한 javascript 로딩  -->

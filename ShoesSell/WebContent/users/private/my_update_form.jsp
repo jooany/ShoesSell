@@ -108,6 +108,7 @@
 	    </div>
 	    
 		 <button id="updateBtn" type="button" class="btn btn-outline-dark">수정 반영</button>
+		 <a href="my_page.jsp" class="btn btn-outline-dark">수정 취소</a>
 		 
 	     </form>
 	  </div>

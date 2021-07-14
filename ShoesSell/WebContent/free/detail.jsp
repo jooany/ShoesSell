@@ -266,9 +266,9 @@
             	</a>
          	</li>
          	<li class="breadcrumb-item">
-            	<a href="${pageContext.request.contextPath }/free/list.jsp">Free Bulletin Board</a>
+            	<a href="${pageContext.request.contextPath }/free/list.jsp">커뮤니티</a>
          	</li>
-         	<li class="breadcrumb-item active">Detail</li>
+         	<li class="breadcrumb-item active">세부사항</li>
       	</ul>
    	</nav>
    	<div align="right">
@@ -484,8 +484,7 @@
 				//data 는 html 형식의 문자열이다. 
 				console.log(data);
 				// beforebegin | afterbegin | beforeend | afterend
-				document.querySelector(".comments ul")
-					.insertAdjacentHTML("beforeend", data);
+				document.querySelector(".comments ul").insertAdjacentHTML("beforeend", data);
 				//로딩이 끝났다고 표시한다.
 				isLoading=false;
 				//새로 추가된 댓글 li 요소 안에 있는 a 요소를 찾아서 이벤트 리스너 등록 하기 
@@ -617,7 +616,6 @@
 				});
 			});
 		}
-
 	}
 </script>
 </body>

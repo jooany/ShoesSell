@@ -13,11 +13,14 @@
 <title>/free/private/free_updateform.jsp</title>
 <jsp:include page="../../include/resource.jsp"></jsp:include>
 <style>
+	.container{
+      	max-width: 1100px!important;
+      	margin: 0 auto!important;
+      	box-sizing: border-box!important;
+      	position: relative!important;
+   	}
 	body {
   		height: 100%;
-	}
-	.col-md-3 {
-		width: 95%;
 	}
 	#content{
 		width: 95%;
@@ -30,15 +33,12 @@
 	<h1>Free Update Form</h1>
 	<form action="free_update.jsp" method="post">
 		<input type="hidden" name="num" value="<%=num %>" />
-		<div class="row g-3">
-			<div class="col-md-3">
-				<label class="form-label" for="writer">작성자</label>
-				<input type="text" id="writer" value="<%=dto.getWriter() %>" disabled/>
-			</div>
-			<div class="col-md-3">
-				<label class="form-label" for="title">제목</label>
-				<input type="text" name="title" id="title" value="<%=dto.getTitle()%>"/>
-			</div>
+		<div class="form-inline">
+			<label class="form-label" for="writer">작성자</label>
+			<input type="text" id="writer" value="<%=dto.getWriter() %>" disabled/>
+
+			<label class="form-label" for="title">제목</label>
+			<input type="text" name="title" id="title" value="<%=dto.getTitle()%>"/>
 		</div>
 		<div class="mb-3">
 			<label class="form-label" for="content">내용</label>

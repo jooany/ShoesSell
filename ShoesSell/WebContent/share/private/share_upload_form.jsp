@@ -85,7 +85,7 @@
 		</div>
 		<div id="img" class="image-container mb-3">
 			<label class="form-label" for="myShare">첨부파일 미리보기</label>
-			<img class="mb-3" id="inputShare" src="https://dummyimage.com/300x200/fff/000.jpg&text=+Attachments" onerror="this.parentNode.style.display='none'"/>
+			<img class="mb-3" id="inputShare" src="https://dummyimage.com/300x200/fff/000.jpg&text=+Attachments" onerror="this.style.display='none'"/>
 			<input class="form-control" style="display: block;" type="file" name="myShare" id="myShare">
 		</div>
 	</form>

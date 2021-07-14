@@ -184,8 +184,16 @@
 			<tr>
 				<td><%=tmp.getNum() %></td>
 				<td><%=tmp.getWriter() %></td>
-				<td id="title"><a href="detail.jsp?num=<%=tmp.getNum()%>&keyword=<%=encodedK %>&condition=<%=condition %>"><%=tmp.getTitle() %></a></td>
-				<td id="Ofile"><a href="share_download.jsp?num=<%=tmp.getNum()%>"><%=tmp.getOrgFileName() %></a></td>
+				<td id="title">
+					<a href="detail.jsp?num=<%=tmp.getNum()%>&keyword=<%=encodedK %>&condition=<%=condition %>">
+						<%=tmp.getTitle() %>
+					</a>
+				</td>
+				<td id="Ofile">
+					<a href="share_download.jsp?num=<%=tmp.getNum()%>">
+						<%=tmp.getOrgFileName() %>
+					</a>
+				</td>
 				<td><%=tmp.getFileSize() %>byte</td>
 				<td><%=tmp.getRegdate() %></td>
 				<td>

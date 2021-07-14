@@ -1,5 +1,8 @@
+<%@page import="test.share.dto.ShareDto"%>
+<%@page import="test.share.dao.ShareDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,9 +16,6 @@
       	margin: 0 auto!important;
       	box-sizing: border-box!important;
       	position: relative!important;
-   	}
-   	h1{
-   		margin: 10px;
    	}
 	.page-ui a{
 		text-decoration: none;
@@ -46,6 +46,11 @@
 	button{
 		float: right;
 	}
+	#img > img{
+		max-width: 700px!important;
+		max-height: 500px!important;
+		object-fit: contain!important;
+	}
 </style>
 </head>
 <body>
@@ -67,8 +72,7 @@
 			<li class="breadcrumb-item active">add</li>
 		</ol>
 	</nav>
-	<h1>share upload form</h1>
-	<form action="share_upload.jsp" method="post" enctype="multipart/form-data" >
+	<form action="share_upload.jsp" id="uploadForm" method="post" enctype="multipart/form-data" >
 		<div class="mb-3">
 			<label for="title">제목</label>
 			<input class="form-control" type="text" name="title" id="title" />
@@ -77,9 +81,9 @@
 			<textarea class="form-control" name="content" id="content" style="height: 100px"></textarea>
 			<label for="content">내용</label>
 		</div>
-		<div class="image-container mb-3">
+		<div id="img" class="image-container mb-3">
 			<label class="form-label" for="myShare">첨부파일 미리보기</label>
-			<img class="mb-3" style="width: 300px; height: 200px;" id="inputShare" src="https://dummyimage.com/300x200/fff/000.jpg&text=+Attachments" onerror="this.parentNode.style.display='none'"/>
+			<img class="mb-3" id="inputShare" src="https://dummyimage.com/300x200/fff/000.jpg&text=+Attachments" onerror="this.parentNode.style.display='none'"/>
 			<input class="form-control" style="display: block;" type="file" name="myShare" id="myShare">
 		</div>
 		<button class="btn btn-outline-primary btn-sm" type="submit">업로드</button>
@@ -104,6 +108,36 @@
 		const inputImage = document.getElementById("myShare");
 		inputImage.addEventListener("change",function(e){
 		    readImage(e.target);
+		});
+		
+		//폼에 submit 이벤트가 일어났을때 실행할 함수 등록
+		document.querySelector("#uploadForm").addEventListener("submit", function(e){
+			// 제목 검증하고 
+			const title=document.querySelector("#title").value;
+			//만일 폼 제출을 막고 싶으면  e.preventDefault();
+			if(title.length < 1){
+				alert("제목을 입력하세요!");
+				e.preventDefault();
+			}
+		});
+		document.querySelector("#uploadForm").addEventListener("submit", function(e){
+			// 내용 검증하고 
+			const content=document.querySelector("#content").value;
+			//만일 폼 제출을 막고 싶으면  e.preventDefault();
+			if(content.length < 1){
+				alert("내용을 입력하세요!");
+				e.preventDefault();
+			}
+		});
+		// 파일을 안넣으면 넘어가지않게 실행할 함수등록
+		document.querySelector("#uploadForm").addEventListener("submit", function(e){
+			// 파일사이즈 검증하고 
+			const myShare=document.querySelector("#myShare").value;
+			//만일 폼 제출을 막고 싶으면  e.preventDefault();
+			if(myShare.length < 1){
+				alert("파일을 추가하세요");
+				e.preventDefault();
+			}
 		});
 	</script>
 </div>

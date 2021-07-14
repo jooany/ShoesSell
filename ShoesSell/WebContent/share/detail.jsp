@@ -85,10 +85,12 @@
 <meta charset="UTF-8">
 <title>/share/detail.jsp</title>
 <style>
-	h1{
-		font-weight: bold!important;
-		text-align: center;
-	}
+	.container{
+      	max-width: 1100px!important;
+      	margin: 0 auto!important;
+      	box-sizing: border-box!important;
+      	position: relative!important;
+   	}
 	.file a {
 		text-decoration: underline;
 	}
@@ -96,21 +98,20 @@
 		text-decoration: none;
 	}
 	.editBtn{
-		float:right;
+		text-align:right;
 	}
 	.Btn{
 		text-align: center;
 	}
-	.fileImage{
-		padding-bottom: 20px;
+	.fileImage img {
+		margin-top:20px;
+		max-width: 700px!important;
+		max-height: 500px!important;
 	}
 	table{
 		margin-bottom: 20px;
 		text-align: justify;
 		table-layout: fixed;
-	}
-	.table{
-		max-width: 1100px!important;
 	}
 	.comm{
 		text-align: center;
@@ -222,7 +223,6 @@
 			<li class="breadcrumb-item active">edit</li>
 		</ol>
 	</nav>
-	<h1>detail</h1>
 	<div class="editBtn">
 		<%if(dto.getWriter().equals(id)){ %>
 			<button class="btn btn-outline-primary btn-sm mb-3" type="button" onclick="location.href='private/share_update_form.jsp?num=<%=dto.getNum()%>'">수정</button>
@@ -275,6 +275,15 @@
 			</p>
 		<%} %>
 	</div>
+	<!-- 원글에 댓글을 작성할 폼 -->
+	<form id="comm" class="comment-form insert-form" action="private/share_comment_insert.jsp" method="post">
+		<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
+		<input type="hidden" name="ref_group" value="<%=num%>"/>
+		<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
+		<input type="hidden" name="target_id" value="<%=dto.getWriter()%>"/>
+		<textarea name="content"><%if(!isLogin){%>댓글 작성을 위해 로그인이 필요 합니다.<%}%></textarea>
+		<button type="submit">등록</button>
+	</form>
 	<!-- 댓글 목록 -->
 	<div class="comments ">
 		<ul>
@@ -344,16 +353,7 @@
 			  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
 		</svg>
 	</div>
-	<!-- 원글에 댓글을 작성할 폼 -->
-	<form id="comm" class="comment-form insert-form" action="private/share_comment_insert.jsp" method="post">
-		<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
-		<input type="hidden" name="ref_group" value="<%=num%>"/>
-		<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
-		<input type="hidden" name="target_id" value="<%=dto.getWriter()%>"/>
-		<textarea name="content"><%if(!isLogin){%>댓글 작성을 위해 로그인이 필요 합니다.<%}%></textarea>
-		<button type="submit">등록</button>
-	</form>
-
+	
 </div>
 <script src="${pageContext.request.contextPath}/js/gura_util.js"></script>
 

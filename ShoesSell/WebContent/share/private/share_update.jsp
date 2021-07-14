@@ -7,26 +7,6 @@
 <jsp:useBean id="dto" class="test.share.dto.ShareDto"></jsp:useBean>   
 <jsp:setProperty property="*" name="dto"/>
 
-<%--
-	//1. form 전송되는 수정할 정보를 읽어온다.
-	request.setCharacterEncoding("utf-8");
-	int num=Integer.parseInt(request.getParameter("num"));
-	String writer=request.getParameter("writer");
-	String title=request.getParameter("title");
-	String content=request.getParameter("content");
-	String imagePath = request.getParameter("imagePath");
-	String orgFileName = request.getParameter("orgFileName");
-	String saveFileName = request.getParameter("saveFileName");
-	// 정보를 ShareDto 객체에 담는다.
-	ShareDto dto2 = new ShareDto();
-	dto2.setNum(num);
-	dto2.setTitle(writer);
-	dto2.setTitle(title);
-	dto2.setContent(content);
-	dto2.setImagePath(imagePath);
-	dto2.setOrgFileName(orgFileName);
-	dto2.setSaveFileName(saveFileName);
---%>
 <% 
 	//2. DB 에 수정 반영한다.
 	boolean isSuccess=ShareDao.getInstance().update(dto);

@@ -30,7 +30,7 @@
          		<a href="${pageContext.request.contextPath }/">Home</a>
       		</li>
       		<li class="breadcrumb-item">
-         		<a href="${pageContext.request.contextPath }/resell/list.jsp">Resell갤</a>
+      			<a href="${pageContext.request.contextPath }/resell/list.jsp?kind=buy">Resell갤</a>
       		</li>
       		<li class="breadcrumb-item active">글쓰기</li>
    		</ul>
@@ -43,12 +43,12 @@
 		</div>
 		<div class="mb-3">
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="kind" id="buy" value="sell" checked/>
-				<label class="form-check-label" for="sell">판매글</label>
+				<input class="form-check-input" type="radio" name="kind" id="sell" value="buy" checked/>
+				<label class="form-check-label" for="buy">구매글</label>
 			</div>
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="kind" id="sell" value="buy"/>
-				<label class="form-check-label" for="buy">구매글</label>
+				<input class="form-check-input" type="radio" name="kind" id="buy" value="sell"/>
+				<label class="form-check-label" for="sell">판매글</label>
 			</div>
 		</div>
 		<div class="mb-3"> 

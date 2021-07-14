@@ -7,21 +7,40 @@
 <title>/free/private/free_insertform.jsp</title>
 <jsp:include page="../../include/resource.jsp"></jsp:include>
 <style>
+	.inner{
+      	max-width: 1100px!important;
+      	margin: 0 auto!important;
+      	box-sizing: border-box!important;
+      	position: relative!important;
+   	}
+   	.container{
+      	max-width: 1100px!important;
+      	margin: 0 auto!important;
+      	box-sizing: border-box!important;
+      	position: relative!important;
+   	}
+   	h1{
+		font-weight: bold!important;
+		text-align: center;
+	}
 	body {
   		height: 100%;
 	}
 	.col-md-3 {
-		width: 95%;
+		width: 99.5%;
 	}
 	#content{
-		width: 95%;
+		width: 99.5%;
 		height: 500px;
 	}
 </style>
 </head>
 <body>
+<jsp:include page="../../include/navbar.jsp">
+	<jsp:param value="free" name="thisPage"/>
+</jsp:include>
 <div class="container">
-	<h1>Free Insert Form</h1>
+	<h1>새 게시물 작성</h1>
 	<form action="free_insert.jsp" method="post" id="insertForm">
 	<div class="row g-3">
 		<div class="col-md-3">
@@ -32,8 +51,9 @@
 			<label class="form-label" for="content">내용</label>
 			<textarea class="form-control" name="content" id="content"></textarea>
 		</div>
-		<div class="d-md-flex justify-content-md-end">
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 			<button class="btn btn-outline-primary btn-sm" type="submit">저장</button>
+			<button class="btn btn-outline-danger btn-sm" type="reset" onclick="location.href='javascript:history.back();'">취소</button>
 		</div>
 	</div>
 	</form>

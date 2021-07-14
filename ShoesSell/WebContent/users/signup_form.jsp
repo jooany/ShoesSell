@@ -22,12 +22,14 @@
           font-size: 3.5rem;
         }
       }
+      body {
+  		padding-top: 100px;
+	  }
 </style>
 <!-- Custom styles for this template -->
 <link href="form-validation.css" rel="stylesheet">
 </head>
 <body>
-<jsp:include page="../include/navbar.jsp"></jsp:include>
 
 <div class="container">
   <main>

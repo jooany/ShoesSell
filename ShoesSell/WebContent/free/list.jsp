@@ -7,7 +7,7 @@
 
 <%
 	//한 페이지에 몇개씩 표시할 것인지
-	final int PAGE_ROW_COUNT=7;
+	final int PAGE_ROW_COUNT=5;
 	//하단 페이지를 몇개씩 표시할 것인지
 	final int PAGE_DISPLAY_COUNT=5;
 	
@@ -110,7 +110,7 @@
    		margin: 10px;
    	}
    	.addBtn{
-   		padding: 5px;
+   		margin-bottom: 5px;
    	}
 	.page-ui a{
 		text-decoration: none;
@@ -135,8 +135,8 @@
 		float: left;
 		padding: 5px;
 	}
-	#searchArea{
-		display: inline;
+	.searchArea{
+		margin: 30px;
 	}
 	.input-group{
 		width: 50%;
@@ -144,7 +144,9 @@
 </style>
 </head>
 <body>
-<jsp:include page="../include/navbar.jsp"></jsp:include>
+<jsp:include page="../include/navbar.jsp">
+	<jsp:param value="free" name="thisPage"/>
+</jsp:include>
 <div class="inner">
 	<div class="container">
 	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
@@ -162,7 +164,7 @@
    	</nav>
 	<h1 align="center">커뮤니티</h1>
 	<div align="right" class="addBtn">
-		<a href="private/free_insertform.jsp">글쓰기</a>
+		<a href="private/free_insertform.jsp" class="btn btn-outline-primary btn-sm">글쓰기</a>
 	</div>
 	<table class="table table-striped">
 		<thead class="table-dark">
@@ -218,17 +220,19 @@
 	</div>
 	<div style="clear:both;"></div>
 	
-	<div align="right">
-	<form action="list.jsp" method="get">
-		<label for="condition">검색조건</label>
-		<select name="condition" id="condition">
-			<option value="title_content" <%=condition.equals("title_content") ? "selected" : ""%>>제목+내용</option>
-			<option value="title" <%=condition.equals("title") ? "selected" : ""%>>제목</option>
-			<option value="writer" <%=condition.equals("writer") ? "selected" : ""%>>작성자</option>
-		</select>
-		<input type="text" id="keyword" name="keyword" placeholder="검색어..." value="<%=keyword%>"/>
-		<button type="submit">검색</button>
-	</form>	
+	<div class="searchArea" align="right">
+		<form action="list.jsp" method="get">
+			<div class="input-group mb-6"> 
+				<span class="input-group-text">검색조건</span>
+				<select class="form-select" name="condition" id="condition">
+					<option value="title_content" <%=condition.equals("title_content") ? "selected" : ""%>>제목+내용</option>
+					<option value="title" <%=condition.equals("title") ? "selected" : ""%>>제목</option>
+					<option value="writer" <%=condition.equals("writer") ? "selected" : ""%>>작성자</option>
+				</select>
+				<input class="form-control" type="text" id="keyword" name="keyword" placeholder="검색어..." value="<%=keyword%>"/>
+				<button type="submit" class="btn btn-outline-dark">검색</button>
+			</div>
+		</form>	
 	
 	<%if(!condition.equals("")){ %>
 		<p>

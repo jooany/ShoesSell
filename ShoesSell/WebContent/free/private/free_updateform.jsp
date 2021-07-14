@@ -13,42 +13,56 @@
 <title>/free/private/free_updateform.jsp</title>
 <jsp:include page="../../include/resource.jsp"></jsp:include>
 <style>
+	.inner{
+      	max-width: 1100px!important;
+      	margin: 0 auto!important;
+      	box-sizing: border-box!important;
+      	position: relative!important;
+   	}
 	.container{
       	max-width: 1100px!important;
       	margin: 0 auto!important;
       	box-sizing: border-box!important;
       	position: relative!important;
    	}
+   	h1{
+		font-weight: bold!important;
+		text-align: center;
+	}
 	body {
   		height: 100%;
 	}
 	#content{
-		width: 95%;
+		width: 99.5%;
 		height: 500px;
 	}
 </style>
 </head>
 <body>
+<jsp:include page="../../include/navbar.jsp">
+	<jsp:param value="free" name="thisPage"/>
+</jsp:include>
 <div class="container">
-	<h1>Free Update Form</h1>
+	<h1 align="center">rewrite</h1>
 	<form action="free_update.jsp" method="post">
 		<input type="hidden" name="num" value="<%=num %>" />
-		<div class="form-inline">
+		<div class="mb-3">
 			<label class="form-label" for="writer">작성자</label>
-			<input type="text" id="writer" value="<%=dto.getWriter() %>" disabled/>
-
-			<label class="form-label" for="title">제목</label>
-			<input type="text" name="title" id="title" value="<%=dto.getTitle()%>"/>
+			<input class="form-control" type="text" id="writer" value="<%=dto.getWriter() %>" disabled/>
 		</div>
 		<div class="mb-3">
+			<label class="form-label" for="title">제목</label>
+			<input class="form-control" type="text" name="title" id="title" value="<%=dto.getTitle()%>"/>
+		</div>
+		<div class="mb-6">
 			<label class="form-label" for="content">내용</label>
 			<textarea name="content" id="content"><%=dto.getContent() %></textarea>
 		</div>
-		<div class="d-md-flex justify-content-md-end">
-			<button class="btn btn-outline-primary me-md-2 btn-sm" type="submit" onclick="submitContents(this);">수정 확인</button>
-			<button class="btn btn-outline-danger btn-sm" type="reset">취소</button>
-		</div>
 	</form>
+	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+		<button class="btn btn-outline-primary me-md-2 btn-sm" type="submit" onclick="submitContents(this);">수정 확인</button>
+		<button class="btn btn-outline-danger btn-sm" type="reset" onclick="location.href='javascript:history.back();'">취소</button>
+	</div>
 </div>
 
 <!-- SmartEditor 에서 필요한 javascript 로딩  -->

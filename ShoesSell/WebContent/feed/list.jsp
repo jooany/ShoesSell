@@ -532,6 +532,14 @@
 		}
 	}
 	
+	$(".write_btn").on("click",function(){
+		//로그인 하지 않았다면, 로그인 알림과 함께 로그인 폼으로 보내버리기
+		if(!isLogin){
+			location.href=
+				"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/feed/list.jsp";
+		}
+	})
+	
 </script>
 
 </body>

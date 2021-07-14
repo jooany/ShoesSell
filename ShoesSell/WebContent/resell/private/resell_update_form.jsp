@@ -43,7 +43,7 @@
          		<a href="${pageContext.request.contextPath }/">Home</a>
       		</li>
       		<li class="breadcrumb-item">
-         		<a href="${pageContext.request.contextPath }/resell/list.jsp">Resell갤</a>
+         		<a href="${pageContext.request.contextPath }/resell/list.jsp?kind=<%=dto.getKind()%>">Resell갤</a>
       		</li>
       		<li class="breadcrumb-item active">Detail</a>
       		</li>
@@ -77,7 +77,9 @@
 		<img class="img-wrapper" src="${pageContext.request.contextPath }/<%=dto.getImagePath()%>"/>
 		<br/>
 		<button class="btn btn-outline-success" id="submitBtn" type="submit" onclick="submitContents(this); ">수정확인</button>
-		<button class="btn btn-outline-danger" type="reset">취소</button>
+		<div class="btn-group">
+  			<a href="${pageContext.request.contextPath }/resell/detail.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getNum()%>&keyword=<%=encodedK %>&condition=<%=condition%>" class="btn btn-outline-danger" >취소</a>
+		</div>
 	</form>
 	<form action="resell_ajax_upload.jsp" method="post" id="ajaxForm" enctype="multipart/form-data" >
 		<div class="mb-3">

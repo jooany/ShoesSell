@@ -16,5 +16,20 @@
     
     //UsersDao객체를 이용해서 DB에 저장하기
     boolean isSuccess = UsersDao.getInstance().insert(dto);
+    
+	Cookie[] cookies = request.getCookies();
+	for (int i = 0; i < cookies.length; i++) {
+		
+		if (cookies[i].getName().equals("savedId")){
+		cookies[i].setMaxAge(0);   // 유효시간을 0으로 설정함으로써 쿠키를 삭제 시킨다.  
+		cookies[i].setPath("/ShoesSell/users");
+		response.addCookie(cookies[i]);
+		}else if(cookies[i].getName().equals("savedPwd")){
+			cookies[i].setMaxAge(0);   // 유효시간을 0으로 설정함으로써 쿠키를 삭제 시킨다.  
+    		cookies[i].setPath("/ShoesSell/users");
+    		response.addCookie(cookies[i]);	
+		}
+	}
+    
     %>
 {"isSuccess":<%=isSuccess%>}

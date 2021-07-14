@@ -1,3 +1,5 @@
+<%@page import="test.users.dao.UsersDao"%>
+<%@page import="test.users.dto.UsersDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
@@ -13,6 +15,8 @@
     	}
     	//로그인 된 아이디 읽어오기 
     	String id=(String)session.getAttribute("id");
+    	UsersDto dto=new UsersDto();
+    	dto=UsersDao.getInstance().getData(id);
     %>
     <div class="inner">
 		<nav class="navbar navbar-light bg-light navbar-expand-sm">
@@ -37,7 +41,7 @@
 		          			<a class="nav-link <%=thisPage.equals("resell") ? "active" : "" %>" href="<%=request.getContextPath() %>/resell/list.jsp?kind=buy">마켓</a>
 		        		</li>
 		        		<li class="nav-item">
-		          			<a class="nav-link <%=thisPage.equals("resell") ? "active" : "" %>" href="<%=request.getContextPath() %>/feed/list.jsp">피드</a>
+		          			<a class="nav-link <%=thisPage.equals("feed") ? "active" : "" %>" href="<%=request.getContextPath() %>/feed/list.jsp">피드</a>
 		        		</li>
 	      			</ul>
 	      			<%if(id==null){ %>
@@ -45,7 +49,11 @@
 	      				<a class="btn btn-outline-success btn-sm me-2 " href="${pageContext.request.contextPath}/users/login_form.jsp">로그인</a>
 	      			<%}else{ %>
 	      				<span class="navbar-text me-2">
-	      					<a href="${pageContext.request.contextPath}/users/private/my_page.jsp"><%=id %></a> 로그인중...
+	      		
+	      					<a style="text-decoration:none;" href="${pageContext.request.contextPath}/users/private/my_page.jsp">
+	      						<img style="width:25px; height:25px; border-radius:50%;" class="profile_img" src="<%=request.getContextPath()%><%=dto.getProfile()%>"/>
+	      						<%=id %>
+	      					</a>
 	      				</span>
 	      				<a class="btn btn-outline-danger btn-sm me-2" href="${pageContext.request.contextPath}/users/logout.jsp">로그아웃</a>
 	      			<%} %>

@@ -38,7 +38,7 @@
 			dto=ShareDao.getInstance().getDataW(dto);
 		}
 	}else{
-		dto=ShareDao.getInstance().getData(num);
+		dto=ShareDao.getInstance().getData(dto);
 	}
 	//특수기호를 인코딩한 키워드를 미리 준비한다. 
 	String encodedK=URLEncoder.encode(keyword);
@@ -85,6 +85,36 @@
 <meta charset="UTF-8">
 <title>/share/detail.jsp</title>
 <style>
+	h1{
+		font-weight: bold!important;
+		text-align: center;
+	}
+	.file a {
+		text-decoration: underline;
+	}
+	.container li a {
+		text-decoration: none;
+	}
+	.editBtn{
+		float:right;
+	}
+	.Btn{
+		text-align: center;
+	}
+	.fileImage{
+		padding-bottom: 20px;
+	}
+	table{
+		margin-bottom: 20px;
+		text-align: justify;
+		table-layout: fixed;
+	}
+	.table{
+		max-width: 1100px!important;
+	}
+	.comm{
+		text-align: center;
+	}
 	/* 댓글 프로필 이미지를 작은 원형으로 만든다. */
 	.profile-image{
 		width: 50px;
@@ -106,6 +136,7 @@
 	}
 	.comment-form textarea, .comment-form button{
 		float: left;
+		margin-bottom: 20px;
 	}
 	.comments li{
 		clear: left;
@@ -118,7 +149,7 @@
 		height: 100px;
 	}
 	.comment-form button{
-		width: 14%;
+		width: 16%;
 		height: 100px;
 	}
 	/* 댓글에 댓글을 다는 폼과 수정폼은 일단 숨긴다. */
@@ -173,70 +204,79 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 <body>
+<div class="container">
 <jsp:include page="../include/navbar.jsp">
    	<jsp:param value="share" name="thisPage"/>
 </jsp:include>
-<div class="container">
-	<nav>
-      	<ul class="breadcrumb">
-         	<li class="breadcrumb-share">
-            	<a href="${pageContext.request.contextPath }/">Home</a>
-         	</li>
-         	<li class="breadcrumb-share">
-            	<a href="${pageContext.request.contextPath }/share/list.jsp">/ news</a>
-         	</li>
-         	<li class="breadcrumb-share active">/ detail</li>
-      	</ul>
-   	</nav>
-	<%if(dto.getPrevNum()!=0){ %>
-		<a href="detail.jsp?num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">이전글</a>
-	<%} %>
-	<%if(dto.getNextNum()!=0){ %>
-		<a href="detail.jsp?num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">다음글</a>
-	<%} %>
-	<table>
-		<tr>
+	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="${pageContext.request.contextPath}/index.jsp">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+						<path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+					</svg>
+				</a>
+			</li>
+			<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/share/list.jsp">News</a></li>
+			<li class="breadcrumb-item active">edit</li>
+		</ol>
+	</nav>
+	<h1>detail</h1>
+	<div class="editBtn">
+		<%if(dto.getWriter().equals(id)){ %>
+			<button class="btn btn-outline-primary btn-sm mb-3" type="button" onclick="location.href='private/share_update_form.jsp?num=<%=dto.getNum()%>'">수정</button>
+			<button class="btn btn-outline-primary btn-sm mb-3" type="button" onclick="location.href='private/share_delete.jsp?num=<%=dto.getNum()%>'">삭제</button>
+		<%} %>
+	</div>
+	<table class="table"  frame=void>
+		<tr align="center">
+			<th>제목</th>
+			<td colspan="3"><%=dto.getTitle() %></td>
+		</tr>
+		<tr align="center">
 			<th>글번호</th>
 			<td><%=dto.getNum() %></td>
-		</tr>
-		<tr>
 			<th>작성자</th>
 			<td><%=dto.getWriter() %></td>
 		</tr>
-		<tr>
-			<th>제목</th>
-			<td><%=dto.getTitle() %></td>
-		</tr>
-		<tr>
+		<tr align="center">
 			<th>등록일</th>
 			<td><%=dto.getRegdate() %></td>
+			<th>첨부파일</th>
+			<td>
+				<a class="file" href="share_download.jsp?num=<%=dto.getNum()%>"><%=dto.getSaveFileName() %></a>
+			</td>
 		</tr>
-		<tr>
-			<td colspan="2">
+		<tr align="center">
+			<td colspan="4" >
 				<div class="content"><%=dto.getContent() %></div>
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="4" align="center" class="fileImage">
 				<img src="${pageContext.request.contextPath }<%=dto.getImagePath()%>" onerror="this.style.display='none'"/>
 			</td>
 		</tr>
-		<tr>
-			<td>
-				<a href="share_download.jsp?num=<%=dto.getNum()%>"><%=dto.getSaveFileName() %></a>
-			</td>			
-		</tr>
-	</table>
-	<ul>
-		<li><a href="list.jsp">목록보기</a></li>
-		<%if(dto.getWriter().equals(id)){ %>
-			<li><a href="private/share_update_form.jsp?num=<%=dto.getNum()%>">수정</a></li>
-			<li><a href="private/share_delete.jsp?num=<%=dto.getNum()%>">삭제</a></li>
-		<%} %>
 		
-	</ul>
+	</table>
+	<div class="Btn">
+		<%if(dto.getPrevNum()!=0){ %>
+			<button class="btn btn-outline-primary btn-lg me-md-2 mb-3" type="button" onclick="location.href='detail.jsp?num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>'">이전글</button>
+		<%} %>
+		<button class="btn btn-outline-success btn-sm me-md-2 mb-3" type="button" onclick="location.href='list.jsp'">목록보기</button>
+		<%if(dto.getNextNum()!=0){ %>
+			<button class="btn btn-outline-primary btn-lg mb-3" type="button" onclick="location.href='detail.jsp?num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>'">다음글</button>
+		<%} %>
+		<% if(!keyword.equals("")){ %>
+			<p>	
+				<strong><%=condition %></strong> 조건, 
+				<strong><%=keyword %></strong> 검색어로 검색된 내용 자세히 보기 
+			</p>
+		<%} %>
+	</div>
 	<!-- 댓글 목록 -->
-	<div class="comments">
+	<div class="comments ">
 		<ul>
 			<%for(ShareCommentDto tmp: commentList){ %>
 				<%if(tmp.getDeleted().equals("yes")){ %>
@@ -305,12 +345,11 @@
 		</svg>
 	</div>
 	<!-- 원글에 댓글을 작성할 폼 -->
-	<form class="comment-form insert-form" action="private/share_comment_insert.jsp" method="post">
+	<form id="comm" class="comment-form insert-form" action="private/share_comment_insert.jsp" method="post">
 		<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
 		<input type="hidden" name="ref_group" value="<%=num%>"/>
 		<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
 		<input type="hidden" name="target_id" value="<%=dto.getWriter()%>"/>
-		
 		<textarea name="content"><%if(!isLogin){%>댓글 작성을 위해 로그인이 필요 합니다.<%}%></textarea>
 		<button type="submit">등록</button>
 	</form>

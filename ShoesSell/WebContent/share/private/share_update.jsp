@@ -9,7 +9,7 @@
 
 <% 
 	//2. DB 에 수정 반영한다.
-	boolean isSuccess=ShareDao.getInstance().update(dto);
+	boolean isSuccess=ShareDao.getInstance().detailUpdate(dto);
 	//3. 응답한다.
  %>
 <!DOCTYPE html>

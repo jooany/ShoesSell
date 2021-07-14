@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<p>여기는 insertform.jsp 인데용 </p>
 </body>
 </html>

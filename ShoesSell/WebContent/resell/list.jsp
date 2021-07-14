@@ -108,6 +108,10 @@
       box-sizing:border-box!important;
       position:relative!important;
    }
+   .card-img-top{
+   		max-width: 260px!important;
+		max-height: 250px!important;
+   }
 	/* card 이미지 부모요소의 높이 지정 */
 	.img-wrapper{
 		height: 250px;
@@ -153,8 +157,9 @@
 	.input-group{
 		width: 50%;
 	}
-	.kindBtn{
-		padding: 30px;
+	#kindBtn{
+		margin-top: 10px;
+		margin:20px;
 	}
 </style>
 </head>
@@ -163,25 +168,28 @@
 	<jsp:param value="resell" name="thisPage"/>
 </jsp:include>
 <div class="inner">
-	<nav>
+	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
       	<ul class="breadcrumb">
          	<li class="breadcrumb-item">
-            	<a href="${pageContext.request.contextPath }/">Home</a>
+            	<a href="${pageContext.request.contextPath }/">
+            		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+						<path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+					</svg>
+            	</a>
          	</li>
-         	<li class="breadcrumb-item active">Resell갤</li>
+         	<li class="breadcrumb-item active">마켓</li>
       	</ul>
    	</nav>
    	<h2 align="center">ResellGallery</h2>
    	<div align="center">
-   		<p>
-			<a class="kindBtn" href="list.jsp?kind=buy">Buy</a>
-			<a class="kindBtn" href="list.jsp?kind=sell">Sell</a>
-		</p>
+			<a class="btn btn-dark" id="kindBtn" href="list.jsp?kind=buy">Buy</a>
+			<a class="btn btn-dark" id="kindBtn" href="list.jsp?kind=sell">Sell</a>
    	</div>
 	<div align="right" class="addBtn">
-		<a href="private/resell_upload_form.jsp" class="btn btn-secondary">글쓰기</a>
+		<a href="private/resell_upload_form.jsp" class="btn btn-outline-secondary">글쓰기</a>
 	</div>
-	
+	<br />
 	<div class="row">
 		<%for(ResellDto tmp:list){ %>
 		<div class="col-6 col-md-4 col-lg-3">
@@ -193,9 +201,9 @@
 				</a>
 				<!-- 이미지 링크 끝 -->
 				<div class="card-body">
-					<p class="card-text">제목 : <%=tmp.getTitle() %></p>
-					<p class="card-text">글 종류 : <small><%=tmp.getKind() %></small></p>
-					<p class="card-text">작성자 : <strong><%=tmp.getWriter() %></strong></p>
+					<p class="card-text"><strong>제목</strong> : <%=tmp.getTitle() %></p>
+					<p class="card-text"><strong>글 종류</strong> : <small><%=tmp.getKind() %></small></p>
+					<p class="card-text"><strong>작성자</strong> : <%=tmp.getWriter() %></p>
 					<p class="card-text">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
   							<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>

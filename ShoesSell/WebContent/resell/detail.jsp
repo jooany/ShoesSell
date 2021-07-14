@@ -110,13 +110,8 @@
 		border: 1px solid #cecece;
 		border-radius: 50%;
 	}
-	.comments .comment-header {
-	    padding-bottom: 15px;
-	    font-weight: bold;
-	}
-	.comment-list {
-		border: 1px solid #eee;
-		margin-bottom: 30px;
+	.comm{
+		text-align: center;
 	}
 	/* ul 요소의 기본 스타일 제거 */
 	.comments ul{
@@ -129,9 +124,11 @@
 	}
 	.comments dd{
 		margin-left: 50px;
+		margin-bottom: 20px!important;
 	}
 	.comment-form textarea, .comment-form button{
 		float: left;
+		margin-bottom: 20px;
 	}
 	.comments li{
 		clear: left;
@@ -144,7 +141,7 @@
 		height: 100px;
 	}
 	.comment-form button{
-		width: 14%;
+		width: 16%;
 		height: 100px;
 	}
 	/* 댓글에 댓글을 다는 폼과 수정폼은 일단 숨긴다. */
@@ -160,10 +157,6 @@
 		top: 1em;
 		left: 1em;
 		color: red;
-	}
-	.list-group>list-group-flush {
-		margin-top: -15px;
-		margin-left: 50px;
 	}
 	pre {
 	  display: block;
@@ -199,8 +192,10 @@
 		}
 	}
 	.card-img-top{
-		width: 50%!important;
+		width: 40%!important;
     	margin: 0 auto!important;
+    	max-width: 700px!important;
+		max-height: 500px!important;
 	}
 	.upBtn{
 		margin-left: 10px
@@ -213,26 +208,30 @@
    	<jsp:param value="resell" name="thisPage"/>
 </jsp:include>
 <div class="inner">
-	<nav>
+	<nav tyle="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
       	<ul class="breadcrumb">
          	<li class="breadcrumb-item">
-            	<a href="${pageContext.request.contextPath }/">Home</a>
+            	<a href="${pageContext.request.contextPath }/index.jsp">
+            		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+						<path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+					</svg>
+            	</a>
          	</li>
          	<li class="breadcrumb-item">
-            	<a href="${pageContext.request.contextPath }/resell/list.jsp?kind=<%=dto.getKind()%>">Resell갤</a>
+            	<a href="${pageContext.request.contextPath }/resell/list.jsp?kind=<%=dto.getKind()%>">마켓</a>
          	</li>
          	<li class="breadcrumb-item active">Detail</li>
       	</ul>
    	</nav>
 	<div class="card mb-3">
-      	<img class="card-img-top" src="${pageContext.request.contextPath }<%=dto.getImagePath()%>"/>
       	<div class="card-body">
       		<div>
-      			<p class="card-text"><%=dto.getTitle()%></p>
-      			<p class="card-text"><%=dto.getKind() %></p>
+      			<p class="card-text"><strong>제목</strong> : <%=dto.getTitle()%></p>
+      			<p class="card-text"><strong>글 종류</strong> : <%=dto.getKind() %></p>
       		</div>
       		<br />
-         	<p class="card-text">by <strong><%=dto.getWriter() %></strong></p>
+         	<p class="card-text"><strong>작성자</strong> : <%=dto.getWriter() %></p>
          	<p class="card-text">
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
 					<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
@@ -247,8 +246,10 @@
 				</svg>
 				<small><%=dto.getViewCount() %></small>
 			</p>
-         	<p class="card-text"><%=dto.getContent() %></p>
+         	<p class="card-text"><strong>내용</strong> : <%=dto.getContent() %></p>
       	</div>
+      	<img class="card-img-top" src="${pageContext.request.contextPath }<%=dto.getImagePath()%>"/>
+      	
    		<%if(dto.getWriter().equals(id)){ %>
 			<p class="upBtn">
 				<a class="btn btn-outline-success btn-sm" href="private/resell_update_form.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getNum()%>&keyword=<%=encodedK %>&condition=<%=condition%>">수정</a>
@@ -260,102 +261,15 @@
    	
    	<div align="right">
    		<%if(dto.getPrevNum()!=0){ %>
-			<a href="detail.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">이전글</a>
+			<a class="btn btn-outline-dark btn-sm" href="detail.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">이전글</a>
 		<%} %>
 		<%if(dto.getNextNum()!=0){ %>
-			<a href="detail.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">다음글</a>
+			<a class="btn btn-outline-dark btn-sm" href="detail.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">다음글</a>
 		<%} %>		
    	</div>
- 
-	<!-- 댓글 목록 -->
-	<div class="comments">
-		<h5 class="comment-header">댓글</h5>
-		<div class="comment-list">
-			<ul class="list-group list-group-flush">
-				<%for(ResellCommentDto tmp: commentList){ %>
-					<%if(tmp.getDeleted().equals("yes")){ %>
-						<li class="list-group-item">삭제된 댓글 입니다.</li>
-					<% 
-						// continue; 아래의 코드를 수행하지 않고 for 문으로 실행순서 다시 보내기 
-						continue;
-					}%>
-				
-					<%if(tmp.getNum() == tmp.getComment_group()){ %>
-					<li class="list-group-item" id="reli<%=tmp.getNum()%>">
-					<%}else{ %>
-					<li class="list-group-item" id="reli<%=tmp.getNum()%>" style="padding-left:50px;">
-						<svg class="reply-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
-		  					<path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
-						</svg>
-					<%} %>
-						<dl>
-							<dt>
-							<%if(tmp.getProfile() == null){ %>
-								<svg class="profile-image" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-									  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-									  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-								</svg>
-							<%}else{ %>
-								<img class="profile-image" src="${pageContext.request.contextPath}<%=tmp.getProfile()%>"/>
-							<%} %>
-								<span><%=tmp.getWriter() %></span>
-							<%if(tmp.getNum() != tmp.getComment_group()){ %>
-								@<i><%=tmp.getTarget_id() %></i>
-							<%} %>
-								<span><%=tmp.getRegdate() %></span>
-								<a data-num="<%=tmp.getNum() %>" href="javascript:" class="reply-link">답글</a>
-							<%if(id != null && tmp.getWriter().equals(id)){ %>
-								<a data-num="<%=tmp.getNum() %>" class="update-link" href="javascript:">수정</a>
-								<a data-num="<%=tmp.getNum() %>" class="delete-link" href="javascript:">삭제</a>
-							<%} %>
-							</dt>
-							<dd>
-								<pre id="pre<%=tmp.getNum()%>"><%=tmp.getContent() %></pre>						
-							</dd>
-						</dl>	
-						<form id="reForm<%=tmp.getNum() %>" class="animate__animated comment-form re-insert-form" 
-							action="private/resell_comment_insert.jsp" method="post">
-							<input type="hidden" name="ref_group"
-								value="<%=dto.getNum()%>"/>
-							<input type="hidden" name="target_id"
-								value="<%=tmp.getWriter()%>"/>
-							<input type="hidden" name="comment_group"
-								value="<%=tmp.getComment_group()%>"/>
-							<input type="hidden" name="ref_group" 
-								value="<%=num%>"/>
-							<input type="hidden" name="kind" 
-								value="<%=kind%>"/>
-							<input type="hidden" name="condition" 
-								value="<%=condition%>"/>
-							<input type="hidden" name="keyword" 
-								value="<%=encodedK%>"/>
-							<textarea name="content"></textarea>
-							<button type="submit">등록</button>
-						</form>	
-						<%if(tmp.getWriter().equals(id)){ %>	
-						<form id="updateForm<%=tmp.getNum() %>" class="comment-form update-form" 
-							action="private/resell_comment_update.jsp" method="post">
-							<input type="hidden" name="num" value="<%=tmp.getNum() %>" />
-							<textarea name="content"><%=tmp.getContent() %></textarea>
-							<button type="submit">수정</button>
-						</form>
-						<%} %>						
-					</li>
-				<%} %>
-			</ul>
-		</div>
-	</div>
-	
-	<!-- 댓글 이미지 로딩 -->
-	<div class="loader">
-		<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-			  <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-			  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-		</svg>
-	</div>
-	
-	<!-- 원글에 댓글을 작성할 폼 -->
-	<form class="comment-form insert-form" action="private/resell_comment_insert.jsp" method="post">
+ 	<br />
+ 	<!-- 원글에 댓글을 작성할 폼 -->
+	<form id="comm" class="comment-form insert-form" action="private/resell_comment_insert.jsp" method="post">
 		<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
 		<input type="hidden" name="ref_group" value="<%=num%>"/>
 		<input type="hidden" name="kind" value="<%=kind%>"/>
@@ -367,6 +281,90 @@
 		<textarea name="content"><%if(!isLogin){%>댓글 작성을 위해 로그인이 필요 합니다.<%}%></textarea>
 		<button type="submit">등록</button>
 	</form>
+	 
+	<!-- 댓글 목록 -->
+	<div class="comments">
+		<ul>
+			<%for(ResellCommentDto tmp: commentList){ %>
+				<%if(tmp.getDeleted().equals("yes")){ %>
+					<li>삭제된 댓글 입니다.</li>
+				<% 
+					// continue; 아래의 코드를 수행하지 않고 for 문으로 실행순서 다시 보내기 
+					continue;
+				}%>
+			
+				<%if(tmp.getNum() == tmp.getComment_group()){ %>
+				<li id="reli<%=tmp.getNum()%>">
+				<%}else{ %>
+				<li id="reli<%=tmp.getNum()%>" style="padding-left:50px;">
+					<svg class="reply-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+	  					<path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+					</svg>
+				<%} %>
+					<dl>
+						<dt>
+						<%if(tmp.getProfile() == null){ %>
+							<svg class="profile-image" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+								  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+								  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+							</svg>
+						<%}else{ %>
+							<img class="profile-image" src="${pageContext.request.contextPath}<%=tmp.getProfile()%>"/>
+						<%} %>
+							<span><%=tmp.getWriter() %></span>
+						<%if(tmp.getNum() != tmp.getComment_group()){ %>
+							@<i><%=tmp.getTarget_id() %></i>
+						<%} %>
+							<span><%=tmp.getRegdate() %></span>
+							<a data-num="<%=tmp.getNum() %>" href="javascript:" class="reply-link">답글</a>
+						<%if(id != null && tmp.getWriter().equals(id)){ %>
+							<a data-num="<%=tmp.getNum() %>" class="update-link" href="javascript:">수정</a>
+							<a data-num="<%=tmp.getNum() %>" class="delete-link" href="javascript:">삭제</a>
+						<%} %>
+						</dt>
+						<dd>
+							<pre id="pre<%=tmp.getNum()%>"><%=tmp.getContent() %></pre>						
+						</dd>
+					</dl>	
+					<form id="reForm<%=tmp.getNum() %>" class="animate__animated comment-form re-insert-form" 
+						action="private/resell_comment_insert.jsp" method="post">
+						<input type="hidden" name="ref_group"
+							value="<%=dto.getNum()%>"/>
+						<input type="hidden" name="target_id"
+							value="<%=tmp.getWriter()%>"/>
+						<input type="hidden" name="comment_group"
+							value="<%=tmp.getComment_group()%>"/>
+						<input type="hidden" name="ref_group" 
+							value="<%=num%>"/>
+						<input type="hidden" name="kind" 
+							value="<%=kind%>"/>
+						<input type="hidden" name="condition" 
+							value="<%=condition%>"/>
+						<input type="hidden" name="keyword" 
+							value="<%=encodedK%>"/>
+						<textarea name="content"></textarea>
+						<button type="submit">등록</button>
+					</form>	
+					<%if(tmp.getWriter().equals(id)){ %>	
+					<form id="updateForm<%=tmp.getNum() %>" class="comment-form update-form" 
+						action="private/resell_comment_update.jsp" method="post">
+						<input type="hidden" name="num" value="<%=tmp.getNum() %>" />
+						<textarea name="content"><%=tmp.getContent() %></textarea>
+						<button type="submit">수정</button>
+					</form>
+					<%} %>						
+				</li>
+			<%} %>
+		</ul>
+	</div>
+	
+	<!-- 댓글 이미지 로딩 -->
+	<div class="loader">
+		<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+			  <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+			  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+		</svg>
+	</div>
 </div>
 
 <script src="${pageContext.request.contextPath}/js/gura_util.js"></script>
@@ -383,7 +381,7 @@
 				e.preventDefault();
 				//로그인 폼으로 이동 시킨다.
 				location.href=
-					"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/resell/detail.jsp?num=<%=num%>";
+					"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/resell/detail.jsp?kind=<%=kind%>&num=<%=num%>&condition=<%=condition%>&keyword=<%=encodedK%>";
 			}
 		});
 	
@@ -508,7 +506,7 @@
 					const isMove=confirm("로그인이 필요 합니다. 로그인 페이지로 이동 하시겠습니까?");
 					if(isMove){
 						location.href=
-							"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/resell/detail.jsp?num=<%=num%>";
+							"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/resell/detail.jsp?kind=<%=kind%>&num=<%=num%>&condition=<%=condition%>&keyword=<%=encodedK%>";
 					}
 					return;
 				}

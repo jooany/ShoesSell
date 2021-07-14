@@ -30,7 +30,7 @@ public class ResellCommentDao {
 			conn = new DbcpBean().getConn();
 			//select 문 작성
 			String sql = "SELECT NVL(MAX(ROWNUM), 0) AS count "
-					+ " FROM free_comment"
+					+ " FROM resell_comment"
 					+ " WHERE ref_group=?";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.

@@ -44,6 +44,23 @@
 <title>/feed/list.jsp</title>
 
 <style>
+	textarea::-webkit-input-placeholder { 
+		line-height:55px;
+		font-size:14px;	
+	 }
+	textarea::-moz-placeholder { 
+		line-height:5px;
+		font-size:14px;	 }
+	textarea:-ms-input-placeholder { 
+		line-height:55px;
+		font-size:14px;	 }
+	textarea:-moz-placeholder { 
+		line-height:55px;
+		font-size:14px;	 }
+	textarea::placeholder { 
+		line-height:55px;
+		font-size:14px;	 }
+		
    .inner{
       max-width:1100px!important;
       margin:0 auto!important;
@@ -92,7 +109,8 @@
 		height:fit-content;
 		border:1px solid rgba(0,0,0,.15);	
 		box-sizing:border-box!important;
-		overflow:hidden;	
+		overflow:hidden;
+		margin-bottom:30px;	
 	}
 	.article_content .profile_header{
 		width:150px;
@@ -155,6 +173,24 @@
 	}
 	.content_box .content_title{
 	}
+	/*댓글 박스 시작*/
+	.comment_box{
+		border-top:1px solid rgba(0,0,0,.2);
+	}
+	.comment_box form{
+		display:flex;
+		justify-content:center;
+	}
+	.comment_box textarea{
+		margin-left:15px;
+		width:550px;
+		height:55px;
+		border:none;
+	}
+	.comment_box button{
+		border:none;
+		background:none;
+	}
 
 
 	
@@ -215,19 +251,18 @@
 				<span class="content_title"><%=dto.getTitle() %></span>
 				<p class="content"><%=dto.getContent() %></p>
 			</div>
-			<div class="comment_box"></div>
-		
-			
-		<!-- 원글에 댓글을 작성할 폼 -->
-		<form class="comment-form insert-form" action="private/comment_insert.jsp" method="post">
-			<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
-			<input type="hidden" name="ref_group" value="<%=dto.getNum()%>"/>
-			<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
-			<input type="hidden" name="target_id" value="<%=dto.getWriter()%>"/>
-			
-			<textarea name="content"></textarea>
-			<button type="submit">등록</button>
-		</form>
+			<div class="comment_box">				
+				<!-- 원글에 댓글을 작성할 폼 -->
+				<form class="comment-form insert-form " action="private/comment_insert.jsp" method="post">
+					<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
+					<input type="hidden" name="ref_group" value="<%=dto.getNum()%>"/>
+					<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
+					<input type="hidden" name="target_id" value="<%=dto.getWriter()%>"/>
+					
+					<textarea placeholder="댓글 달기..." name="content" style="overflow:hidden;"></textarea>
+					<button type="submit">등록</button>			
+				</form>
+			</div>
 		</article>	
 	</div><!-- article_list.end -->
 	<div class="loader">

@@ -287,7 +287,7 @@
 	//댓글의 현재 페이지 번호를 관리할 변수를 만들고 초기값 1 대입하기
 	let currentPage=1;
 	//마지막 페이지는 totalPageCount 이다.  
-	let lastPage=<%=totalFeedCount%>;
+	let lastPage=<%=totalFeedCount %>;
 	//추가로 댓글을 요청하고 그 작업이 끝났는지 여부를 관리할 변수 
 	let isLoading=false; //현재 로딩중인지 여부 
 	
@@ -345,13 +345,19 @@
 		
 		for(let i=0; i<goodLinks.length; i++){
 			goodLinks[i].addEventListener("click",function(){
+				
+				//로그인 하지 않았다면, 로그인 알림과 함께 로그인 폼으로 보내버리기
+				if(!isLogin){
+					location.href=
+						"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/feed/list.jsp";
+				}
+				
 				//click 이벤트가 일어난 바로 그 요소의 isGood(로그인유저의 추천여부)를 data-isGood으로 읽어옴.
 				let isGood=this.getAttribute("data-isgood");
 				let goodCount=this.getAttribute("data-goodcount");
 				let num=this.getAttribute("data-num");
 				let orgnum=this.getAttribute("data-orgnum");
-				
-				alert(orgnum);
+
 				//유저가 이미 추천했다면, 추천 테이블에 delete하고, 아이콘을 빈 하트로.
 				//유저가 추천하지않았다면, 추천 테이블에 insert하고, 아이콘을 꽉 찬 하트로.
 				if(isGood=="true"){						
@@ -366,7 +372,6 @@
 					})
 					.then(function(data){
 						if(data.isDeleteGood){//유저가 테이블에 추가되었다면 
-							alert("테이블 삭제됨!");
 							$(".data"+num).removeAttr("data-isgood");
 							$(".data"+num).removeAttr("data-goodcount");
 							$(".data"+num).attr('data-isgood','false');
@@ -387,7 +392,6 @@
 					})
 					.then(function(data){
 						if(data.isInsertGood){//유저가 테이블에 추가되었다면 
-							alert("테이블 추가됨!");
 							$(".data"+num).removeAttr("data-isgood");
 							$(".data"+num).removeAttr("data-goodcount");
 							$(".data"+num).attr('data-isgood','true');

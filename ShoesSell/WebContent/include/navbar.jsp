@@ -41,7 +41,7 @@
 		          			<a class="nav-link <%=thisPage.equals("resell") ? "active" : "" %>" href="<%=request.getContextPath() %>/resell/list.jsp?kind=buy">마켓</a>
 		        		</li>
 		        		<li class="nav-item">
-		          			<a class="nav-link <%=thisPage.equals("resell") ? "active" : "" %>" href="<%=request.getContextPath() %>/feed/list.jsp">피드</a>
+		          			<a class="nav-link <%=thisPage.equals("feed") ? "active" : "" %>" href="<%=request.getContextPath() %>/feed/list.jsp">피드</a>
 		        		</li>
 	      			</ul>
 	      			<%if(id==null){ %>

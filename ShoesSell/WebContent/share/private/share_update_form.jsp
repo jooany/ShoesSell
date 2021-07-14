@@ -6,9 +6,7 @@
 	//1. 요청 파라미터로 전달되는 수정할 내용를 읽어온다.
 	int num=Integer.parseInt(request.getParameter("num"));
 	//2. 번호에 해당하는 내용을 얻어온다.
-	ShareDao dao=ShareDao.getInstance();
-	ShareDto dto=dao.getData(num);
-	//3. 수정할 양식(form) 을 응답한다.
+	ShareDto dto=ShareDao.getInstance().getData(num);
 %> 
 <!DOCTYPE html>
 <html>

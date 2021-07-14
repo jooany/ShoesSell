@@ -140,6 +140,7 @@
 				e.preventDefault();
 			}
 		});
+		
 	</script>
 </div>
 </body>

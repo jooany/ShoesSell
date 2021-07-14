@@ -59,16 +59,16 @@
 				<span class="content_title"><%=dto.getTitle() %></span>
 				<p class="content"><%=dto.getContent() %></p>
 		</div>
-		<div class="comment_box"></div>
-		
-	<!-- 원글에 댓글을 작성할 폼 -->
-	<form class="comment-form insert-form" action="private/comment_insert.jsp" method="post">
-		<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
-		<input type="hidden" name="ref_group" value="<%=dto.getNum()%>"/>
-		<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
-		<input type="hidden" name="target_id" value="<%=dto.getWriter()%>"/>
-		
-		<textarea name="content"></textarea>
-		<button type="submit">등록</button>
-	</form>
+		<div class="comment_box">				
+				<!-- 원글에 댓글을 작성할 폼 -->
+				<form class="comment-form insert-form " action="private/comment_insert.jsp" method="post">
+					<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
+					<input type="hidden" name="ref_group" value="<%=dto.getNum()%>"/>
+					<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
+					<input type="hidden" name="target_id" value="<%=dto.getWriter()%>"/>
+					
+					<textarea placeholder="댓글 달기..." name="content" style="overflow:hidden;"></textarea>
+					<button type="submit">등록</button>			
+				</form>
+			</div>
 </article>

@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+
 	//테스트로 응답을 3초 지연 시키기 
 	Thread.sleep(3000);
 

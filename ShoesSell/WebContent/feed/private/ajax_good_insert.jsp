@@ -13,6 +13,7 @@
 	
 	boolean isGood=FeedDao.getInstance().isGood(dto);
 	boolean isInsertGood=false;
+	
 	if(isGood==false){
 		isInsertGood=FeedDao.getInstance().goodInsert(dto);	
 	}

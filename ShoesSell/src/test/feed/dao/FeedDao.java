@@ -184,7 +184,7 @@ public class FeedDao {
 					"						(SELECT result1.*, ROWNUM AS rnum " + 
 					"						FROM " + 
 					"							(SELECT num, writer, title, content," + 
-					"							feed.regdate, imagePath, profile, goodCount FROM feed " + 
+					"							TO_CHAR(feed.regdate,'MM/DD') regdate, imagePath, profile, goodCount FROM feed " + 
 					"							INNER JOIN users ON feed.writer = users.id " +
 					"							ORDER BY num DESC) result1) " + 
 					"					 WHERE rnum = ?";

@@ -7,7 +7,7 @@
 
 <%
 	//한 페이지에 몇개씩 표시할 것인지
-	final int PAGE_ROW_COUNT=5;
+	final int PAGE_ROW_COUNT=7;
 	//하단 페이지를 몇개씩 표시할 것인지
 	final int PAGE_DISPLAY_COUNT=5;
 	
@@ -135,6 +135,12 @@
 		float: left;
 		padding: 5px;
 	}
+	#searchArea{
+		display: inline;
+	}
+	.input-group{
+		width: 50%;
+	}
 </style>
 </head>
 <body>
@@ -151,12 +157,12 @@
 					</svg>
             	</a>
          	</li>
-         	<li class="breadcrumb-item active">Free Bulletin Board</li>
+         	<li class="breadcrumb-item active">커뮤니티</li>
       	</ul>
    	</nav>
-	<h1 align="center">Free Bulletin Board</h1>
+	<h1 align="center">커뮤니티</h1>
 	<div align="right" class="addBtn">
-		<a href="private/free_insertform.jsp">Add New Free Text</a>
+		<a href="private/free_insertform.jsp">글쓰기</a>
 	</div>
 	<table class="table table-striped">
 		<thead class="table-dark">
@@ -212,7 +218,8 @@
 	</div>
 	<div style="clear:both;"></div>
 	
-	<form align="right" action="list.jsp" method="get"> 
+	<div align="right">
+	<form action="list.jsp" method="get">
 		<label for="condition">검색조건</label>
 		<select name="condition" id="condition">
 			<option value="title_content" <%=condition.equals("title_content") ? "selected" : ""%>>제목+내용</option>
@@ -228,6 +235,7 @@
 			<strong><%=totalRow %></strong> 개의 글이 검색 되었습니다.
 		</p>
 	<%} %>
+	</div>
 </div>
 </body>
 </html>

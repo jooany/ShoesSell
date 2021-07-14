@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
 <%
 	//테스트로 응답을 3초 지연 시키기 
-	Thread.sleep(500);
+	//Thread.sleep(500);
 
 	//로그인된 아이디
 	String id=(String)session.getAttribute("id");

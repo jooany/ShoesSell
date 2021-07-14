@@ -342,6 +342,7 @@
 	function addIsGoodListener(sel){
 		//좋아요 기능 링크의 참조값을 배열에 담아오기 
 		let goodLinks=document.querySelectorAll(sel);
+		
 		for(let i=0; i<goodLinks.length; i++){
 			goodLinks[i].addEventListener("click",function(){
 				//click 이벤트가 일어난 바로 그 요소의 isGood(로그인유저의 추천여부)를 data-isGood으로 읽어옴.
@@ -359,7 +360,7 @@
 					goodCount--;
 					$(this).next().replaceWith("<span>"+goodCount+"</span>");
 					
-					ajaxPromise("private/ajax_good_delete.jsp", "get", "num=<%=dto.getNum()%>&id=<%=id%>")
+					ajaxPromise("private/ajax_good_delete.jsp", "get", "num="+orgnum+"&id=<%=id%>")
 					.then(function(response){
 						return response.json();
 					})
@@ -371,7 +372,7 @@
 							$(".data"+num).attr('data-isgood','false');
 							$(".data"+num).attr('data-goodcount',goodCount);							
 						}else{
-							alert("삭제 실패!!!");
+							alert("isGood : "+data.isGood+"이 true여야하는데 실패함.");
 						}
 					});		
 				}else{
@@ -380,7 +381,7 @@
 					goodCount++;
 					$(this).next().replaceWith("<span>"+goodCount+"</span>");
 					
-					ajaxPromise("private/ajax_good_insert.jsp", "get", "num=<%=dto.getNum()%>&id=<%=id%>")
+					ajaxPromise("private/ajax_good_insert.jsp", "get", "num="+orgnum+"&id=<%=id%>")
 					.then(function(response){
 						return response.json();
 					})

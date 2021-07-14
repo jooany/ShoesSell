@@ -19,4 +19,4 @@
 	}
 %>
     
-{"isDeleteGood":<%=isDeleteGood %>}
+{"isDeleteGood":<%=isDeleteGood %>,"isGood":<%=isGood%>}

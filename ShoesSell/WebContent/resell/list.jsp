@@ -153,6 +153,9 @@
 	.input-group{
 		width: 50%;
 	}
+	.kindBtn{
+		padding: 30px;
+	}
 </style>
 </head>
 <body>
@@ -168,16 +171,17 @@
          	<li class="breadcrumb-item active">Resell갤</li>
       	</ul>
    	</nav>
-   	<ul class="nav">
-   		<h1>ResellGallery</h1>
-  		<li class="nav-item">
-    		<a class="nav-link" href="list.jsp?kind=buy">Buy</a>
-  		</li>
-  		<li class="nav-item">
-    		<a class="nav-link" href="list.jsp?kind=sell">Sell</a>
-  		</li>
-	</ul>
-	<a href="private/resell_upload_form.jsp" class="btn btn-secondary">글쓰기</a>
+   	<h2 align="center">ResellGallery</h2>
+   	<div align="center">
+   		<p>
+			<a class="kindBtn" href="list.jsp?kind=buy">Buy</a>
+			<a class="kindBtn" href="list.jsp?kind=sell">Sell</a>
+		</p>
+   	</div>
+	<div align="right" class="addBtn">
+		<a href="private/resell_upload_form.jsp" class="btn btn-secondary">글쓰기</a>
+	</div>
+	
 	<div class="row">
 		<%for(ResellDto tmp:list){ %>
 		<div class="col-6 col-md-4 col-lg-3">
@@ -191,8 +195,14 @@
 				<div class="card-body">
 					<p class="card-text">제목 : <%=tmp.getTitle() %></p>
 					<p class="card-text">글 종류 : <small><%=tmp.getKind() %></small></p>
-					<p class="card-text">작성자 :<strong><%=tmp.getWriter() %></strong></p>
-					<p class="card-text">작성일 :<small><%=tmp.getRegdate() %></small></p>
+					<p class="card-text">작성자 : <strong><%=tmp.getWriter() %></strong></p>
+					<p class="card-text">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+  							<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+  							<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+						</svg>
+						<small><%=tmp.getRegdate() %></small>
+					</p>
 					<p class="card-text">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
   							<path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
@@ -236,6 +246,7 @@
 	
 	<div style="clear:both;"></div>
 	
+	<div align="right">
 	<form action="list.jsp" method="get"> 
 		<input type="hidden" name="kind" value="<%=dto.getKind() %>"/>
 		<div class="input-group mb-6"> 
@@ -249,6 +260,7 @@
 			<button type="submit" class="btn btn-outline-success">검색</button>
 		</div>
 	</form>	
+	</div>
 	
 	<%if(!condition.equals("")){ %>
 		<p>

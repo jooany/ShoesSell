@@ -124,6 +124,10 @@
 	.comm{
 		text-align: center;
 	}
+	.content{
+		table-layout: fixed;
+		word-break: break-all;	
+	}
 	/* 댓글 프로필 이미지를 작은 원형으로 만든다. */
 	.profile-image{
 		width: 50px;
@@ -240,7 +244,7 @@
 		<%} %>
 	</div>
 	
-	<table class="table"  frame=void>
+	<table class="table"  frame=void >
 		<tr align="center">
 			<th>제목</th>
 			<td colspan="3"><%=dto.getTitle() %></td>
@@ -259,13 +263,13 @@
 				<a class="file" href="share_download.jsp?num=<%=dto.getNum()%>"><%=dto.getSaveFileName() %></a>
 			</td>
 		</tr>
-		<tr align="justify ">
-			<td colspan="4" >
+		<tr>
+			<td colspan="4" width="1100px" >
 				<div class="content"><%=dto.getContent() %></div>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="4" align="center" class="fileImage">
+			<td colspan="4" class="fileImage">
 				<img src="${pageContext.request.contextPath }<%=dto.getImagePath()%>" onerror="this.style.display='none'"/>
 			</td>
 		</tr>
@@ -375,8 +379,9 @@
 		if(!isLogin){
 			//폼 전송을 막고 
 			e.preventDefault();
-			//로그인 폼으로 이동 시킨다.
-			location.href="${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/share/detail.jsp?num=<%=num%>";
+			let uri = '${pageContext.request.contextPath}/share/detail.jsp?num=<%=num%>&condition=<%=condition%>&keyword=<%=encodedK%>';
+            let enc = encodeURIComponent(uri);
+            location.href="${pageContext.request.contextPath}/users/login_form.jsp?url="+enc;
 		}
 	});
 	

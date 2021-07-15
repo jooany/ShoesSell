@@ -80,7 +80,7 @@
 			<input class="form-control" type="text" name="title" id="title" />
 		</div>
 		<div class="form-floating mb-3">
-			<textarea class="form-control" name="content" id="content" style="height: 100px"></textarea>
+			<textarea class="form-control" name="content" id="content"></textarea>
 			<label for="content">내용</label>
 		</div>
 		<div id="img" class="image-container mb-3">

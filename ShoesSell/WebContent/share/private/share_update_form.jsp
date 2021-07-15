@@ -32,6 +32,7 @@
 		max-width: 700px!important;
 		max-height: 500px!important;
 	}
+
 </style>
 </head>
 <body>
@@ -75,7 +76,7 @@
 		</div>
 		<div class="mb-3">
 			<label class="form-label" for="content">내용</label>
-			<textarea class="form-control" name="content" id="content" style="height: 100px"><%=dto.getContent() %></textarea>
+			<textarea class="form-control" name="content" id="content" ><%=dto.getContent() %></textarea>
 		</div>
 		<div>
 			<label for="myShare" class="mb-3">파일수정</label>

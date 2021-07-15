@@ -154,7 +154,7 @@
 	document.querySelector("#image").addEventListener("change", function(){
 		//id가 ajaxForm 인 form 을 ajax 전송 시킨다.
 		const form=document.querySelector("#ajaxForm");
-		//util 함술르 이용해서 ajax 전송
+		//util 함수를 이용해서 ajax 전송
 		ajaxFormPromise(form)
 		.then(function(response){
 			return response.json();

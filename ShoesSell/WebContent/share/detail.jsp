@@ -259,7 +259,7 @@
 				<a class="file" href="share_download.jsp?num=<%=dto.getNum()%>"><%=dto.getSaveFileName() %></a>
 			</td>
 		</tr>
-		<tr align="justify ">
+		<tr align="center">
 			<td colspan="4" >
 				<div class="content"><%=dto.getContent() %></div>
 			</td>
@@ -375,8 +375,9 @@
 		if(!isLogin){
 			//폼 전송을 막고 
 			e.preventDefault();
-			//로그인 폼으로 이동 시킨다.
-			location.href="${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/share/detail.jsp?num=<%=num%>";
+			let uri = '${pageContext.request.contextPath}/share/detail.jsp?num=<%=num%>&condition=<%=condition%>&keyword=<%=encodedK%>';
+            let enc = encodeURIComponent(uri);
+            location.href="${pageContext.request.contextPath}/users/login_form.jsp?url="+enc;
 		}
 	});
 	

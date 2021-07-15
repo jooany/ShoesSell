@@ -252,8 +252,10 @@
       	
    		<%if(dto.getWriter().equals(id)){ %>
 			<p class="upBtn">
-				<a class="btn btn-outline-success btn-sm" href="private/resell_update_form.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getNum()%>&keyword=<%=encodedK %>&condition=<%=condition%>">수정</a>
-				<a class="btn btn-outline-danger btn-sm" href="private/resell_delete.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getNum()%>&keyword=<%=encodedK %>&condition=<%=condition%>">삭제</a>
+				<a class="btn btn-outline-success btn-sm" href="private/resell_update_form.jsp?kind=<%=dto.getKind() %>
+						&num=<%=dto.getNum()%>&keyword=<%=encodedK %>&condition=<%=condition%>">수정</a>
+				<a class="btn btn-outline-danger btn-sm" href="private/resell_delete.jsp?kind=<%=dto.getKind() %>
+						&num=<%=dto.getNum()%>&keyword=<%=encodedK %>&condition=<%=condition%>">삭제</a>
 			</p>		
 		<%} %>
 		<p class="upBtn"><a class="btn btn-outline-secondary btn-sm" href="list.jsp?kind=<%=dto.getKind()%>">목록보기</a></p>
@@ -261,10 +263,12 @@
    	
    	<div align="right">
    		<%if(dto.getPrevNum()!=0){ %>
-			<a class="btn btn-outline-dark btn-sm" href="detail.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">이전글</a>
+			<a class="btn btn-outline-dark btn-sm" href="detail.jsp?kind=<%=dto.getKind() %>
+					&num=<%=dto.getPrevNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">이전글</a>
 		<%} %>
 		<%if(dto.getNextNum()!=0){ %>
-			<a class="btn btn-outline-dark btn-sm" href="detail.jsp?kind=<%=dto.getKind() %>&num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">다음글</a>
+			<a class="btn btn-outline-dark btn-sm" href="detail.jsp?kind=<%=dto.getKind() %>
+					&num=<%=dto.getNextNum() %>&keyword=<%=encodedK %>&condition=<%=condition%>">다음글</a>
 		<%} %>		
    	</div>
  	<br />
@@ -380,8 +384,11 @@
 				//폼 전송을 막고 
 				e.preventDefault();
 				//로그인 폼으로 이동 시킨다.
+				let uri ='${pageContext.request.contextPath}/resell/detail.jsp?kind=<%=kind%>&num=<%=num%>&condition=<%=condition%>&keyword=<%=encodedK%>';
+				let enc = encodeURIComponent(uri);
+				
 				location.href=
-					"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/resell/detail.jsp?kind=<%=kind%>&num=<%=num%>&condition=<%=condition%>&keyword=<%=encodedK%>";
+					"${pageContext.request.contextPath}/users/login_form.jsp?url="+enc;
 			}
 		});
 	
@@ -505,8 +512,11 @@
 				if(!isLogin){
 					const isMove=confirm("로그인이 필요 합니다. 로그인 페이지로 이동 하시겠습니까?");
 					if(isMove){
+						let uri ='${pageContext.request.contextPath}/resell/detail.jsp?kind=<%=kind%>&num=<%=num%>&condition=<%=condition%>&keyword=<%=encodedK%>';
+						let enc = encodeURIComponent(uri);
+						
 						location.href=
-							"${pageContext.request.contextPath}/users/login_form.jsp?url=${pageContext.request.contextPath}/resell/detail.jsp?kind=<%=kind%>&num=<%=num%>&condition=<%=condition%>&keyword=<%=encodedK%>";
+							"${pageContext.request.contextPath}/users/login_form.jsp?url="+enc;
 					}
 					return;
 				}

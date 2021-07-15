@@ -259,7 +259,7 @@
 				<a class="file" href="share_download.jsp?num=<%=dto.getNum()%>"><%=dto.getSaveFileName() %></a>
 			</td>
 		</tr>
-		<tr align="center">
+		<tr align="justify ">
 			<td colspan="4" >
 				<div class="content"><%=dto.getContent() %></div>
 			</td>

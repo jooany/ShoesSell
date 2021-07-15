@@ -89,6 +89,7 @@
 			<input class="form-control form-control" style="display: block;" type="file" name="myShare" id="myShare">
 		</div>
 	</form>
+
 </div>
 
 <script src="${pageContext.request.contextPath}/js/gura_util.js"></script>
@@ -114,7 +115,6 @@
 	    readImage(e.target);
 	});
 </script>
-
 <script>
 	//이미지를 선택했을때 실행할 함수 등록
 	document.querySelector("#myShare").addEventListener("change", function(){
@@ -138,50 +138,6 @@
 		});
 	});
 	
-</script>
-<script>
-	
-	addUpdateListener(".update-link");
-	addDeleteListener(".delete-link");	
-
-	//인자로 전달되는 선택자를 이용해서 이벤트 리스너를 등록하는 함수 
-	function addUpdateListener(sel){
-		// 첨부파일 수정 링크의 참조값을 배열에 담아오기 
-		let updateLinks=document.querySelectorAll(sel);
-		for(let i=0; i<updateLinks.length; i++){
-			updateLinks[i].addEventListener("click", function(){
-				//click 이벤트가 일어난 바로 그 요소의 data-num 속성의 value 값을 읽어온다. 
-				const num=this.getAttribute("num"); //파일의 글번호
-				document.querySelector("#updateForm"+num).style.display="block";
-				
-			});
-		}
-	}
-	function addDeleteListener(sel){
-		//댓글 삭제 링크의 참조값을 배열에 담아오기 
-		let deleteLinks=document.querySelectorAll(sel);
-		for(let i=0; i<deleteLinks.length; i++){
-			deleteLinks[i].addEventListener("click", function(){
-				//click 이벤트가 일어난 바로 그 요소의 num 속성의 value 값을 읽어온다. 
-				const num=this.getAttribute("num"); // 파일의 글번호
-				const isDelete=confirm("첨부파일을 삭제 하시겠습니까?");
-				if(isDelete){
-					// gura_util.js 에 있는 함수들 이용해서 ajax 요청
-					ajaxPromise("private/share_File_delete.jsp", "post", "num="+num)
-					.then(function(response){
-						return response.json();
-					})
-					.then(function(data){
-						//만일 삭제 성공이면 
-						if(data.isSuccess){
-							// 파일이 있는 곳에 삭제된 댓글입니다를 출력해 준다. 
-							alert("파일을 삭제하였습니다.");
-						}
-					});
-				}
-			});
-		}
-	}
 </script>
 </body>
 </html>

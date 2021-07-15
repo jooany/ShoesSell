@@ -19,7 +19,7 @@ public class ShareDao {
 		return dao;
 	}
 	
-// 파일하나의 정보를 수정하는 메소드
+	// 파일하나의 정보를 수정하는 메소드
 	public boolean detailUpdate(ShareDto dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -287,7 +287,7 @@ public class ShareDao {
 					+ " WHERE num=?";
 			pstmt = conn.prepareStatement(sql);
 			// ? 에 바인딩 할게 있으면 여기서 바인딩한다.
-			pstmt.setInt(1, num);;
+			pstmt.setInt(1, num);
 			//select 문 수행하고 ResultSet 받아오기
 			rs = pstmt.executeQuery();
 			//while문 혹은 if문에서 ResultSet 으로 부터 data 추출
